@@ -1,0 +1,17 @@
+/* LandingContainer.css */
+
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* این باعث می‌شود که صفحه کاملاً از بالا تا پایین صفحه نمایش پر شود */
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* رنگ پس‌زمینه به صورت گرادیانت */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .landing-container > * {
+    margin: 10px;
+  }
+  
