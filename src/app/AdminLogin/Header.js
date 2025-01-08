@@ -3,19 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { FaHome } from 'react-icons/fa'; // ایمپورت آیکون خانه از react-icons
 
 import { Logo } from "../Admin/logo"; 
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 
 const Header = () => {
-  const searchParams = useSearchParams();
-  const [language, setLanguage] = useState(searchParams.get("lang"));
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setLanguage(searchParams.get("lang"));
+    setIsClient(true);
   }, []);
+
+  if (!isClient) {
+    return null; 
+  }
 
   return (
     <Box
@@ -53,7 +55,7 @@ const Header = () => {
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Typography variant="h6" sx={{ fontWeight: 400 }}>
-          <div className="sidebar-logo"size={10}>
+          <div className="sidebar-logo" size={10}>
             <Logo href="/" hover={logoGif} size={10} ></Logo>
           </div>  
         </Typography>

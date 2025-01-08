@@ -21,7 +21,6 @@ import {
     Decision,
     Staff
 } from "./AboutUsStyle.js";
-
 const AboutUs = () => {
     const searchParams = useSearchParams();
     const [language, setLanguage] = useState(null);

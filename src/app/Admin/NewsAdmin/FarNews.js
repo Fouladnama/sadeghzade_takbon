@@ -1,9 +1,12 @@
+'use client';
+import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from "react";
 import { TextField, Box, Card, Typography, CardMedia } from "@mui/material";
 import { FcCheckmark, FcCancel } from "react-icons/fc"; 
 import axios from "axios";
 import "react-quill/dist/quill.snow.css"; // استایل پیش‌فرض
-import ReactQuill from "react-quill";
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const FarNews = ({ 
   isAddingNew, 
@@ -22,19 +25,21 @@ const FarNews = ({
   setNewImageFile 
 }) => {
   useEffect(() => {
-    if (editingNewsId) {
-      const newsToEdit = newsData.find(news => news.id === editingNewsId);
-      if (newsToEdit) {
-        setNewTitle(newsToEdit.title);
-        setNewContent(newsToEdit.content);
-        setNewDate(newsToEdit.publish);
-        setNewImageFile(newsToEdit.image);
+    if (typeof window !== "undefined") {
+      if (editingNewsId) {
+        const newsToEdit = newsData.find(news => news.id === editingNewsId);
+        if (newsToEdit) {
+          setNewTitle(newsToEdit.title);
+          setNewContent(newsToEdit.content);
+          setNewDate(newsToEdit.publish);
+          setNewImageFile(newsToEdit.image);
+        }
+      } else {
+        setNewTitle('');
+        setNewContent('');
+        setNewDate('');
+        setNewImageFile(null);
       }
-    } else {
-      setNewTitle('');
-      setNewContent('');
-      setNewDate('');
-      setNewImageFile(null);
     }
   }, [editingNewsId, newsData, setNewTitle, setNewContent, setNewDate, setNewImageFile]);
 
@@ -53,6 +58,7 @@ const FarNews = ({
       console.error("Error fetching news data:", error);
     });
   };
+  
   useEffect(() => {
     handledata();
   }, []);
@@ -64,11 +70,7 @@ const FarNews = ({
     setNewDate('');
     setNewImageFile(null);
   };
-  const stripHtmlTags = (htmlString) => {
-    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
-    return doc.body.textContent || "";
-  };
-  
+
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -85,30 +87,27 @@ const FarNews = ({
       return null;
     }
   };
-  
+
   const handleSaveNewOrUpdateNews = async () => {
     let imageUrl = '';
   
-    // بررسی مقدار فایل تصویر جدید
     if (newImageFile && newImageFile instanceof File) {
       const uploadedImageKey = await handleImageUpload(newImageFile);
       if (uploadedImageKey) {
         imageUrl = "images/" + uploadedImageKey;
       }
     } else if (editingNewsId) {
-      // استفاده از تصویر قبلی در صورت عدم تغییر تصویر
       const newsToEdit = newsData.find(news => news.id === editingNewsId);
       if (newsToEdit) {
         imageUrl = newsToEdit.image;
       }
     }
   
-    // آماده‌سازی داده‌ها برای ارسال
     const newsDataToSend = {
       title: newTitle,
       content: newContent,
       publish: newDate,
-      ...(imageUrl && { image: imageUrl }), // فقط در صورت وجود تصویر ارسال شود
+      ...(imageUrl && { image: imageUrl }),
     };
   
     try {
@@ -118,15 +117,12 @@ const FarNews = ({
   
       console.log("News saved/updated:", response.data);
       setIsAddingNew(false);
-      handledata(); // به‌روزرسانی داده‌ها
+      handledata();
     } catch (error) {
       console.error("Error saving/updating news:", error);
     }
   };
-  
-  
-  
-  
+
   const newsToEdit = editingNewsId ? newsData.find(news => news.id === editingNewsId) : null;
 
   return (
@@ -161,7 +157,7 @@ const FarNews = ({
             onChange={(e) => setNewTitle(e.target.value)}
             sx={{ marginBottom: 2 }}
           />
-         <Box sx={{ marginBottom: 2 }}>
+          <Box sx={{ marginBottom: 2 }}>
             <Typography>متن</Typography>
             <ReactQuill
               value={newContent}
@@ -247,6 +243,5 @@ const FarNews = ({
     )
   );
 };
-
 
 export default FarNews;

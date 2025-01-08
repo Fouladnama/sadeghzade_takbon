@@ -1,7 +1,11 @@
 import Collaborate from "a/components/Collaborate/Collaborate";
+import { Suspense } from 'react';
 
 export default function Collaboration() {
     return (
-        <Collaborate />
+        <Suspense fallback={<div>Loading...</div>}>
+                    <Collaborate />
+
+        </Suspense>
     )
 }

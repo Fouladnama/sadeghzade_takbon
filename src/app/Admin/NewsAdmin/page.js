@@ -5,7 +5,6 @@ import axios from "axios";
 import { Grid, Typography, Button, DialogActions, DialogContent, DialogTitle, Dialog, Card, CardMedia, Box } from '@mui/material';
 import FarNews from "./FarNews";  
 import "react-quill/dist/quill.snow.css"; // استایل پیش‌فرض
-import ReactQuill from "react-quill";
 
 const NewsAdmin = () => {
   const [newsData, setNewsData] = useState([]);
@@ -22,23 +21,32 @@ const NewsAdmin = () => {
   const [expandedNews, setExpandedNews] = useState({});
   const [imageToDisplay, setImageToDisplay] = useState(null); 
   const [openImageDialog, setOpenImageDialog] = useState(false);
-  const formRef = useRef(null);      
-  useEffect(() => {
-    axios
-      .get("https://takbon.biz:3402/news?page=1&size=3")
-      .then((response) => {
-        const validatedData = response.data.value.map((news) => ({
-          ...news,
-          content: news.content || "",
-        }));
-        setNewsData(validatedData);
-        setIsNewsUpdated(false); 
-      })
-      .catch((error) => {
-        console.error("Error fetching news data:", error);
-      });
-  }, [isNewsUpdated]);
 
+  const [isClient, setIsClient] = useState(false); 
+
+
+  const formRef = useRef(null);  
+  useEffect(() => {
+    setIsClient(true);  // Ensure this is set to true after the component mounts
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      // Client-side code, now safe to run
+      axios
+        .get("https://takbon.biz:3402/news?page=1&size=3")
+        .then((response) => {
+          const validatedData = response.data.value.map((news) => ({
+            ...news,
+            content: news.content || "",
+          }));
+          setNewsData(validatedData);
+        })
+        .catch((error) => {
+          console.error("Error fetching news data:", error);
+        });
+    }
+  }, [isClient]);
   const handleImageDoubleClick = (imageUrl) => {
     setImageToDisplay(imageUrl);
     setOpenImageDialog(true);
@@ -117,17 +125,12 @@ const NewsAdmin = () => {
     setOpenDeleteDialog(false);
   };
 
-  const stripHtmlTags = (html) => {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
-    return tempDiv.textContent || tempDiv.innerText || "";
-  };
 
   return (
     <>
     <Box 
       sx={{
-        // border: '5px solid #008000', 
+       
         borderRadius: '8px',
         padding: 2, 
         minHeight: '100vh',  
@@ -235,7 +238,7 @@ const NewsAdmin = () => {
                         {news.title}
                       </Typography>
                       <Typography variant="body1">
-                        {stripHtmlTags(news.content)}
+                    (news.content)
                       </Typography>
 
                       <Typography variant="body2" sx={{ marginTop: 2, color: '#777' }}>
