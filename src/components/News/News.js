@@ -18,7 +18,17 @@ import {
     Date,
     Title,
     Report,
-    Text
+    Text,
+    GalleryContainer,
+    GalleryImage,
+    GalleryTitle,
+    LightboxOverlay,
+    LightboxContent,
+    LightboxImage,
+    CloseButton,
+    NavigationButton,
+    PrevButton,
+    NextButton
 } from "./NewsStyle.js";
 
 const News = () => {
@@ -27,6 +37,8 @@ const News = () => {
     const [language, setLanguage] = useState(null);
     const [news, setNews] = useState(null);
     const [newsIndex, setNewsIndex] = useState(null);
+    const [photoIndex, setPhotoIndex] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
 
     const Persianize_Numbers = (str) => {
         str = str.toString();
@@ -111,6 +123,27 @@ const News = () => {
             window.location.href = current_path + "/" + `?lang=fa` + "&data=" + searchParams.get('data');
         }
     }, []);
+    
+    const openLightbox = (index) => {
+        setPhotoIndex(index);
+        setIsOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setIsOpen(false);
+    };
+
+    const goToPrev = () => {
+        setPhotoIndex((prevIndex) => 
+            prevIndex === 0 ? news[newsIndex].gallery.length - 1 : prevIndex - 1
+        );
+    };
+
+    const goToNext = () => {
+        setPhotoIndex((prevIndex) => 
+            prevIndex === news[newsIndex].gallery.length - 1 ? 0 : prevIndex + 1
+        );
+    };
 
     return (
         <>
@@ -131,9 +164,40 @@ const News = () => {
                             }
                             <Title>{news[newsIndex].title}</Title>
                             <Text>{news[newsIndex].content}</Text>
+                            
+                            {news[newsIndex].gallery && news[newsIndex].gallery.length > 0 && (
+                                <>
+                                    <GalleryContainer>
+                                        {news[newsIndex].gallery.map((imageUrl, index) => (
+                                            <GalleryImage 
+                                                key={index} 
+                                                src={'https://takbon.biz/' + imageUrl} 
+                                                alt={`Gallery image ${index + 1}`}
+                                                onClick={() => openLightbox(index)}
+                                            />
+                                        ))}
+                                    </GalleryContainer>
+                                </>
+                            )}
                         </Content>
                     </Main>
                     <Footer/>
+
+                    {isOpen && (
+                        <LightboxOverlay onClick={closeLightbox}>
+                            <LightboxContent onClick={(e) => e.stopPropagation()}>
+                                <CloseButton onClick={closeLightbox}>×</CloseButton>
+                                <LightboxImage 
+                                    src={'https://takbon.biz/' + news[newsIndex].gallery[photoIndex]} 
+                                    alt={`Gallery image ${photoIndex + 1}`}
+                                />
+                                <NavigationButton>
+                                    <PrevButton onClick={goToPrev}>&#10094;</PrevButton>
+                                    <NextButton onClick={goToNext}>&#10095;</NextButton>
+                                </NavigationButton>
+                            </LightboxContent>
+                        </LightboxOverlay>
+                    )}
                 </NewsContainer>
             }
             {

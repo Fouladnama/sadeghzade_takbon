@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, Box, Card, Typography, CardMedia } from "@mui/material";
 import { FcCheckmark, FcCancel } from "react-icons/fc"; 
 import axios from "axios";
-import "react-quill/dist/quill.snow.css"; // استایل پیش‌فرض
+import "react-quill/dist/quill.snow.css"; 
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -113,7 +113,7 @@ const FarNews = ({
     try {
       const response = editingNewsId
         ? await axios.post("https://takbon.biz:3402/updateNews", { ...newsDataToSend, id: editingNewsId })
-        : await axios.post("https://takbon.biz:3402/addNews", newsDataToSend);
+        : await axios.post("https://takbon.biz:3402/updateNews", newsDataToSend);
   
       console.log("News saved/updated:", response.data);
       setIsAddingNew(false);
@@ -157,23 +157,13 @@ const FarNews = ({
             onChange={(e) => setNewTitle(e.target.value)}
             sx={{ marginBottom: 2 }}
           />
-          <Box sx={{ marginBottom: 2 }}>
-            <Typography>متن</Typography>
-            <ReactQuill
-              value={newContent}
-              onChange={setNewContent}
-              theme="snow"
-              modules={{
-                toolbar: [
-                  [{ 'header': [1, 2, false] }],
-                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                  ['link'],
-                  [{ 'align': [] }],
-                  [{ 'size': ['small', false, 'large', 'huge'] }],
-                ]
-              }}
-            />
-          </Box>
+           <TextField
+            label="متن"
+            fullWidth
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+            sx={{ marginBottom: 2 }}
+          />
           
           <Box sx={{ marginBottom: 2, width: '100%' }}>
             <Typography sx={{ marginBottom: 1, color: '#6b8e23' }}>تاریخ</Typography>

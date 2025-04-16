@@ -238,7 +238,7 @@ const NewsAdmin = () => {
                         {news.title}
                       </Typography>
                       <Typography variant="body1">
-                    (news.content)
+                    {news.content}
                       </Typography>
 
                       <Typography variant="body2" sx={{ marginTop: 2, color: '#777' }}>
