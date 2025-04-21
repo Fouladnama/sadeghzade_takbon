@@ -13,8 +13,9 @@
 /.next/
 /out/
 
-# production
+# productgit statusion
 /build
+/node_modules
 
 # misc
 .DS_Store

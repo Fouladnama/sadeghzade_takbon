@@ -78,10 +78,10 @@ const Services = () => {
                                         <p>شبیه سازی</p>
                                     </Tab>
                                     
-                                    <Tab onClick={() => {handleTabClick(4);}} >
+                                    {/* <Tab onClick={() => {handleTabClick(4);}} >
                                         <TabDetail image={learning} />
                                         <p>آموزش</p>
-                                    </Tab>
+                                    </Tab> */}
                                     
                                     <Tab onClick={() => {handleTabClick(5);}} >
                                         <TabDetail image={informationSystem} />
