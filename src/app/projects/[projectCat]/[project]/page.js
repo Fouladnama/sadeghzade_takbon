@@ -1,82 +1,149 @@
 "use client";
-import ProjectDetail from "a/components/ProjectDetail/ProjectDetail";
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, usePathname, useParams } from 'next/navigation';
+import Navbar from '../../../Navbar/Navbar.js';
+import Footer from '../../../Footer/Footer.js';
+import logoGif from "../../../../../public/Assests/Landing/takbon.gif";
+import wallpaper from "../../../../../public/Assests/Projects/project.jpg";
+import titleWallpaper from "../../../../../public/Assests/Projects/title.png";
+import problemDetailWallpaper from "../../../../../public/Assests/Projects/problem-detail.png";
+import projectDetailWallpaper from "../../../../../public/Assests/Projects/project-detail.png";
+import goalsWallpaper from "../../../../../public/Assests/Projects/goals.png";
+import toolsWallpaper from "../../../../../public/Assests/Projects/tools.png";
+import axios from "axios";
 
-export default function sub_project(props) {
-    const [validURL, setValidURL] = useState(null);
-    const [projectNum, setProjectNum] = useState(null);
-    const [projects, setProjects] = useState(null);
-    const [projectsEN, setProjectsEN] = useState(null);
+import {
+    ProjectContainer,
+    Main,
+    Heading,
+    Logo,
+    Content,
+    Tabs,
+    TabDetail,
+    Line,
+    TabContentContainer,
+    TabContent,
+    ProjectTitle,
+    Pics,
+    Pic
+} from './ProjectDetailStyle.js';
+
+const ProjectDetail = ({details, detailsEN}) => {
+    const [selectedTab, setSelectedTab] = useState(0);  // 0: title, 1: problem detail, 2: project detail, 3: goals, 4: tools
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const [language, setLanguage] = useState(searchParams.get("lang"));
-
+    const current_path = usePathname();
+    const [projectsData, setProjectsData] = useState([]);
+    const [isClient, setIsClient] = useState(false);
+    const [language, setLanguage] = useState(null);
+    const { project } = useParams();  
     useEffect(() => {
-        if(props && (props.params.projectCat == 'data-analysis'))
-            setValidURL("data-analysis");
-        else if(props && (props.params.projectCat == 'data-minning'))
-            setValidURL("data-minning");
-        else if(props && (props.params.projectCat == 'needs-assessment'))
-            setValidURL("needs-assessment");
-        else if (props && (props.params.projectCat == 'market-research'))
-            setValidURL("market-research");
-        else if(props && (props.params.projectCat == 'simulation'))
-            setValidURL("simulation");
-        else if(props && (props.params.projectCat == 'scheduling'))
-            setValidURL("scheduling");
-        else
-            setValidURL(false);
-    }, []);
-
+    setIsClient(true);
+   }, []);
     useEffect(() => {
-        if (typeof window !== "undefined" && window.localStorage && validURL) {
-            let temp = localStorage.getItem('Projects');
-            if (temp) {
-                temp = JSON.parse(temp);
-                setProjects({...temp});
-            }
-            else {
-                router.push(`/projects?lang=${language}`);
-            }
+    const lang = searchParams.get("lang");
+    if (lang === "fa" || lang === "en") {
+      setLanguage(lang);
+    } else {
+      window.location.href = current_path + "?lang=fa";
+    }
+  }, [searchParams, current_path]);
 
-            temp = localStorage.getItem('ProjectsEN');
-            if (temp) {
-                temp = JSON.parse(temp);
-                setProjectsEN({...temp});
-            }
-            else {
-                router.push(`/projects?lang=${language}`);
-            }
-        }
-
-        if (validURL != null && !validURL) {
-            router.push(`/projects?lang=${language}`);
-        }
-    }, [validURL]);
-
-    useEffect(() => {
-        if (projects != null && validURL) {
-            let temp = projects[validURL].projects.length;
-            if (props.params.project <= temp)
-                setProjectNum(props.params.project);
-            else {
-                setProjectNum(false);
-                router.push(`/projects?lang=${language}`);
-            }
-        }
-    }, [projects]);
-
-    useEffect(() => {
-        setLanguage(searchParams.get("lang"));
-    }, []);
+useEffect(() => {
+  if (isClient && project) {
+    axios.get(`https://takbon.biz:3402/get_all_projects_detail/?id=${project}`)
+      .then((response) => {
+        console.log("API response:", response.data);
+        // فرض می‌کنیم داده‌ها توی response.data.value است، اگر نه response.data
+        const dataArray = Array.isArray(response.data) ? response.data : (response.data.value || []);
+        setProjectsData(dataArray);
+      })
+      .catch(console.error);
+  }
+}, [isClient, project]);
+    const handleTabClick = (index) => {
+        setSelectedTab(index);
+    }
 
     return (
-        <Fragment>
-            {
-                validURL != null && projects != null && projectNum != null &&
-                (validURL && projectNum) ? <ProjectDetail details={projects[validURL].projects[projectNum - 1]} detailsEN={projectsEN[validURL].projects[projectNum - 1]} /> : <></>
-            }
-        </Fragment>
+   <>
+  {projectsData.map((Project, index) => (
+    language === 'fa' && (
+      <ProjectContainer key={index}>
+        <Navbar />
+        <Heading>
+          <Logo href={`/landing?lang=${language}`} hover={logoGif} />
+        </Heading>
+        <Main image={wallpaper} direction={"rtl"} >
+          <Content>
+        <Tabs>
+  <TabDetail onClick={() => handleTabClick(0)} image={titleWallpaper} />
+  {Project.problemDetail !== "" && <>
+    <Line />
+    <TabDetail onClick={() => handleTabClick(1)} image={problemDetailWallpaper} />
+  </>}
+  {Project.projectDetail !== "" && <>
+    <Line />
+    <TabDetail onClick={() => handleTabClick(2)} image={projectDetailWallpaper} />
+  </>}
+  {Project.goals?.length !== 0 && <>
+    <Line />
+    <TabDetail onClick={() => handleTabClick(3)} image={goalsWallpaper} />
+  </>}
+  {Project.toolsImage?.length !== 0 && <>
+    <Line />
+    <TabDetail onClick={() => handleTabClick(4)} image={toolsWallpaper} />
+  </>}
+</Tabs>
+
+            <TabContent>
+              {selectedTab === 0 && (
+                <TabContentContainer adjust={language === 'fa'}>
+                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 0}>عنوان پروژه</ProjectTitle>
+                  <h3>{Project.explain}</h3>
+                </TabContentContainer>
+              )}
+              {selectedTab === 1 && (
+                <TabContentContainer adjust={language === 'fa'}>
+                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 1}>شرح مسئله</ProjectTitle>
+                  <p>{Project.target}</p>
+                </TabContentContainer>
+              )}
+              {selectedTab === 2 && (
+                <TabContentContainer adjust={language === 'fa'}>
+                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 2}>شرح پروژه</ProjectTitle>
+                  <p>{Project.tilte}</p>
+                </TabContentContainer>
+              )}
+              {selectedTab === 3 && (
+                <TabContentContainer adjust={language === 'fa'}>
+                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 3}>اهداف پروژه</ProjectTitle>
+                  <ul>
+                    {Project.goals.map((goal, idx) => (
+                      <li key={idx}>{goal}</li>
+                    ))}
+                  </ul>
+                </TabContentContainer>
+              )}
+              {selectedTab === 4 && (
+                <TabContentContainer adjust={language === 'fa'}>
+                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 4}>ابزارهای مورد استفاده</ProjectTitle>
+                  <Pics>
+                    {details.toolsImage.map((tool, idx) => (
+                      <Pic key={idx} image={tool} />
+                    ))}
+                  </Pics>
+                </TabContentContainer>
+              )}
+            </TabContent>
+          </Content>
+        </Main>
+        <Footer />
+      </ProjectContainer>
+    )
+  ))}
+</>
+
     )
 }
+
+export default ProjectDetail;

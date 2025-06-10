@@ -1,69 +1,85 @@
 "use client";
-import Project_titles from "a/components/Project_Cat/Project_Cat";
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, usePathname, useParams } from 'next/navigation';
+import axios from "axios";
+import Navbar from "../../Navbar/Navbar";
+import Footer from "../../Footer/Footer";
+import logoGif from "../../../../public/Assests/Landing/takbon.gif";
+import wallpaper from "../../../../public/Assests/Projects/project.jpg";
+import {
+  ProjectsContainer,
+  Main,
+  Heading,
+  Logo,
+  Content,
+  ProjectMajor,
+  Icon,
+  Title,
+  ShowMore
+} from "./Project_CatStyle";
 
-export default function Projects_Cat(props) {
-    const [validURL, setValidURL] = useState(null);
-    const [projects, setProjects] = useState(null);
-    const [projectsEN, setProjectsEN] = useState(null);
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const [language, setLanguage] = useState(searchParams.get("lang"));
+const Project_titles = () => {
+  const current_path = usePathname();
+  const searchParams = useSearchParams();
+  const { projectCat } = useParams();  // نام پارامتر دینامیک مسیر باید درست باشد
+  const [language, setLanguage] = useState(null);
+  const [isClient, setIsClient] = useState(false);
+  const [projectsData, setProjectsData] = useState([]);
 
-    useEffect(() => {
-        if(props && (props.params.projectCat == 'data-analysis'))
-            setValidURL("data-analysis");
-        else if(props && (props.params.projectCat == 'data-minning'))
-            setValidURL("data-minning");
-        else if(props && (props.params.projectCat == 'needs-assessment'))
-            setValidURL("needs-assessment");
-        else if (props && (props.params.projectCat == 'market-research'))
-            setValidURL("market-research");
-        else if(props && (props.params.projectCat == 'simulation'))
-            setValidURL("simulation");
-        else if(props && (props.params.projectCat == 'scheduling'))
-            setValidURL("scheduling");
-        else
-            setValidURL(false);
-    }, []);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-    useEffect(() => {
-        if (typeof window !== "undefined" && window.localStorage && validURL) {
-            let temp = localStorage.getItem('Projects');
-            if (temp) {
-                temp = JSON.parse(temp);
-                setProjects({...temp});
-            }
-            else {
-                router.push(`/projects?lang=${language}`);
-            }
+  useEffect(() => {
+    const lang = searchParams.get("lang");
+    if (lang === "fa" || lang === "en") {
+      setLanguage(lang);
+    } else {
+      window.location.href = current_path + "?lang=fa";
+    }
+  }, [searchParams, current_path]);
 
-            temp = localStorage.getItem('ProjectsEN');
-            if (temp) {
-                temp = JSON.parse(temp);
-                setProjectsEN({...temp});
-            }
-            else {
-                router.push(`/projects?lang=${language}`);
-            }
-        }
+useEffect(() => {
+  if (isClient && projectCat) {
+    axios.get(`https://takbon.biz:3402/get_all_projects_name/?id=${projectCat}`)
+      .then((response) => {
+        console.log("API response:", response.data);
+        // فرض می‌کنیم داده‌ها توی response.data.value است، اگر نه response.data
+        const dataArray = Array.isArray(response.data) ? response.data : (response.data.value || []);
+        setProjectsData(dataArray);
+      })
+      .catch(console.error);
+  }
+}, [isClient, projectCat]);
 
-        if (validURL != null && !validURL) {
-            router.push(`/projects?lang=${language}`);
-        }
-    }, [validURL]);
+  if (!language) return null;
 
-    useEffect(() => {
-        setLanguage(searchParams.get("lang"));
-    }, []);
+ return (
+    <>
+        <ProjectsContainer>
+      <Navbar />
+      <Heading>
+        <Logo href={`/landing?lang=${language}`} hover={logoGif} />
+      </Heading>
+      <Main image={wallpaper} direction={language === "fa" ? "rtl" : "ltr"}>
+        <Content>
+          {projectsData.length === 0 ? (
+            <p style={{ textAlign: "center" }}>در حال بارگذاری یا اطلاعاتی وجود ندارد</p>
+          ) : (
+            projectsData.map((project, index) => (
+              <ProjectMajor key={index}>
+                <Icon src="/icon.png" alt="icon" />
+                <Title font={language === 'fa'}>{project.fa_name}</Title>
+                <ShowMore href={`${current_path}/${index + 1}?lang=${language}`}>توضیحات بیشتر</ShowMore>
+              </ProjectMajor>
+            ))
+          )}
+        </Content>
+      </Main>
+      <Footer />
+    </ProjectsContainer></>
 
-    return (
-        <Fragment>
-            {
-                validURL != null && projects != null &&
-                (validURL) ? <Project_titles details={projects[validURL]} detailsEN={projectsEN[validURL]} /> : <></>
-            }
-        </Fragment>
-    );
-}
+  );
+};
+
+export default Project_titles;

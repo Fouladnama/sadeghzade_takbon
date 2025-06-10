@@ -1,0 +1,312 @@
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         const all_projects = {
+    //             "data-analysis": {
+    //                 icon: "/Assests/Projects/data-analysis.png",
+    //                 projects: [
+    //                     {
+    //                         title: "پیش بینی نرخ مصرف قطعات یدکی با استفاده از تکنیک های داده کاوی",
+    //                         problemDetail: "",
+    //                         projectDetail: "يكي از مباحث مهم در حوزه زنجیره تامین، كنترل موجودي مواد، کالا و قطعات با روش‌های موثر است. در اين بين قطعات يدكي به دليل حساسيت‌هاي بالايي كه در صنايعي همچون فولادسازي دارند مي‌بايست مورد توجه خاص و ويژه قرار گيرد چرا که خريد ناكافي قطعات يدكي، احتمال مواجهه با كمبود در تولید و توقف خط را افزایش می دهد و هزينه‌هاي سرسام‌آوري به دنبال خواهد داشت. در این پروژه نرخ مصرف قطعات یدکی با تکنیک‌های داده‌کاوی پیش‌بینی شد.",
+    //                         goals: ["ایجاد دسته بندی دقیقی از قطعات یدکی", "استخراج الگوی مصرف", "پیش بینی تقاضای سالیانه هر دسته از قطعات یدکی"],
+    //                         toolsImage : ["/Assests/Projects/rapidminer.png"]
+    //                     },
+    //                     {
+    //                         title: "طراحی و استقرارسيستم وفاداري مشتريان و تحليل قيمت مراكز خدماتي",
+    //                         problemDetail: "",
+    //                         projectDetail: "در این پروژه، سیستمی جهت مقایسه‌ی قیمت فروش محصولات مراکز خدماتی با توجه به فاکتورهایی همچون شرایط پرداخت، خانواده محصول، عرض، ضخامت، تناژ فروخته شده و تعیین شاخص‌های کلیدی عملکرد جهت تحلیل اطلاعات فروش این شرکت ها طراحی و ساخته می‌شود. همچنین تعریف شاخص های کلیدی برای مقایسه‌ی روند خرید مشتریان و تعیین و تحلیل میزان وفاداری مشتریان از دیگر اهداف این پروژه می‌ باشد که با در اختیار قرار دادن داشبوردهای مدیریتی به مدیران فروش، باعث نظارت و پایش مداوم مشتریان و وضعیت فروش می گردد.",
+    //                         goals: ["تعریف شاخص های کلیدی برای مقایسه‌ی روند خرید مشتریان", "تحلیل میزان وفاداری مشتریان", "تعیین جایگاه مشتریان از نظر وفاداری به شرکت فولاد مبارکه", "شناسایی مشتریان وفادار و سرمایه گذاری در جهت حفظ آن ها", "مقایسه‌ی قیمت فروش محصولات مراکز خدماتی"],
+    //                         toolsImage : ["/Assests/Projects/power-bi.svg"]
+    //                     },
+    //                     {
+    //                         title: "سیستم تحلیل بازخورد مشتریان شرکت فولاد مبارکه",
+    //                         problemDetail: "در حال حاضر در واحد فروش فولاد مبارکه، سیستم مدیریت بازخورد مشتری تحت عنوان نظر سنجی مشتریان انجام می پذیرد. این نظرسنجی به صورت سالیانه از مشتریان انجام می¬شود. با توجه به اینکه نظرسنجی¬ها به صورت سالیانه و در پایان هر سال انجام می¬شود، لذا تحلیل و بررسی آن¬ها نیز به صورت سالیانه و در ابتدای سال بعد انجام می شود. عمدتا با پیگیری-هایی که توسط بازاریاب¬ها انجام می شود، مشتریان اقدام به پرکردن فرم نظر سنجی می¬کنند. لذا بدیهی است که همواره برخی از مشتریان تمایلی به تکمیل فرم نظرسنجی نشان نمی¬دهند و درصد مشارکت در نظرسنجی کمتر از مشارکت کامل می باشد.",
+    //                         projectDetail: "این پروژه با هدف تحلیل و بررسی مدیریت بازخورد مشتریان به شناسایی و پالایش تاریخچه داده های موجود از نظرسنجی مشتریان پرداخته و با تعیین شاخص های کلیدی به تحلیل اطلاعات موجود در سیستم می پردازد.",
+    //                         goals: ["تعیین میزان رضایت مشتریان", "تخمین رضایتمندی به تفکیک وفاداری", "تحلیل پاسخ گویی مشتری به سوالات نظرسنجی", "کمک به تحلیل و تصمیم گیری های استراتژیک در ارتباط با نظرات مشتریان"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "data-minning": {
+    //                 icon: "/Assests/Projects/process.png",
+    //                 projects: [
+    //                     {
+    //                         title: "طراحی و استقرار مدل پایلوت برنامه ریزي هوشمند خرید",
+    //                         problemDetail: "فرایند خرید شرکت فولاد مبارکه با توجه به گستردگی و تنوع مواد و قطعات و کالاهای دریافتی، تنوع تامین کنندگان، ارتباط با تامین کنندگان خارج، تنوع روش های خرید و ... از پیچیدگی های زیادی برخوردار است.",
+    //                         projectDetail: "در طرح برنامه ریزی هوشمند خرید نقاط اصلی تصمیم گیری در فرایند خرید استخراج شده و قوانین تصمیم با استفاده از دانش خبره و استخراج دانش موجود در تاریخچه داده تحت عنوان موتورهای قانون گذار مشخص خواهد شد. این پروژه در ابتدا به صورت پایلوت برای تعدادی از مواد مصرفی و قطعات یدکی با فرایند عادی سفارش دهی و برای حجم درخواست های خرید جزئی و متوسط پیاده سازی شده و به مرور دسته های مختلف قطعات وارد فرایند برنامه ریزی هوشمند خرید می گردند.",
+    //                         goals: ["کاهش فعالیت های دستی", "نظام مند و یکپارچه شدن فرایند برنامه ریزی خرید", "اتخاذ تصمیمات سریع، دقیق و مناسب به همراه افزایش رضایت تامین کنندگان"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/java.svg"]
+    //                     },
+    //                     {
+    //                         title: "تدوین فرایند خرید خدمات",
+    //                         problemDetail: "فعالیت خرید شرکت فولاد مبارکه به عنوان یکی از فعالیت هایی که ماهیت فرایندی داشته و به عنوان طولانی ترین فرایند در زنجیره تامین با گام های متعدد و متوالی شناخته می شود، دارای مشکلاتی در نحوه مدیریت فرایند است که منجر به افزایش زمان تامین، حجم بالای فعالیت های دستی و نارضایتی متقاضی می گردد.",
+    //                         projectDetail: "در این پروژه فرایند خرید خدمات فولاد مبارکه که به عنوان یکی از زمانبرترین و دستی ترین فرایندها شناخته می شود با استفاده از ابزارهای شناخته شده در قالب استاندارد BPMN2.0 تدوین شده است. تدوین این فرایند به شناخت نقاط ضعف فرایند، دوباره کاری ها و حجم فعالیت های دستی کمک نموده و به عنوان پیش نیاز فرایند داده کاوی مورد استفاده قرار خواهد گرفت.",
+    //                         goals: ["شناخت نقاط ضعف فرایند", "کاهش دوباره کاری‌ها و حجم فعالیت‌های دستی"],
+    //                         toolsImage : ["/Assests/Projects/BPMN.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "needs-assessment": {
+    //                 icon: "/Assests/Projects/needs-assessment.png",
+    //                 projects: [
+    //                     {
+    //                         title: "نیازسنجی راه اندازی خط ریکولینگ پس از خط اسیدشویی",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "نیازسنجی بهینه سازی لوپ تاندم میل",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "نیازسنجی تغییر طرح سنترینگ ورق در ورودی خط تاندم میل",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "نیازسنجی ساخت ساختمان تعمیرگاه مرکزی در شرکت فولاد امیرکبیر کاشان",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     }
+    //                 ]
+    //             },
+    //             "market-research": {
+    //                 icon: "/Assests/Projects/market-research.png",
+    //                 projects: [
+    //                     {
+    //                         title: "مطالعات بازار جهانی و داخلی صنعت فولاد تخت",
+    //                         problemDetail: "",
+    //                         projectDetail: "در این پروژه، روندها و آمار مرنبط با صنعت فولاد در دنیا شناسایی و تحلیل و بررسی می شود. همچنین رقبای شرکت فولاد مبارکه در داخل کشور شناسایی شده و عملکرد آنها در سال های گذشته مورد بررسی و تحلیل قرار میگیرد.",
+    //                         goals: ["مقایسه کشور و شرکت فولاد مبارکه با کشورها و رقبای جهانی", "مقایسه عملکرد شرکت فولاد مبارکه با سایر رقبا در بازار داخلی"],
+    //                         toolsImage : ["/Assests/Projects/excel.svg", "/Assests/Projects/power-bi.svg", "/Assests/Projects/powerpoint.svg"]
+    //                     },
+    //                     {
+    //                         title: "پیش بینی تقاضای بازار صنعت فولاد تخت",
+    //                         problemDetail: "",
+    //                         projectDetail: "در این پروژه، میزان مصرف فولاد تخت کشور در سال های گذشته بررسی شده و بر مبنای آن و با انجام مطالعات میدانی، بازار فولاد تخت کشور در سال های آتی و افق 1410 پیش بینی می شود.",
+    //                         goals: ["محاسبه مصرف فولاد تخت کشور", "پیش بینی تقاضای بازار فولاد تخت کشور"],
+    //                         toolsImage : ["/Assests/Projects/excel.svg", "/Assests/Projects/power-bi.svg", "/Assests/Projects/powerpoint.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "simulation": {
+    //                 icon: "/Assests/Projects/Simulation.png",
+    //                 projects: [
+    //                     {
+    //                         title: "شبیه سازی سناریوی انتقال تختال به نورد گرم 2",
+    //                         problemDetail: "",
+    //                         projectDetail: "در این پروژه تعیین نوع و تعداد مکانیزم مناسب جهت انتقال تختال از واحد 28 به نورد گرم 2 با استفاده از ابزارهای شبیه سازی انجام گردیده است. به همین منظور ابتدا واحد 28 به صورت کامل شبیه سازی شده تا نرخ خروج تختال از این واحد به دست آید و به عنوان ورودی برای مکانیزم های انتقال به نورد گرم 2 استفاده شود. از سایر اهداف پروژه بررسی نیاز به توسعه فضاهای هوا خنک به هنگام راه اندازی نورد گرم 2 است. همچنین تاثیر وجود سیکل آب خنک بر ازدحام داخل واحد 28 در این مدل بررسی شده است.",
+    //                         goals: ["تعیین نوع و تعداد مکانیزم مناسب جهت انتقال تختال از واحد 28 به نورد گرم 2"],
+    //                         toolsImage : ["/Assests/Projects/python.svg", "/Assests/Projects/anylogic.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "scheduling": {
+    //                 icon: "/Assests/Projects/scheduling.png",
+    //                 projects: [
+    //                     {
+    //                         title: "سيستم محاسبه ظرفيت توليد واحدهاي آماري و بازنگري مدارک و دستورالعمل هاي کنترل فني توليد (متد) فولاد مبارکه و خطوط سبا",
+    //                         problemDetail: "استفاده بهينه از تجهيزات و دستگاه ها در هر کارخانه توليدي باعث کاهش هزينه ها و افزايش سودآوري سازمان ها مي شود. داشتن شاخص هايي که اين استفاده بهينه را مشخص نمايد براي هر سازمان بسيار با اهميت است. شرکت فولاد مبارکه به منظور بهترين استفاده از تجهيزات خود استانداردهايي را از سازندگان مختلف خطوط توليدي در زمان راه اندازي هر خط دريافت نموده است. اين استانداردها مشخص مي نمايد که توان اسمي توليد هر خط چه مقدار بوده و همچنين تخميني از زمان در دسترس هر تجهيز را مشخص نموده و راندمان هر تجهيز را نيز تعيين مي نمايد. اين استانداردها تحت عنوان مدرک متد در مستندات فولاد مبارکه موجود است که در حال حاضر به دلیل عدم پایش و به روز رسانی مستمر و در نظر نگرفتن شرایط جدید تجهیزات و تولید واقعی نیاز به بازبینی و محاسبه مجدد دارد.",
+    //                         projectDetail: "در این پروژه کلیه مدراک دستورالعمل کنترل فنی تولید برای خطوط تولیدی فولاد مبارکه بازنگری شده و سیستم محاسبه ظرفیت خطوط پیاده سازی می گردد که در نهایت منجر به يکپارچگي با برنامه ريزي و کنترل توليد در بازه هاي ميکس براي پارامتر هاي فني خطوط مختلف خواهد شد. همچنین با توجه به فعالیت های انجام شده در سیستم پارامترهای فنی فولاد مبارکه، در قالب پروژه جداگانه ای پارامترهای فنی سبا نیز محاسبه و در سیستم پارامترهای فنی پیاده سازی گردیده است.",
+    //                         goals: ["بازنگري پارامترهاي فني استاندارد براي کليه خطوط فولاد مبارکه", "يکپارچگي با برنامه ريزي و کنترل توليد در بازه هاي ميکس براي پارامترهاي فني"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg"]
+    //                     },
+    //                     {
+    //                         title: "طراحی و استقرار سیستم سیاست گذاری برنامه ریزی خرید",
+    //                         problemDetail: "شرکت فولاد مبارکه اصفهان به عنوان شرکت پيشتاز در زمينه توليد فولاد در ايران همواره بدنبال بهينه سازي فرايندهای خريد و مديريت کالا و هوشمند سازی فرایندهای تامین خود بوده است. یکی از اساسی ترین گام ها در فرایند خرید، سیاست گذاری خرید یا به عبارت دیگر طبقه بندی کالاها بوده که در آن هر کالا براساس معیارهای تاثیرگذار در فرایند خرید در یک دسته قرار می گیرد. اين طبقه بندي که در واقع پیش نیاز سایر فعالیت های خرید بوده باعث می گردد تصميم هاي مناسب مدیریتی براي هر دسته اتخاذ شده و از برخورد سلیقه ای یا یکسان با کالاها و خدمات جلوگیری گردد.",
+    //                         projectDetail: "پیاده سازی سیستم سیاست گذاری خرید به مدیران رده بالای سازمان کمک می نماید که در سیاست گذاری های کلان خود دقیق تر عمل نموده و با اتخاذ تصمیمات مناسب در هر دسته به تامین به موقع، کافی و به صرفه کالا، قطعات، مواد و خدمات در سازمان بپردازند.",
+    //                         goals: ["ارائه سيستم پويا براي اتخاد تصميمات هوشمند", "اتخاذ تصميمات سريع، دقيق و مناسب", "امکان سياست گذاري کالاهاي جديد در کمترين زمان", "ايجاد تمايز بين کالاهاي مختلف سازمان براي تامين", "جلوگيري از اتخاذ تصميمات سليقه اي و محاسبات سرانگشتي", "کاهش هزينه هاي نيروي انساني", "کاهش هزينه هاي نگهداري، سفارش دهي، کمبود و غيره"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg", "/Assests/Projects/c-sharp.svg", "/Assests/Projects/microsoft-dot-net.svg"]
+    //                     },
+    //                     {
+    //                         title: "بازبینی و اصلاح داده‌های فنی سیستم هزینه‌یابی",
+    //                         problemDetail: "استفاده از سیستم های هزینه‌یابی مزایا و فواید بهبود کارایی و اثربخشی، کاهش هزینه ها و در نهایت کاهش قیمت تمام شده را در سازمان به دنبال دارند. استفاده از سیستم های دقیق هزینه‌یابی با برقراری ارتباط منطقی بین بودجه‌بندی و برنامه ریزی علاوه بر کاهش قیمت تمام شده خدمات و محصولات، بهبود سیستم هزینه‌یابی و تعیین بهای تمام شده خدمات و قیمت گذاری بصورت منطقی و دقیق تر، کنترل و نظارت بر عملیات سازمان مطابق با برنامه‌ریزی های انجام شده را در پی خواهد داشت.",
+    //                         projectDetail: "در این پروژه بازبینی و اصلاح داده‌های فنی سیستم هزینه‌یابی فولاد مبارکه انجام شده و تعیین روش محاسبه‌ی داده‌های فنی براساس منابع موجود صورت گرفته است.",
+    //                         goals: ["بازبینی و اصلاح داده‌های فنی سیستم هزینه‌یابی فولاد مبارکه", "تعیین روش محاسبه‌ی داده‌های فنی براساس منابع موجود"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg", "/Assests/Projects/c-sharp.svg", "/Assests/Projects/microsoft-dot-net.svg"]
+    //                     },
+    //                     {
+    //                         title: "سيستم توزيع مشخصات فني محصولات در هزينه يابي استاندارد",
+    //                         problemDetail: "واحد برنامه ریزی و کنترل تولیدس فولاد مبارکه، برنامه ي توليد پيش بيني شده براي سال آينده را مشخص مي کند. اين پيش بيني تنها بر اساس خانواده محصول، عرض و ضخامت و کيفيت بوده، در حالي که پارامترهاي ديگري مانند کيفيت محصول، سيکل توليدي و ... در محاسبه بهاي تمام شده محصولات موثر است. بنابراين در تعيين قيمت فروش محصول براي حفظ سود لازم است که پيش بيني دقيقي از بهاي تمام شده همه ي محصولات با همه ي ويژگي هاي اصلي اثر گذار در سيستم هزينه يابي انجام شود.",
+    //                         projectDetail: "در سيستم هزينه يابي هفده پارامتر به عنوان ويژگي اصلي محصولات که در فروش و عمليات توليد آن ها اثر گذار است شناخته مي شود. اين ويژگي ها شامل عرض، ضخامت، خانواده محصول، کيفيت سطح، سيکل توليد و ... است. در سيستم ارایه شده، ابتدا بازه‌هاي ترکيب ابعادي برنامه‌ريزي و کنترل توليد به بازه‌هاي ترکيب ابعادي سيستم هزينه يابي استاندارد تبديل شده و سپس بر اساس مشخصه هاي محصولات و با در نظر گرفتن امکان توليد محصولات با اين مشخصه‌ها، مقدار توليد هر محصول را بر اساس ترکيب ابعادي و مقادير واقعي سال هاي گذشته مشخص می شود.",
+    //                         goals: ["توزيع محصولات بر اساس مقادير واقعي سفارشات جذب شده انجام پذيرد.", "براي محصولات غير قابل توليد برنامه اعمال نگردد.", "مقادير برنامه توزيع شده با مقادير برنامه ترکيب ابعادي تهيه شده توسط برنامه‌ريزي و کنترل توليد منطبق باشد.", "مقادير برنامه توزيع شده با مقادير برنامه ترکيب کيفي تهيه شده توسط برنامه‌ريزي و کنترل توليد منطبق باشد."],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "نگهداری پروژه IPSO",
+    //                         problemDetail: "راهکار جامع برنامه‌ريزي توليد فولاد مبارکه با عنوان IPSO در سطوح مختلف برنامه ریزی تولید فولاد مبارکه از جمله بلند و میان مدت و عملیاتی و در واحدهای مختلف ریخته گری و فولادسازی، نورد گرم و تکمیل نورد گرم، نورد سرد و برنامه ریزی بلند و میان مدت در حال اجرا است.",
+    //                         projectDetail: "در حال حاضر ماژول های این راهکار توسط کاربران مختلف و متعددی به صورت لحظه ای و روزانه مورد استفاده قرار می گیرند که با توجه به ابعاد هر ماژول و درصد نیاز برطرف شده از کاربر نیاز به توسعه و نگهداری سیستم وجود دارد. به همین منظور تیم متخصص از شرکت تاک بن برای نگهداری و رفع نیازهای کاربر برای ماژول های مختلف این راهکار به این پروژه تخصیص داده شده است.",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     }
+    //                 ]
+    //             }
+    //         };
+    
+    //         const all_projectsEN = {
+    //             "data-analysis": {
+    //                 icon: "/Assests/Projects/data-analysis.png",
+    //                 projects: [
+    //                     {
+    //                         title: "Prediction of the consumption rate of spare parts using data mining techniques",
+    //                         problemDetail: "",
+    //                         projectDetail: "One of the important topics in the supply chain is effective inventory control of materials, goods, and parts. In this context, spare parts, due to their high sensitivity, particularly in industries such as steel manufacturing, must receive special attention. Insufficient procurement of spare parts can lead to the risk of production shortages and line stoppages, resulting in substantial costs. In this project, the consumption rate of spare parts was predicted using data mining techniques.",
+    //                         goals: ["Creating a precise categorization of spare parts", "Extracting consumption patterns", "Predicting the annual demand for each category of spare parts"],
+    //                         toolsImage : ["/Assests/Projects/rapidminer.png"]
+    //                     },
+    //                     {
+    //                         title: "Design and deployment of a customer loyalty system and analysis of the pricing of service centers",
+    //                         problemDetail: "",
+    //                         projectDetail: "In this project, a system is designed and built to compare the sales prices of products in service centers, taking into account factors such as payment conditions, product category, width, thickness, sold tonnage, and determining key performance indicators for analyzing the sales information of these companies. Additionally, defining key indicators for comparing customer purchasing trends and determining and analyzing customer loyalty are other objectives of this project. By providing management dashboards to sales managers, it contributes to continuous monitoring and supervision of customers and sales performance.",
+    //                         goals: ["Defining key indicators for comparing customer purchasing trends", "Analyzing the level of customer loyalty.", "Determining the position of customers in terms of loyalty to Mobarakeh Steel Company", "Identifying loyal customers and investing in order to retain them", "Comparing the selling prices of products in service centers."],
+    //                         toolsImage : ["/Assests/Projects/power-bi.svg"]
+    //                     },
+    //                     {
+    //                         title: "System for analyzing customer feedback at Mobarakeh Steel Company",
+    //                         problemDetail: `Currently, in the sales unit of Mobarakeh Steel, a customer feedback management system is implemented under the title of "Customer Satisfaction Survey." This survey is conducted annually with customers. Given that these surveys are conducted annually and at the end of each year, their analysis and review are also done annually at the beginning of the next year. Customers mainly fill out the survey form through follow-ups conducted by marketers. Therefore, it is obvious that some customers may not show an inclination to complete the survey form, and the participation rate in the survey is less than full participation.`,
+    //                         projectDetail: "This project aims to analyze and investigate customer feedback management by identifying and refining the existing data history from customer satisfaction surveys. By establishing key indicators, it delves into the analysis of the information available in the system.",
+    //                         goals: ["Determining the level of customer satisfaction", "Estimating satisfaction, segmented by loyalty", "Analyzing how customers respond to survey questions", "Assisting in analyzing and making strategic decisions regarding customer feedback"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "data-minning": {
+    //                 icon: "/Assests/Projects/process.png",
+    //                 projects: [
+    //                     {
+    //                         title: "Designing and deploying a pilot model for intelligent purchasing planning",
+    //                         problemDetail: "The purchasing process of Mobarakeh Steel Company, considering the extensive and diverse range of materials, parts, and received goods, diverse suppliers, relationships with foreign suppliers, and various purchasing methods, faces significant complexities.",
+    //                         projectDetail: "In the intelligent purchasing planning program, key decision points in the purchasing process are identified, and decision rules will be extracted using expert knowledge and the knowledge extracted from historical data, referred to as rule engines. This project is initially implemented as a pilot for some consumables and spare parts with the regular ordering process, and gradually, different categories of parts enter the intelligent purchasing planning process.",
+    //                         goals: ["Reducing manual activities", "Systematizing and integrating the purchasing planning process", "Making quick, accurate, and appropriate decisions along with increasing supplier satisfaction"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/java.svg"]
+    //                     },
+    //                     {
+    //                         title: "Drafting the process of purchasing services",
+    //                         problemDetail: "The purchasing activity of Mobarakeh Steel Company, as one of the process-oriented activities recognized as the longest process in the supply chain with multiple and sequential steps, faces challenges in process management. These challenges lead to increased lead times, a high volume of manual activities, and dissatisfaction among stakeholders.",
+    //                         projectDetail: "In this project, the purchasing process for services at Mobarakeh Steel, recognized as one of the most time-consuming and manual processes, has been developed using established tools in the form of the BPMN 2.0 standard. The development of this process helps identify process weaknesses, redundancies, and the volume of manual activities, serving as a prerequisite for the data mining process.",
+    //                         goals: ["Identifying the weaknesses in the process", "Reducing redundancies and the volume of manual activities"],
+    //                         toolsImage : ["/Assests/Projects/BPMN.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "needs-assessment": {
+    //                 icon: "/Assests/Projects/needs-assessment.png",
+    //                 projects: [
+    //                     {
+    //                         title: "Needs assessment for setting up a recycling line after the acid washing line",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "Optimization needs assessment for loop tendom milling",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "Needs assessment for changing the layout of sheet centering at the entry of the tandem mill line",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "Needs assessment for constructing the central workshop building at Amir Kabir Kashan Steel Company",
+    //                         problemDetail: "",
+    //                         projectDetail: "",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     }
+    //                 ]
+    //             },
+    //             "market-research": {
+    //                 icon: "/Assests/Projects/market-research.png",
+    //                 projects: [
+    //                     {
+    //                         title: "Global and domestic market studies in the flat steel industry",
+    //                         problemDetail: "",
+    //                         projectDetail: "In this project, the processes and statistics related to the steel industry worldwide are identified, analyzed, and examined. Additionally, competitors of Mobarakeh Steel Company within the country are identified, and their performance in past years is investigated and analyzed.",
+    //                         goals: ["Comparing Mobarakeh Steel Company with countries and global competitors", "Comparing the performance of Mobarakeh Steel Company with other competitors in the domestic market"],
+    //                         toolsImage : ["/Assests/Projects/excel.svg", "/Assests/Projects/power-bi.svg", "/Assests/Projects/powerpoint.svg"]
+    //                     },
+    //                     {
+    //                         title: "Forecasting the market demand for flat steel industry",
+    //                         problemDetail: "",
+    //                         projectDetail: "In this project, the consumption of flat steel in the country in past years is examined, and based on that and through field studies, the domestic flat steel market for future years and the horizon of 2032 are predicted.",
+    //                         goals: ["Calculating the country's consumption of flat steel", "Predicting the market demand for flat steel in the country"],
+    //                         toolsImage : ["/Assests/Projects/excel.svg", "/Assests/Projects/power-bi.svg", "/Assests/Projects/powerpoint.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "simulation": {
+    //                 icon: "/Assests/Projects/Simulation.png",
+    //                 projects: [
+    //                     {
+    //                         title: "Simulation of the scenario of transferring slabs to Hot Rolling Mill 2",
+    //                         problemDetail: "",
+    //                         projectDetail: "In this project, the determination of the type and quantity of suitable mechanisms for transferring slabs from Unit 28 to Hot Rolling Mill 2 has been carried out using simulation tools. To achieve this, Unit 28 was fully simulated initially to obtain the slab exit rate from this unit, which was then used as input for the transfer mechanisms to Hot Rolling Mill 2. Among the other project objectives is the examination of the need for developing cool air spaces during the startup of Hot Rolling Mill 2. Additionally, the impact of the presence of a cooling water cycle on congestion inside Unit 28 has been investigated in this model.",
+    //                         goals: ["Determining the type and quantity of suitable mechanisms for transferring slabs from Unit 28 to Hot Rolling Mill 2"],
+    //                         toolsImage : ["/Assests/Projects/python.svg", "/Assests/Projects/anylogic.svg"]
+    //                     }
+    //                 ]
+    //             },
+    //             "scheduling": {
+    //                 icon: "/Assests/Projects/scheduling.png",
+    //                 projects: [
+    //                     {
+    //                         title: "System for calculating the production capacity of statistical units for Mobarakeh Steel and Saba lines",
+    //                         problemDetail: "Optimal use of equipment and machinery in each manufacturing plant leads to cost reduction and increased profitability for organizations. Having indicators that specify this optimal use is crucial for any organization. Mobarakeh Steel Company, aiming for the best utilization of its equipment, has adopted standards from various manufacturers of production lines during the commissioning of each line. These standards specify the nominal production capacity of each line, provide an estimate of the downtime for each equipment, and determine the efficiency of each piece of equipment. These standards, known as MET documents, are currently available in Mobarakeh Steel Company's documentation. However, due to the lack of continuous monitoring and updating, and not considering the new conditions of equipment and actual production, there is a need for review and recalculation.",
+    //                         projectDetail: "In this project, all the guidelines for technical control of production for the production lines of Mobarakeh Steel are revised, and a system for calculating the capacity of the lines is implemented. This will ultimately lead to integration with production planning and control in mixed intervals for the technical parameters of different lines. Additionally, considering the activities carried out in the Mobarakeh Steel technical parameter system, a separate project has been implemented to calculate the technical parameters of Saba, and these parameters have been incorporated into the technical parameter system.",
+    //                         goals: ["Reviewing the standard technical parameters for all production lines of Mobarakeh Steel", "Integration with production planning and control in mixed intervals for technical parameters"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg"]
+    //                     },
+    //                     {
+    //                         title: "Design and deployment of procurement planning policy system",
+    //                         problemDetail: "Mobarakeh Steel Company in Isfahan, as a leading steel producer in Iran, has always sought to optimize its purchasing processes, supply chain management, and intelligentize its procurement processes. One of the fundamental steps in the procurement process is procurement policy or, in other words, categorizing goods, where each item is placed in a category based on influential criteria in the procurement process. This categorization, essentially a prerequisite for other procurement activities, ensures that appropriate management decisions are made for each category, preventing arbitrary or uniform handling of goods and services.",
+    //                         projectDetail: "Implementation of the procurement policy system assists top-level managers in the organization to make more precise decisions in their overall policies. By adopting appropriate decisions in each category, it ensures timely, sufficient, and cost-effective procurement of goods, components, materials, and services within the organization.",
+    //                         goals: ["Presenting a dynamic system for implementing intelligent decision-making", "Adopting decisions quickly, accurately, and appropriately", "Enabling the policymaking for new products in the shortest time", "Creating differentiation between various products within the organization for procurement", "Preventing arbitrary decision-making", "Reducing human resource costs", "Reducing maintenance, ordering, shortage, etc., costs"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg", "/Assests/Projects/c-sharp.svg", "/Assests/Projects/microsoft-dot-net.svg"]
+    //                     },
+    //                     {
+    //                         title: "Review and revision of technical data for the cost allocation system",
+    //                         problemDetail: "The use of costing systems leads to the benefits of improving efficiency and effectiveness, reducing costs and ultimately reducing the cost of the cost in the organization. The use of accurate costing systems by establishing a logical relationship between budgeting and planning, in addition to reducing the cost of services and products, improving the costing system and determining the cost of services and pricing more logically and accurately, control and monitoring the organization's operations following the planned implementation.",
+    //                         projectDetail: "In this project, reviewing and modifying the technical data of the Mobarakeh steel costing system has been done, and determination of the method of calculating technical data based on available resources.",
+    //                         goals: ["Reviewing and modifying the technical data of the Mobarakeh Steel Costing System", "Determining the method of calculating technical data based on available sources"],
+    //                         toolsImage : ["/Assests/Projects/oracle.svg", "/Assests/Projects/excel.svg", "/Assests/Projects/c-sharp.svg", "/Assests/Projects/microsoft-dot-net.svg"]
+    //                     },
+    //                     {
+    //                         title: "Distribution system of technical specifications of products in standard costing",
+    //                         problemDetail: "The Mobarakeh Steel Production Planning and Control Unit specifies the production plan for next year. This prediction is based only on product family, width, thickness and quality, while other parameters such as product quality, production cycle and etc., is effective in calculating the cost of the products. Therefore, in determining the sale price of the product, it is necessary to accurately predict the cost of all products with all the main features affecting the costing system.",
+    //                         projectDetail: "In the costing system, seventeen parameters are known as the main characteristics of products that affect their sales and production operations. These characteristics include width, thickness, product family, surface quality, production cycle, etc. In the presented system, the dimensional combination intervals of planning and production control are converted to the intervals of the standard costing system, and then, based on the characteristics of the products and considering the possibility of producing products with these characteristics, the amount of production of each product is determined based on the dimensional composition and actual values of previous years.",
+    //                         goals: ["Distribute of products based on the actual value of the received orders", "Do not apply the program to non-productive products", "The values ​​of the distributed program should be consistent with the values ​​of the dimensional combination program prepared by production planning and control.", "The values ​​of the distributed program should be consistent with the values ​​of the quality mix program prepared by production planning and control"],
+    //                         toolsImage : []
+    //                     },
+    //                     {
+    //                         title: "IPSO project maintenance",
+    //                         problemDetail: "A comprehensive planning solution for the production of Mobarakeh steel under the name of IPSO at various levels of Mobarakeh steel production planning including long and medium-term and operational and in different casting and steelmaking units, hot rolling, and completion of hot rolling, cold rolling and long and medium term planning is running.",
+    //                         projectDetail: "Currently, the modules of this solution are used by various and multiple users in a moment and daily, depending on the dimensions of each module and the percentage of the user requires the need to develop and maintain the system. To this end, the expert team from Takbon Company has been assigned to this project to maintain and meet the needs of the user for different modules.",
+    //                         goals: [],
+    //                         toolsImage : []
+    //                     }
+    //                 ]
+    //             }
+    //         };
+    
+    //         if (typeof window !== "undefined" && window.localStorage) {
+    //             localStorage.setItem("Projects", JSON.stringify(all_projects));
+    //             localStorage.setItem("ProjectsEN", JSON.stringify(all_projectsEN));
+    //         }
+    //     }, 500);
+    // }, []);

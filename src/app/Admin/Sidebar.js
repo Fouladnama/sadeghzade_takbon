@@ -45,6 +45,15 @@ export default function Sidebar() {
             <Link href="/Admin/NewsAdmin">اخبار</Link>
           </li>
           <li>
+            <Link href="/Admin/ProjectsAdmin">عنوان های اصلی پروژه ها</Link>
+          </li>
+           <li>
+            <Link href="/Admin/ProjectsAdmin/ProjectsNameAdmin">اسم پروژه ها</Link>
+          </li>
+          <li>
+            <Link href="/Admin/ProjectsAdmin/ProjectDetailAdmin">اطلاعات پروژهای موجود</Link>
+          </li>
+          <li>
             <Link href="/Admin/collaborationAdmin">ارتباط با ما</Link>
           </li>
         </ul>
