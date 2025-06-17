@@ -40,8 +40,9 @@ export default function ProjectDetailAdmin(){
      columns={[
     {field:"tilte",header:"عنوان پروژه"} ,
    {
+         options: project, 
           field: "external_id",
-          header: "اسم پروژه",
+          header: "نوع پروژه",
           render: (item) => {
             if (!item.external_id) return "نامشخص";
 
@@ -56,7 +57,8 @@ export default function ProjectDetailAdmin(){
         },
     {field:"explain",header:"شرح پروژه"} ,
     {field:"target",header:"اهداف پروژه"} ,
-    {field:"equipment",header:"ابزارهای پروژه"} ,
+    {field:"image",header:"ابزارهای پروژه"} ,
+
 
      ]}
          title="جزییات پروژه"

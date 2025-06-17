@@ -57,54 +57,122 @@ const Project = () => {
     }
   }, [isClient]);
 
-  return (
-    <>
-{
-  ProjectsData.length > 0 &&
-   <ProjectContainer>
-    <Navbar />
-    <Main image={contact} >
-      <Heading>
-        <Logo href={`/landing?lang=${language}`} hover={logoGif} />
-      </Heading>
-      <Content>
-    <RightDiv>
-  {ProjectsData.map((item, index) => (
-    <Link 
-      key={index} 
-      href={`${current_path}/${item.route}?lang=${language}`} // فرض: از بک‌اند `route` میاد یا خودت تنظیمش می‌کنی
-    >
-      <Container>
-        {/* اگر ایندکس زوجه، متن راست و عکس چپ؛ اگر فرده، متن چپ و عکس راست */}
-        {index % 2 === 0 ? (
-          <>
-            <Image><div className="layer" /></Image>
-            <RightText>
-              {language === 'en' ? item.en_name : item.fa_name}
-            </RightText>
-          </>
-        ) : (
-          <>
-            <LeftText>
-              {language === 'en' ? item.en_name : item.fa_name}
-            </LeftText>
-            <Image><div className="layer" /></Image>
-          </>
-        )}
-      </Container>
-    </Link>
-  ))}
-</RightDiv>
+return (
+  <>
+    {ProjectsData.length > 0 && (
+      <ProjectContainer>
+        <Navbar />
+        <Main image={contact}>
+          <Heading>
+            <Logo href={`/landing?lang=${language}`} hover={logoGif} />
+          </Heading>
+          <Content>
+            <RightDiv>
+              {ProjectsData.map((item, index) => {
+                const imageUrl = item.image 
+                  ? item.image.startsWith('http')
+                    ? item.image
+                    : `https://takbon.biz/images/${item.image}`
+                  : '/fallback-image.jpg';
+                
+                console.log(`تصویر ${index}:`, imageUrl);
 
-      </Content>
-    </Main>
-    <Footer />
-  </ProjectContainer>
-}
+                return (
+                  <Link 
+                    key={index} 
+                    href={`/projects/${item._id}?lang=${language}`}
+                                        passHref
+                  >
+                    <Container >
+                      {index % 2 === 0 ? (
+                        <>
+                          <div style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}>
+                            <div style={{
+                              width: '200px',
+                              height: '200px',
+                              borderRadius: '50%',
+                              overflow: 'hidden',
+                              border: '3px solid #your-color',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center'
+                            }}>
+                              <img
+                                src={imageUrl}
+                                alt={language === 'en' ? item.en_name : item.fa_name}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
 
+                                }}
+                                onError={(e) => {
+                                  console.error('خطا در بارگذاری تصویر:', e.target.src);
+                                  e.target.onerror = null;
+                                  e.target.src = '/fallback-image.jpg';
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <RightText style={{ flex: 1}}>
+                            {language === 'en' ? item.en_name : item.fa_name}
+                          </RightText>
+                        </>
+                      ) : (
+                        <>
+                          <LeftText style={{flex: 1}}>
+                            {language === 'en' ? item.en_name : item.fa_name}
+                          </LeftText>
+                          <div style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                          }}>
+                            <div style={{
+                              width: '200px',
+                              height: '200px',
+                              borderRadius: '50%',
+                              overflow: 'hidden',
+                              border: '3px solid #your-color',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center'
+                            }}>
+                              <img
+                                src={imageUrl}
+                                alt={language === 'en' ? item.en_name : item.fa_name}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
 
-    </>
-  );
+                                }}
+                                onError={(e) => {
+                                  console.error('خطا در بارگذاری تصویر:', e.target.src);
+                                  e.target.onerror = null;
+                                  e.target.src = '/fallback-image.jpg';
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </Container>
+                  </Link>
+                );
+              })}
+            </RightDiv>
+          </Content>
+        </Main>
+        <Footer />
+      </ProjectContainer>
+    )}
+  </>
+);
 };
 
 export default Project;

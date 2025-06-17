@@ -128,9 +128,13 @@ useEffect(() => {
                 <TabContentContainer adjust={language === 'fa'}>
                   <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 4}>ابزارهای مورد استفاده</ProjectTitle>
                   <Pics>
-                    {details.toolsImage.map((tool, idx) => (
-                      <Pic key={idx} image={tool} />
-                    ))}
+                  <img 
+                    src={`https://takbon.biz/images/${Project.image}`} 
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/fallback-image.jpg';
+                    }}
+                  />
                   </Pics>
                 </TabContentContainer>
               )}
