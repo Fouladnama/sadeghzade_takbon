@@ -1,15 +1,40 @@
+// app/(admin)/layout.jsx
 "use client";
-import React from "react";
-import Sidebar from './Sidebar'; // Import Sidebar
-import './admin.css';
+
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import AdminNavbar from "./AdminNavbar";
+import AdminSidebar from "./AdminSidebar";
 
 export default function AdminLayout({ children }) {
+  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev);
+  };
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  // اگر در لاگین هستیم، فقط کامپوننت لاگین را رندر کن
+  if (pathname === "/Admin/login") {
+    return <main className="h-screen">{children}</main>;
+  }
+
   return (
-    <div >
-      <Sidebar />
-      <main >
-        {children}
-      </main>
+    <div className="flex h-screen">
+      {/* سایدبار */}
+      <AdminSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
+
+      {/* محتوا */}
+      <div className="flex-1 flex flex-col">
+        {/* Navbar با دکمه Toggle */}
+        <AdminNavbar onHamburgerClick={toggleSidebar} />
+
+        {/* بادی */}
+        <main className="flex-1 overflow-auto">{children}</main>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import LandingPage from "a/components/Landing/Landing";
+import LandingPage from "../../components/Landing/Landing";
 import { Suspense } from 'react';
 
 export default function Landing() {

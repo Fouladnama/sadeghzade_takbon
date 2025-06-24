@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";  // اضافه کردن useRef
-import axios from "axios";
+import ApiConfig from "../../../Api";
 import { Grid, Typography, Button, DialogActions, DialogContent, DialogTitle, Dialog, Card, CardMedia, Box } from '@mui/material';
 import FarNews from "./FarNews";  
 import "react-quill/dist/quill.snow.css"; // استایل پیش‌فرض
@@ -27,13 +27,12 @@ const NewsAdmin = () => {
 
   const formRef = useRef(null);  
   useEffect(() => {
-    setIsClient(true);  // Ensure this is set to true after the component mounts
+    setIsClient(true); 
   }, []);
 
   useEffect(() => {
     if (isClient) {
-      // Client-side code, now safe to run
-      axios
+      ApiConfig
         .get("https://takbon.biz:3402/news?page=1&size=3")
         .then((response) => {
           const validatedData = response.data.value.map((news) => ({
@@ -235,14 +234,14 @@ const NewsAdmin = () => {
                       }}
                     >
                       <Typography variant="h6" sx={{ marginBottom: 1 }}>
-                        {news.title}
+                        {news.keyword}
                       </Typography>
                       <Typography variant="body1">
-                    {news.content}
+                    {news.technical}
                       </Typography>
 
                       <Typography variant="body2" sx={{ marginTop: 2, color: '#777' }}>
-                        تاریخ انتشار: {news.publish}
+                        تاریخ انتشار: {news.which}
                       </Typography>
                       <Box sx={{ marginTop: 2, display: 'flex', gap: 1 }}>
                         <Button onClick={() => handleEditNews(news)}>

@@ -16,7 +16,8 @@ export default function RootLayout({ children }) {
         <nav>
           <ul>
             <li><Link href="/"></Link></li>
-            <li><Link href="/Admin"> </Link></li>
+            {/* <li><Link href="/Admin"> </Link></li> */}
+            <li><Link href='/Admin/login'> </Link></li>
           </ul>
         </nav>
         {children}
