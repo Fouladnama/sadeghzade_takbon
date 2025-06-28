@@ -7,6 +7,7 @@ import axios from "axios";
 export default function ProjectDetailAdmin(){
 
     const [project, setProject] = useState([]);
+    const [project_en, setProject_en] = useState([]);
 
   useEffect(() => {
     axios
@@ -27,12 +28,33 @@ export default function ProjectDetailAdmin(){
         console.error("خطا در دریافت API:", err);
       });
   }, []);
-
+ useEffect(() => {
+    axios
+      .get("https://takbon.biz:3402/get_projects")
+      .then((res) => {
+        if (res.data && Array.isArray(res.data.value)) {
+          setProject_en(
+            res.data.value.map((project_en) => ({
+              code: project_en._id,
+              name: project_en.en_name,
+            }))
+          );
+        } else {
+          console.error("فرمت دیتا معتبر نیست:", res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("خطا در دریافت API:", err);
+      });
+  }, []);
   const getProject = (projectNo) => {
     const found = project.find((i) => i.code === projectNo);
     return found ? found.name : "نامشخص";
   };
-
+const getProject_en = (projectNo) => {
+    const found = project_en.find((i) => i.code === projectNo);
+    return found ? found.name : "نامشخص";
+  };
   return(
     <ManagerProject
      url="https://takbon.biz:3402/get_all_projects_detail"
@@ -57,7 +79,22 @@ export default function ProjectDetailAdmin(){
             ));
           },
         },
-          
+          {
+         options: project_en, 
+          field: "external_id_en",
+          header: "نوع پروژه",
+          render: (item) => {
+            if (!item.external_id) return "نامشخص";
+
+            const projectArray = Array.isArray(item.external_id)
+              ? item.external_id
+              : [item.external_id];
+
+            return projectArray.map((id, idx) => (
+              <div key={idx}>{getProject_en(id)}</div>
+            ));
+          },
+        },
     {field:"explain",header:"شرح پروژه"} ,
     {field:"explain_en",header:"شرح پروژه انگلیسی"} ,
     {field:"target",header:"اهداف پروژه",isArray:true} ,

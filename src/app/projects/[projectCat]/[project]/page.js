@@ -34,11 +34,13 @@ const ProjectDetail = ({details, detailsEN}) => {
     const current_path = usePathname();
     const [projectsData, setProjectsData] = useState([]);
     const [isClient, setIsClient] = useState(false);
-    const [language, setLanguage] = useState(null);
-    const { project } = useParams();  
+    const [language, setLanguage] = useState('fa');
+    const { project } = useParams(); 
+
     useEffect(() => {
     setIsClient(true);
    }, []);
+
     useEffect(() => {
     const lang = searchParams.get("lang");
     if (lang === "fa" || lang === "en") {
@@ -50,18 +52,29 @@ const ProjectDetail = ({details, detailsEN}) => {
 
 useEffect(() => {
   if (isClient && project) {
-    axios.get(`https://takbon.biz:3402/get_all_projects_detail/?id=${project}`)
+    axios
+      .get(`https://takbon.biz:3402/get_all_projects_detail/?id=${project}`)
       .then((response) => {
         console.log("API response:", response.data);
-        const dataArray = Array.isArray(response.data) ? response.data : (response.data.value || []);
+        // Handle both array and object responses
+        const dataArray = Array.isArray(response.data)
+          ? response.data
+          : response.data?.value || [];
         setProjectsData(dataArray);
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Error fetching project data:", error);
+        setProjectsData([]); // Clear data on error to avoid stale state
+      });
   }
-}, [isClient, project]);
+}, [isClient, project, language]); // Added `language` to dependencies
+
     const handleTabClick = (index) => {
         setSelectedTab(index);
     }
+  const getLocalizedContent = (data, field) => {
+        return language === 'fa' ? data[field] : (data[`${field}_en`] || data[field]);
+    };
 
     return (
    <>
@@ -95,56 +108,56 @@ useEffect(() => {
 </Tabs>
 
             <TabContent>
-              {selectedTab === 0 && (
-          <TabContentContainer adjust={language === 'fa'}>
-<ProjectTitle
-  adjust={language === 'fa'}
-  selected={selectedTab === 0}
->
-  {language === 'fa' ? "Project Title" : "عنوان پروژه"}
-</ProjectTitle>
-<h3>{language === 'fa' ? Project.title_en : Project.title}</h3>
+  {selectedTab === 0 && (
+    <TabContentContainer adjust={language === 'fa'}>
+      <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 0}>
+        {language === 'fa' ? "عنوان پروژه" : "Project Title"}
+      </ProjectTitle>
+      <h3>{language === 'fa' ? Project.title : Project.title_en}</h3>
+    </TabContentContainer>
+  )}
 
-</TabContentContainer>
+  {selectedTab === 1 && (
+    <TabContentContainer adjust={language === 'fa'}>
+      <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 1}>
+        {language === 'fa' ? "شرح پروژه" : "Project Description"}
+      </ProjectTitle>
+      <h3>{language === 'fa' ? Project.explain : Project.explain_en}</h3>
+    </TabContentContainer>
+  )}
 
-              )}
-              {selectedTab === 1 && (
-                <TabContentContainer adjust={language === 'fa'}>
-                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 1}>شرح مسئله</ProjectTitle>
-                  <p>{Project.target}</p>
-                </TabContentContainer>
-              )}
-              {selectedTab === 2 && (
-                <TabContentContainer adjust={language === 'fa'}>
-                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 2}>شرح پروژه</ProjectTitle>
-                  <p>{Project.tilte}</p>
-                </TabContentContainer>
-              )}
-              {selectedTab === 3 && (
-                <TabContentContainer adjust={language === 'fa'}>
-                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 3}>اهداف پروژه</ProjectTitle>
-                  <ul>
-                    {Project.target.map((goal, idx) => (
-                      <li key={idx}>{goal}</li>
-                    ))}
-                  </ul>
-                </TabContentContainer>
-              )}
-              {selectedTab === 4 && (
-                <TabContentContainer adjust={language === 'fa'}>
-                  <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 4}>ابزارهای مورد استفاده</ProjectTitle>
-                  <Pics>
-                  <img 
-                    src={`https://takbon.biz/images/${Project.image}`} 
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/fallback-image.jpg';
-                    }}
-                  />
-                  </Pics>
-                </TabContentContainer>
-              )}
-            </TabContent>
+ {selectedTab === 2 && (
+  <TabContentContainer adjust={language === 'fa'}>
+    <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 2}>
+      {language === 'fa' ? "اهداف پروژه" : "Project Objectives"}
+    </ProjectTitle>
+    <ul>
+      {(language === 'fa' ? Project.target : Project.target_en)?.map?.((goal, idx) => (
+        <li key={idx}>{goal}</li>
+      )) ?? <li>No goals specified</li>}
+    </ul>
+  </TabContentContainer>
+)}
+
+  {selectedTab === 3 && (
+    <TabContentContainer adjust={language === 'fa'}>
+      <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 3}>
+        {language === 'fa' ? "ابزارهای مورد استفاده" : "Used Tools"}
+      </ProjectTitle>
+      <Pics>
+        <img
+          src={`https://takbon.biz:3402/images/${Project.imagemain}`}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/fallback-image.jpg';
+          }}
+          alt="Project Tools"
+        />
+      </Pics>
+    </TabContentContainer>
+  )}
+</TabContent>
+
           </Content>
         </Main>
         <Footer />
