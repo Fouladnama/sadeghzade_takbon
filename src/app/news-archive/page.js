@@ -1,4 +1,4 @@
-import Archive from "a/components/Archive/Archive"
+import Archive from "../../components/Archive/Archive"
 import { Suspense } from 'react';
 
 export default function Page() {

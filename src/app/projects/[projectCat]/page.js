@@ -41,7 +41,7 @@ const Project_titles = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://takbon.biz:3402/get_all_projects_name/?id=${projectCat}`);
+        const response = await axios.get(`https://takbon.biz:3402/get_projects_name/?id=${projectCat}`);
         const dataArray = Array.isArray(response.data) 
           ? response.data 
           : (response.data?.value || []);
@@ -80,7 +80,7 @@ const Project_titles = () => {
                   : `https://takbon.biz/images/${item.image}`
                 : '/fallback-image.jpg';
               
-              const tilte = language === 'en' ? item.en_name : item.tilte;
+              const tilte = language === 'en' ? item.tilte_en : item.tilte;
 
               return (
                 

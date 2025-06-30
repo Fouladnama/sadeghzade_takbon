@@ -8,6 +8,7 @@ const SIDEBAR_LINKS = [
   { label: "صفحه اصلی", href: "/Admin/dashboard", icon: "🏠" },
   { label: "پروژه‌ها", href: "/Admin/ProjectsAdmin/ProjectDetailAdmin", icon: "📰" },
   { label: "انواع پروژه‌ها", href: "/Admin/ProjectsAdmin", icon: "📁" },
+  { label: "ابزار ها", href: "/Admin/ProjectsAdmin/EquipmentAdmin", icon: "📁" },
   { label: "رزومه‌ها", href: "/Admin/resumes", icon: "📄" },
 ];
 
@@ -16,7 +17,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
 
   return (
     <aside
-      // هر وقت موس از داخل سایدبار بیرون رفت، منو بسته شود
       onMouseLeave={() => {
         if (isOpen) onClose();
       }}
@@ -31,7 +31,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
         <Link
           key={link.href}
           href={link.href}
-          // هنگام کلیک روی لینک نیز منو بسته شود
           onClick={onClose}
           className={`
             flex items-center px-3 py-2 mb-1 rounded-md transition
