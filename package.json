@@ -11,7 +11,10 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+<<<<<<< HEAD
     "@hookform/resolvers": "^5.1.1",
+=======
+>>>>>>> bfa75f18a76a2c84977a6fc26ae546e4c735d6a4
     "@mui/icons-material": "^6.4.12",
     "@mui/material": "^6.3.1",
     "@react-spring/web": "^9.7.5",
