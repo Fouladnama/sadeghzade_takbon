@@ -34,7 +34,6 @@ export default function NewsAdmin() {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
-<<<<<<< HEAD
     fetchNews();
   }, []);
 
@@ -76,25 +75,6 @@ export default function NewsAdmin() {
     if (!title || !content) {
       toast.error("لطفا عنوان و محتوا را وارد کنید");
       return;
-=======
-    setIsClient(true); 
-  }, []);
-
-  useEffect(() => {
-    if (isClient) {
-      axios
-        .get("https://takbon.biz:3402/news?page=1&size=3")
-        .then((response) => {
-          const validatedData = response.data.value.map((news) => ({
-            ...news,
-            content: news.content || "",
-          }));
-          setNewsData(validatedData);
-        })
-        .catch((error) => {
-          console.error("Error fetching news data:", error);
-        });
->>>>>>> bfa75f18a76a2c84977a6fc26ae546e4c735d6a4
     }
 
     try {
@@ -205,7 +185,6 @@ export default function NewsAdmin() {
                       }}
                       onClick={() => handleEditClick(news)}
                     >
-<<<<<<< HEAD
                       ویرایش
                     </Button>
                     <Button
@@ -223,45 +202,6 @@ export default function NewsAdmin() {
                     </Button>
                   </Box>
                 </Box>
-=======
-                      <Typography variant="h6" sx={{ marginBottom: 1 }}>
-                        {news.keyword}
-                      </Typography>
-                      <Typography variant="body1">
-                    {news.technical}
-                      </Typography>
-
-                      <Typography variant="body2" sx={{ marginTop: 2, color: '#777' }}>
-                        تاریخ انتشار: {news.which}
-                      </Typography>
-                      <Box sx={{ marginTop: 2, display: 'flex', gap: 1 }}>
-                        <Button onClick={() => handleEditNews(news)}>
-                          <img 
-              src="/Assests/Admin/News/edite.jpg" 
-              alt="ویرایش خبر" 
-                            style={{
-                              width: '40px',
-                              height: '40px', 
-                              cursor: 'pointer'
-                            }}
-                          />
-                        </Button>
-                        <Button onClick={() => handleDeleteNews(news.id)}>
-                          <img 
-                            src="/Assests/Admin/News/delete.jpg" 
-                            alt="حذف خبر" 
-                            style={{
-                              width: '40px',
-                              height: '40px', 
-                              cursor: 'pointer'
-                            }}
-                          />
-                        </Button>
-                      </Box>
-                    </Box>
-                  </Grid>
-                </Grid>
->>>>>>> bfa75f18a76a2c84977a6fc26ae546e4c735d6a4
               </Card>
             </Grid>
           ))

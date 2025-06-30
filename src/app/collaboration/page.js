@@ -1,4 +1,4 @@
-import Collaborate from "a/components/Collaborate/Collaborate";
+import Collaborate from "../..//components/Collaborate/Collaborate";
 import { Suspense } from 'react';
 
 export default function Collaboration() {

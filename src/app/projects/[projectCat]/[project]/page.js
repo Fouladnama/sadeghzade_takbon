@@ -25,10 +25,9 @@ import {
     TabContent,
     ProjectTitle,
     Pics,
-    Pic
 } from './ProjectDetailStyle.js';
 
-const ProjectDetail = ({details, detailsEN}) => {
+const ProjectDetail = ({}) => {
     const [selectedTab, setSelectedTab] = useState(0);  // 0: title, 1: problem detail, 2: project detail, 3: goals, 4: tools
     const searchParams = useSearchParams();
     const current_path = usePathname();

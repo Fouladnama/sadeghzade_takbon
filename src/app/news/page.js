@@ -1,4 +1,4 @@
-import News from "a/components/News/News";
+import News from "../../components/News/News";
 import { Suspense } from 'react';
 
 export default function news() {

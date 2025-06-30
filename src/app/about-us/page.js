@@ -1,4 +1,4 @@
-import AboutUs from "a/components/AboutUs/AboutUs";
+import AboutUs from "../../components/AboutUs/AboutUs";
 import { Suspense } from 'react';
 
 export default function aboutus() {

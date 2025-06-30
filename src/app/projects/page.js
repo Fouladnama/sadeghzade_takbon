@@ -15,7 +15,6 @@ import {
   Content,
   RightDiv,
   Container,
-  Image,
   RightText,
   LeftText
 } from "./ProjectsStyle.js";
