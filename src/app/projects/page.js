@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { usePathname, useSearchParams } from 'next/navigation';
 import axios from "axios";
 import Link from 'next/link.js';
 import Navbar from "../Navbar/Navbar.js";
@@ -18,25 +17,24 @@ import {
   RightText,
   LeftText
 } from "./ProjectsStyle.js";
-const Project = () => {
-  const current_path = usePathname();
-  const searchParams = useSearchParams();
-  const [language, setLanguage] = useState(null);
-  const [isClient, setIsClient] = useState(false);
+const Project = ({searchParams }) => {
+   const [language, setLanguage] = useState(null);
   const [ProjectsData, setProjectsData] = useState([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true); // مهم!
   }, []);
 
-  useEffect(() => {
-    const lang = searchParams.get("lang");
+    useEffect(() => {
+    const lang = searchParams?.lang;
     if (lang === "fa" || lang === "en") {
       setLanguage(lang);
     } else {
-      window.location.href = current_path + "/" + `?lang=fa`;
+      // اگر در SSR بخواهی ری‌دایرکت کنی باید از notFound یا redirect استفاده کنی
+      window.location.href = `/projects?lang=fa`;
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (isClient) {
