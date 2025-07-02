@@ -185,7 +185,7 @@ return (
           columns={columns}
           onClose={() => setShowAddForm(false)}
           onAdd={fetchData}
-              open={showAddForm}  // این خط اضافه شود
+              open={showAddForm}  
 
         />
       )}
@@ -210,7 +210,6 @@ return (
       </Stack>
     </Box>
 
-    {/* ✅ Modal ویرایش */}
     <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)} maxWidth="md" fullWidth>
       <DialogTitle>ویرایش </DialogTitle>
       <DialogContent dividers>

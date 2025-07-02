@@ -10,6 +10,8 @@ const SIDEBAR_LINKS = [
   { label: "انواع پروژه‌ها", href: "/Admin/ProjectsAdmin", icon: "📁" },
   { label: "ابزار ها", href: "/Admin/ProjectsAdmin/EquipmentAdmin", icon: "📁" },
   { label: "رزومه‌ها", href: "/Admin/resumes", icon: "📄" },
+    { label: "اخبار", href: "/Admin/NewsAdmin", icon: "📄" },
+
 ];
 
 export default function AdminSidebar({ isOpen, onClose }) {

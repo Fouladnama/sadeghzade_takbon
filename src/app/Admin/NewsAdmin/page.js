@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ApiConfig from "../../../Api";
 import {
   Box,
@@ -9,11 +9,8 @@ import {
   Card,
   CardMedia,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   TextField,
+  LinearProgress,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,94 +23,126 @@ import "react-quill/dist/quill.snow.css";
 
 export default function NewsAdmin() {
   const [newsData, setNewsData] = useState([]);
-  const [openForm, setOpenForm] = useState(false);
-  const [editingNews, setEditingNews] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editingRow, setEditingRow] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [newImageFile, setNewImageFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isAdding, setIsAdding] = useState(false);
+
+  const uploadSound = useRef(null);
+  const addSound = useRef(null);
 
   useEffect(() => {
     fetchNews();
   }, []);
 
   const fetchNews = () => {
-    ApiConfig.get("https://takbon.biz:3402/news?page=1&size=6")
-      .then((res) => {
-        setNewsData(res.data.value);
-      })
+    ApiConfig.get("https://takbon.biz:3402/news?page=1&size=20")
+      .then((res) => setNewsData(res.data.value))
       .catch(() => toast.error("خطا در دریافت اخبار"));
   };
 
-  const handleAddClick = () => {
-    setEditingNews(null);
-    setTitle("");
-    setContent("");
-    setImageFile(null);
-    setImagePreview(null);
-    setOpenForm(true);
+  const handleUploadImage = async () => {
+    if (!newImageFile) return "";
+    if (newImageFile.size > 1024 * 1024) {
+      toast.error("حجم تصویر باید کمتر از 1 مگابایت باشد");
+      return "";
+    }
+
+    const formData = new FormData();
+    formData.append("file", newImageFile);
+
+    try {
+      const uploadRes = await ApiConfig.post(
+        "https://takbon.biz:3402/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          },
+        }
+      );
+
+      toast.success("تصویر با موفقیت آپلود شد");
+      uploadSound.current?.play();
+      return uploadRes.data.path;
+    } catch (err) {
+      toast.error("خطا در آپلود تصویر");
+      return "";
+    }
   };
 
-  const handleEditClick = (news) => {
-    setEditingNews(news);
-    setTitle(news.keyword);
-    setContent(news.technical);
-    setImagePreview(`https://takbon.biz/${news.image}`);
-    setOpenForm(true);
-  };
-
-  const handleDelete = (id) => {
-    ApiConfig.get(`https://takbon.biz:3402/removenews?id=${id}`)
-      .then(() => {
-        toast.success("خبر با موفقیت حذف شد");
-        fetchNews();
-      })
-      .catch(() => toast.error("خطا در حذف خبر"));
-  };
-
-  const handleSubmit = async () => {
+  const handleSave = async () => {
     if (!title || !content) {
-      toast.error("لطفا عنوان و محتوا را وارد کنید");
+      toast.error("لطفا عنوان و محتوای خبر را وارد کنید");
       return;
     }
 
     try {
-      let imageUrl = editingNews?.image || "";
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("file", imageFile);
+      let imageUrl = imagePreview?.replace("https://takbon.biz/", "") || "";
 
-        const uploadRes = await ApiConfig.post(
-          "https://takbon.biz:3402/upload",
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
-
-        imageUrl = uploadRes.data.path;
+      if (newImageFile) {
+        const uploadedPath = await handleUploadImage();
+        if (!uploadedPath) return;
+        imageUrl = uploadedPath;
       }
 
       const dataToSend = {
-        id: editingNews ? editingNews.id : undefined,
-        keyword: title,
-        technical: content,
+        id: editingRow ?? 0,
+        title: title,
+        content: content,
         image: imageUrl,
         which: new Date().toISOString(),
       };
 
-      await ApiConfig.post("https://takbon.biz:3402/addnews", dataToSend);
-
-      toast.success(editingNews ? "خبر ویرایش شد" : "خبر اضافه شد");
-      setOpenForm(false);
+      await ApiConfig.post("https://takbon.biz:3402/news", dataToSend);
+      toast.success(editingRow ? "خبر با موفقیت ویرایش شد" : "خبر جدید اضافه شد");
+      addSound.current?.play();
+      clearForm();
       fetchNews();
     } catch (err) {
-      console.error(err);
       toast.error("خطا در ذخیره خبر");
     }
   };
 
+  const clearForm = () => {
+    setEditingRow(null);
+    setIsAdding(false);
+    setTitle("");
+    setContent("");
+    setImagePreview(null);
+    setNewImageFile(null);
+    setUploadProgress(0);
+  };
+
+  const handleDelete = async (_id, content) => {
+    if (!window.confirm(`آیا از حذف خبر "${content}" مطمئن هستید؟`)) return;
+    try {
+      await ApiConfig.delete(`https://takbon.biz:3402/news?id=${_id}`);
+      toast.success("خبر با موفقیت حذف شد");
+      fetchNews();
+    } catch {
+      toast.error("خطا در حذف خبر");
+    }
+  };
+
+  const filteredNews = newsData.filter((news) =>
+    (news?.content ?? "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Box sx={{ background: "#F6F0FA", p: { xs: 2, md: 4 }, minHeight: "100vh" }}>
       <Toaster />
+      <audio ref={uploadSound} src="/upload-success.mp3" preload="auto" />
+      <audio ref={addSound} src="/add-success.mp3" preload="auto" />
+
       <Typography
         variant="h4"
         align="center"
@@ -122,159 +151,169 @@ export default function NewsAdmin() {
         مدیریت اخبار
       </Typography>
 
-      <Box display="flex" justifyContent="center" mb={3}>
+      <Box display="flex" justifyContent="center" mb={2} gap={1}>
+        <TextField
+          label="جستجوی عنوان خبر"
+          variant="outlined"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ width: "250px", backgroundColor: "#fff", borderRadius: "8px" }}
+        />
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{
-            backgroundColor: "#B497BD",
-            borderRadius: "50px",
-            px: 4,
-            py: 1.5,
-            fontWeight: "bold",
-            ":hover": { backgroundColor: "#9B72AA" },
+          onClick={() => {
+            clearForm();
+            setIsAdding(true);
           }}
-          onClick={handleAddClick}
+          sx={{ backgroundColor: "#B497BD", ":hover": { backgroundColor: "#9B72AA" } }}
         >
           افزودن خبر جدید
         </Button>
       </Box>
 
-      <Grid container spacing={3}>
-        {newsData.length > 0 ? (
-          newsData.map((news) => (
-            <Grid item xs={12} md={6} lg={4} key={news.id}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  borderRadius: "20px",
-                  overflow: "hidden",
-                  transition: "transform 0.3s",
-                  boxShadow: "0 8px 24px rgba(155, 114, 170, 0.15)",
-                  ":hover": { transform: "translateY(-6px)" },
-                  backgroundColor: "#FFFFFF",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={`https://takbon.biz/${news.image}`}
-                  alt={news.keyword}
-                  sx={{ height: 200, objectFit: "cover" }}
-                />
-                <Box p={2} flex={1} display="flex" flexDirection="column">
-                  <Typography variant="h6" sx={{ mb: 1, color: "#6D4C90" }}>
-                    {news.keyword}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "#7E669A", flexGrow: 1 }}
-                  >
-                    {news.technical?.slice(0, 100)}...
-                  </Typography>
-                  <Box mt={2} display="flex" justifyContent="space-between">
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      startIcon={<EditIcon />}
-                      sx={{
-                        borderColor: "#B497BD",
-                        color: "#9B72AA",
-                        ":hover": { backgroundColor: "#F3EAF7" },
-                      }}
-                      onClick={() => handleEditClick(news)}
-                    >
-                      ویرایش
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      startIcon={<DeleteIcon />}
-                      sx={{
-                        borderColor: "#D199A0",
-                        color: "#D47F8D",
-                        ":hover": { backgroundColor: "#FDE7EA" },
-                      }}
-                      onClick={() => handleDelete(news.id)}
-                    >
-                      حذف
-                    </Button>
-                  </Box>
-                </Box>
-              </Card>
-            </Grid>
-          ))
-        ) : (
-          <Typography align="center" color="#7E669A">خبری یافت نشد.</Typography>
-        )}
-      </Grid>
-
-      <Dialog open={openForm} onClose={() => setOpenForm(false)} maxWidth="md" fullWidth>
-        <DialogTitle sx={{ color: "#9B72AA", fontWeight: "bold" }}>
-          {editingNews ? "ویرایش خبر" : "افزودن خبر جدید"}
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            label="عنوان خبر"
-            fullWidth
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            sx={{ mt: 2 }}
-          />
-          <Typography sx={{ mt: 2, mb: 1 }}>متن خبر:</Typography>
-          <ReactQuill
-            value={content}
-            onChange={setContent}
-            style={{ background: "#fff" }}
-          />
+      {(isAdding || editingRow !== null) && (
+        <Card sx={{ p: 2, mb: 3, borderRadius: "16px", backgroundColor: "#fff" }}>
+          {imagePreview && (
+            <CardMedia
+              component="img"
+              image={imagePreview}
+              alt="پیش‌نمایش تصویر"
+              sx={{ height: 200, objectFit: "cover", mb: 1 }}
+            />
+          )}
           <Button
-            component="label"
             variant="outlined"
+            component="label"
+            fullWidth
             sx={{
-              mt: 2,
-              borderColor: "#B497BD",
               color: "#9B72AA",
+              borderColor: "#B497BD",
               ":hover": { backgroundColor: "#F3EAF7" },
+              mb: 1,
             }}
           >
-            آپلود تصویر
+            انتخاب تصویر
             <input
               type="file"
               hidden
               accept="image/*"
               onChange={(e) => {
-                setImageFile(e.target.files[0]);
-                setImagePreview(URL.createObjectURL(e.target.files[0]));
+                const file = e.target.files[0];
+                if (file) {
+                  setNewImageFile(file);
+                  setImagePreview(URL.createObjectURL(file));
+                }
               }}
             />
           </Button>
-          {imagePreview && (
-            <Box mt={2}>
-              <img
-                src={imagePreview}
-                alt="پیش‌نمایش"
-                style={{ maxWidth: "100%", borderRadius: "12px" }}
-              />
+
+          {uploadProgress > 0 && uploadProgress < 100 && (
+            <Box sx={{ width: "100%", mb: 1 }}>
+              <LinearProgress variant="determinate" value={uploadProgress} />
+              <Typography variant="caption" display="block" align="center">
+                {uploadProgress}%
+              </Typography>
             </Box>
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenForm(false)} sx={{ color: "#D47F8D" }}>
-            انصراف
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleSubmit}
-            sx={{
-              backgroundColor: "#B497BD",
-              ":hover": { backgroundColor: "#9B72AA" },
-            }}
-          >
-            ذخیره
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+          <TextField
+            fullWidth
+            label="عنوان خبر"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{ mb: 1 }}
+          />
+
+          <ReactQuill
+            value={content}
+            onChange={setContent}
+            style={{ height: "200px", marginBottom: "10px" }}
+          />
+
+          <Box display="flex" gap={1}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#B497BD", ":hover": { backgroundColor: "#9B72AA" } }}
+              onClick={handleSave}
+            >
+              {editingRow ? "ذخیره تغییرات" : "افزودن خبر"}
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                color: "#9B72AA",
+                borderColor: "#B497BD",
+                ":hover": { backgroundColor: "#F3EAF7" },
+              }}
+              onClick={clearForm}
+            >
+              لغو
+            </Button>
+          </Box>
+        </Card>
+      )}
+
+      <Grid container spacing={2}>
+        {filteredNews.map((news) => (
+          <Grid item xs={12} sm={6} md={4} key={news.id}>
+            <Card
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                borderRadius: "16px",
+                overflow: "hidden",
+                backgroundColor: "#FFFFFF",
+                boxShadow: "0 8px 24px rgba(155, 114, 170, 0.1)",
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={`https://takbon.biz/${news.image}`}
+                alt={news.title}
+                sx={{ height: 200, objectFit: "cover" }}
+              />
+              <Box sx={{ p: 2, flexGrow: 1 }}>
+                <Typography variant="h6" sx={{ color: "#6D4C90" }}>
+                  {news.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#7E669A" }}
+                  dangerouslySetInnerHTML={{ __html: news.content }}
+                />
+              </Box>
+              <Box display="flex" justifyContent="space-between" p={1}>
+                <Button
+                  size="small"
+                  startIcon={<EditIcon />}
+                  onClick={() => {
+                    setEditingRow(news.id);
+                    setTitle(news.title);
+                    setContent(news.content);
+                    setImagePreview(`https://takbon.biz/${news.image}`);
+                    setIsAdding(true);
+                  }}
+                  sx={{ color: "#9B72AA", borderColor: "#B497BD" }}
+                  variant="outlined"
+                >
+                  ویرایش
+                </Button>
+                <Button
+                  size="small"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleDelete(news.id, news.title)}
+                  sx={{ color: "#D47F8D", borderColor: "#D199A0" }}
+                  variant="outlined"
+                >
+                  حذف
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 }
