@@ -23,18 +23,20 @@ const Project = ({searchParams }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // مهم!
-  }, []);
+  axios
+    .get("https://takbon.biz:3402/get_projects")
+    .then((response) => {
+      const validatedData = response.data.value.map((Projects) => ({
+        ...Projects,
+        content: Projects.content || "",
+      }));
+      setProjectsData(validatedData);
+    })
+    .catch((error) => {
+      console.error("Error fetching Projects data:", error);
+    });
+}, []);
 
-    useEffect(() => {
-    const lang = searchParams?.lang;
-    if (lang === "fa" || lang === "en") {
-      setLanguage(lang);
-    } else {
-      // اگر در SSR بخواهی ری‌دایرکت کنی باید از notFound یا redirect استفاده کنی
-      window.location.href = `/projects?lang=fa`;
-    }
-  }, [searchParams]);
 
   useEffect(() => {
     if (isClient) {
