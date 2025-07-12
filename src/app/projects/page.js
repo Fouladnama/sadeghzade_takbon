@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from 'next/link.js';
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import contact from "../../../public/Assests/Projects/decision.jpg";
@@ -17,6 +17,8 @@ import {
   RightText,
   LeftText
 } from "./ProjectsStyle.js";
+import Image from 'next/image';
+
 const Project = ({searchParams }) => {
    const [language, setLanguage] = useState(null);
   const [ProjectsData, setProjectsData] = useState([]);
@@ -108,7 +110,7 @@ return (
     zIndex: 1
   }}
 >
-                              <img
+                              <Image 
                                 src={imageUrl}
                                 alt={language === 'en' ? item.en_name : item.fa_name}
                                 style={{
@@ -156,7 +158,7 @@ return (
     zIndex: 1
   }}
 >
-                              <img
+                              <Image 
                                 src={imageUrl}
                                 alt={language === 'en' ? item.en_name : item.fa_name}
                                 style={{

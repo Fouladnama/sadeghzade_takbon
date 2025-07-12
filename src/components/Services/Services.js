@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 import LazyLoad, { lazyload } from 'react-lazyload';
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../../app/Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import background from "../../../public/Assests/Services/background.jpg";
@@ -39,7 +39,7 @@ const Services = () => {
         else {
             window.location.href = '/services?lang=fa';
         }
-    }, []);
+    }, [searchParams]);
 
     const handleTabClick = (index) => {
         setSelectedTab(index);

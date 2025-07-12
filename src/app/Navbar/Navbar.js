@@ -27,7 +27,7 @@ const Navbar = () => {
 
     useEffect(() => {
         setLanguage(searchParams.get("lang"));
-    }, []);
+    }, [searchParams]);
 
     const handleShowPhoneNav = () => {
         setShowPhoneNav(!showPhoneNav);
@@ -61,22 +61,25 @@ const Navbar = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+useEffect(() => {
+    const handleScrollTop = () => {
+        const scrollPosition = window.scrollY;
 
-    useEffect(() => {
-        const handleScrollTop = () => {
-            const scrollPosition = window.scrollY;
-        
-            if (scrollPosition === 0 && isNavbarFixed) {
-                setIsNavbarFixed(false);
+        setIsNavbarFixed(prev => {
+            if (scrollPosition === 0 && prev) {
+                return false;
             }
-        };
-    
-        window.addEventListener('scroll', handleScrollTop);
-    
-        return () => {
-            window.removeEventListener('scroll', handleScrollTop);
-        };
-    }, [isNavbarFixed]);
+            return prev;
+        });
+    };
+
+    window.addEventListener('scroll', handleScrollTop);
+
+    return () => {
+        window.removeEventListener('scroll', handleScrollTop);
+    };
+}, []); // خالی بگذارید! نباید isNavbarFixed اینجا باشد
+
 
     return (
         <>

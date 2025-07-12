@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import axios from 'axios';
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../../app/Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import wallpaper from "../../../public/Assests/Collaborate/wallpaper.jpg";
@@ -48,7 +48,7 @@ const Collaborate = () => {
         else {
             window.location.href = '/collaboration?lang=fa';
         }
-    }, []);
+    }, [searchParams]);
 
     // toastify:
     const notifyError = (msg, options) => toast.error(msg, options);
@@ -523,7 +523,7 @@ const Collaborate = () => {
         }
 
         upload();
-    }, [resumeFile])
+}, [resumeFile, language]); // ✅ اصلاح شده
 
     const handleSubmit = async () => {
         if ((genderStatus?.label == "مرد" || genderStatus?.label == "male") && (militaryStatus?.label == "" || militaryStatus == null)) {

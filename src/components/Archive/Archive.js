@@ -4,7 +4,7 @@ import {useRouter, useSearchParams} from 'next/navigation';
 import {Circles} from 'react-loader-spinner';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../../app/Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import calendarIcon from "../../../public/Assests/Landing/calendar.svg";
@@ -38,7 +38,7 @@ const Archive = () => {
         else if (typeof window !== "undefined") {
             window.location.href = '/news-archive?lang=fa';
         }
-    }, []);
+    }, [searchParams]);
 
     // pagination
     const [itemOffset, setItemOffset] = useState(0);
@@ -54,11 +54,11 @@ const Archive = () => {
         setPageisChanging(false);
     };
 
-    useEffect(() => {
-        if (!pageisChanging) {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-    }, [itemOffset]);
+useEffect(() => {
+    if (!pageisChanging) {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+}, [itemOffset, pageisChanging]);
 
     useEffect(() => {
         axios.get('https://takbon.biz:3402/news?page=1&size=3')

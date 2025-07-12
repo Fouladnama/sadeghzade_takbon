@@ -17,6 +17,7 @@ import {
   Title,
   ShowMore
 } from "./Project_CatStyle";
+import Image from 'next/image';
 
 const Project_titles = () => {
   const current_path = usePathname();
@@ -85,7 +86,7 @@ const Project_titles = () => {
               return (
                 
                 <ProjectMajor key={item._id}>
-                 <img 
+                 <Image  
   src={imageUrl} 
   alt={tilte}
   onError={(e) => {

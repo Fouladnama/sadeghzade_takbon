@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
+import Image from 'next/image';
 
 export default function ImageGalleryModal({ images, initialIndex = 0, onClose }) {
   if (!images || !Array.isArray(images) || images.length === 0) {
@@ -42,7 +43,7 @@ export default function ImageGalleryModal({ images, initialIndex = 0, onClose })
         </button>
 
         {/* عکس */}
-        <img
+        <Image 
           src={images[currentIndex]}
           alt={`gallery-${currentIndex}`}
           className="max-h-[80vh] max-w-full rounded shadow-lg object-contain"

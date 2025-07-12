@@ -110,7 +110,7 @@ The main activities of this company are focused on the design and development of
 
     useEffect(() => {
         setLanguage(searchParams.get("lang"));
-    }, []);
+    }, [searchParams]);
 
     return (
         <>

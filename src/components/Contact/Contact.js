@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../app/Navbar/Navbar.js";
 import Footer from "../Footer/Footer";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import contact from "../../../public/Assests/Contact/contact.jpg";
@@ -29,6 +29,7 @@ import {
     Location,
     MapSelect
 } from "./ContactStyle.js";
+import Image from 'next/image';
 
 const Contact = () => {
     const searchParams = useSearchParams();
@@ -41,7 +42,7 @@ const Contact = () => {
         else {
             window.location.href = '/contact-us?lang=fa';
         }
-    }, []);
+    }, [searchParams]);
 
     return (
         <>
@@ -72,7 +73,7 @@ const Contact = () => {
                                 </CommunicationLinks>
                             </Info>
                             <Pic>
-                                <img src={building.src} alt={"building"} />
+                                <Image src={building.src} alt={"building"} />
                             </Pic>
                             <Location selected={selectedMap} >
                                 <MapSelect>
@@ -120,7 +121,7 @@ const Contact = () => {
                                 </CommunicationLinks>
                             </Info>
                             <Pic>
-                                <img src={building.src} alt={"building"} />
+                                <Image src={building.src} alt={"building"} />
                             </Pic>
                             <Location selected={selectedMap} >
                                 <MapSelect>

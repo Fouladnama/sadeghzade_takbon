@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 import Link from "next/link.js";
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../../app/Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import building from "../../../public/Assests/Contact/building.jpeg";
@@ -21,6 +21,8 @@ import {
     Decision,
     Staff
 } from "./AboutUsStyle.js";
+import Image from 'next/image';
+
 const AboutUs = () => {
     const searchParams = useSearchParams();
     const [language, setLanguage] = useState(null);
@@ -31,7 +33,7 @@ const AboutUs = () => {
         else {
             window.location.href = '/about-us?lang=fa';
         }
-    }, []);
+    }, [searchParams]);
 
     return (
         <>
@@ -69,7 +71,7 @@ const AboutUs = () => {
                             </RightDiv>
                             <LeftDiv>
                                 <Pic>
-                                    <img src={building.src} alt={"building"} />
+                                    <Image  src={building.src} alt={"building"} />
                                 </Pic>
                                 <Decision>
                                     <div className="title">سیستم های پشتیبان تصمیم</div>
@@ -125,7 +127,7 @@ const AboutUs = () => {
                             </RightDiv>
                             <LeftDiv>
                                 <Pic>
-                                    <img src={building.src} alt={"building"} />
+                                    <Image  src={building.src} alt={"building"} />
                                 </Pic>
                                 <Decision>
                                     <div className="title">Decision Support Systems</div>

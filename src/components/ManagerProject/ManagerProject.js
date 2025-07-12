@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import AddComponent from "./AddComponent";
 import {
@@ -20,6 +20,7 @@ import { Edit, Delete, Save, Close } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import Image from 'next/image';
 
 const ManagerProject = ({ url, columns, title }) => {
   const [data, setData] = useState([]);
@@ -29,7 +30,7 @@ const ManagerProject = ({ url, columns, title }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
 const [editModalOpen, setEditModalOpen] = useState(false);
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     axios.get(url)
       .then(res => {
         if (res.data && Array.isArray(res.data.value)) {
@@ -43,7 +44,11 @@ const [editModalOpen, setEditModalOpen] = useState(false);
         console.error("خطا در دریافت API:", err);
         toast.error("خطا در دریافت داده از سرور");
       });
-  };
+}, [url]);
+
+useEffect(() => {
+    fetchData();
+}, [fetchData]);
 
   const handleEditClick = (id, row) => {
     setEditingId(id);
@@ -148,7 +153,7 @@ const handleDelete = id => {
       if (row[col.field]) {
         const src = `https://takbon.biz/images/${row[col.field]}`;
         return (
-          <img
+          <Image 
             src={src}
             alt={col.field}
             style={{
@@ -168,9 +173,7 @@ const handleDelete = id => {
   };
  
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+
 
 
 return (
@@ -229,7 +232,7 @@ return (
                 )}
                 {editValues[col.field] && (
                   <Box mt={1}>
-                    <img
+                    <Image 
                       src={`https://takbon.biz/images/${editValues[col.field]}`}
                       alt="preview"
                       style={{
@@ -297,7 +300,7 @@ return (
           const opt = col.options.find(o => o.code === value);
           if (!opt) return null;
           return (
-            <img
+            <Image 
               key={value}
               src={`https://takbon.biz/images/${opt.name}`}
               alt={opt.name}
@@ -318,7 +321,7 @@ return (
     {col.options.map(opt => (
       <MenuItem key={opt.code} value={opt.code}>
         <Checkbox checked={editValues[col.field]?.includes(opt.code)} />
-        <img
+        <Image ش
           src={`https://takbon.biz/images/${opt.name}`}
           alt={opt.name}
           style={{

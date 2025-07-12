@@ -8,7 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import axios from 'axios';
 import Footer from "../Footer/Footer.js";
-import Navbar from "../Navbar/Navbar.js";
+import Navbar from "../../app/Navbar/Navbar.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import hero from "../../../public/Assests/Landing/hero_text.svg";
 import decision from "../../../public/Assests/Landing/arrow.jpg";
@@ -99,7 +99,7 @@ const LandingPage = () => {
             ...settings,
             slidesToShow: slidesToShow
         });
-    }, []);
+    }, [settings]);
     // news:
     const [sliderData, setSliderData] = useState(null);
     const [selectedNews, setSelectedNews] = useState(0);

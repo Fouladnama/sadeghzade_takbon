@@ -14,7 +14,6 @@
 /out/
 
 # productgit statusion
-/build
 /node_modules
 
 # misc

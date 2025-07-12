@@ -108,9 +108,10 @@ The main activities of this company are focused on the design and development of
             window.location.replace(`${pathname}?lang=${language == "fa" ? "en" : "fa"}`);
     };
 
-    useEffect(() => {
-        setLanguage(searchParams.get("lang"));
-    }, []);
+useEffect(() => {
+    setLanguage(searchParams.get("lang"));
+}, [searchParams]);
+
 
     return (
         <>

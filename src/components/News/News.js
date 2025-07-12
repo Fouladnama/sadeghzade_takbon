@@ -108,21 +108,23 @@ const News = () => {
             });
     }, []);
 
-    useEffect(() => {
-        setNewsIndex(JSON.parse(searchParams.get('data')));
+  useEffect(() => {
+    setNewsIndex(JSON.parse(searchParams.get('data')));
 
-        if (news != null && searchParams.get("data") >= news.length) {
-            window.location.href = `/news-archive?lang=${language}`;
-        }
-    }, [searchParams, news]);
+    if (news != null && searchParams.get("data") >= news.length) {
+        window.location.href = `/news-archive?lang=${language}`;
+    }
+}, [searchParams, news, language]);
 
-    useEffect(() => {
-        if (searchParams.get("lang") == "fa" || searchParams.get("lang") == "en")
-            setLanguage(searchParams.get("lang"));
-        else if (typeof window !== "undefined") {
-            window.location.href = current_path + "/" + `?lang=fa` + "&data=" + searchParams.get('data');
-        }
-    }, []);
+
+   useEffect(() => {
+    if (searchParams.get("lang") == "fa" || searchParams.get("lang") == "en")
+        setLanguage(searchParams.get("lang"));
+    else if (typeof window !== "undefined") {
+        window.location.href = current_path + "/" + `?lang=fa` + "&data=" + searchParams.get('data');
+    }
+}, [searchParams, current_path]);
+
     
     const openLightbox = (index) => {
         setPhotoIndex(index);

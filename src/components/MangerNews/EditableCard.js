@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import DatePickerInput from "./DatePickerInput";
 // import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import Image from 'next/image';
 
 export default function EditableCard({ item, onCancel, onSave }) {
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -96,7 +97,7 @@ export default function EditableCard({ item, onCancel, onSave }) {
   return (
     <div className="flex flex-col gap-2">
       {editValues.image && (
-        <img
+        <Image 
           src={`https://takbon.biz/${editValues.image}`}
           alt={editValues.title}
           className="w-full h-32 object-cover rounded"
@@ -139,7 +140,7 @@ export default function EditableCard({ item, onCancel, onSave }) {
       <div className="gallery grid grid-cols-4 gap-2 mb-2">
         {gallery.map((imgSrc, idx) => (
           <div key={idx} className="relative group">
-            <img
+            <Image 
               src={`https://takbon.biz/${imgSrc}`}
               alt={`gallery-${idx}`}
               className="w-full h-20 object-cover rounded"

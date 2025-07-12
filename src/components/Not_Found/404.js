@@ -20,13 +20,13 @@ const NotFound = () => {
         window.location.replace(`${pathname}?lang=${language === "fa" ? "en" : "fa"}`);
     };
 
-    useEffect(() => {
-        if (searchParams.get("lang") === "fa" || searchParams.get("lang") === "en")
-            setLanguage(searchParams.get("lang"));
-        else {
-            setLanguage("fa");
-        }
-    }, []);
+   useEffect(() => {
+    if (searchParams.get("lang") === "fa" || searchParams.get("lang") === "en")
+        setLanguage(searchParams.get("lang"));
+    else {
+        setLanguage("fa");
+    }
+}, [searchParams]); 
 
     return (
         <>

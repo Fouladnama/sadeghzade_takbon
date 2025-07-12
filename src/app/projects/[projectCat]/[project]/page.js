@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useParams } from 'next/navigation';
-import Navbar from '../../../Navbar/Navbar.js';
+import Navbar from '../../../Navbar/Navbar';
 import Footer from '../../../Footer/Footer.js';
 import logoGif from "../../../../../public/Assests/Landing/takbon.gif";
 import wallpaper from "../../../../../public/Assests/Projects/project.jpg";
@@ -11,6 +11,7 @@ import projectDetailWallpaper from "../../../../../public/Assests/Projects/proje
 import goalsWallpaper from "../../../../../public/Assests/Projects/goals.png";
 import toolsWallpaper from "../../../../../public/Assests/Projects/tools.png";
 import axios from "axios";
+import Image from 'next/image';
 
 import {
     ProjectContainer,
@@ -182,7 +183,7 @@ useEffect(() => {
             // backgroundColor حذف شد
           }}
         >
-          <img
+          <Image 
             src={`https://takbon.biz/images/${imageName}`}
             onError={(e) => {
               e.target.onerror = null;

@@ -4,8 +4,8 @@ import ApiConfig from "../../../Api";
 import Addnews from "../../../components/MangerNews/Addnews";
 import EditableCard from "../../../components/MangerNews/EditableCard";
 import Swal from 'sweetalert2';
-import { Grid } from "react-loader-spinner";
 import ImageWithModal from "./ImageWithModal";
+import Image from 'next/image';
 
 export default function NewsAdmin() {
   const [news, setNews] = useState([]);
@@ -136,7 +136,7 @@ return (
         <p className="text-xs text-gray-500 mb-2">{item.publish}</p>
 
         {/* عکس اصلی با دابل کلیک */}
-        <img
+        <Image 
           src={`https://takbon.biz/${item.image}`}
           alt={item.title}
           className="w-full h-40 object-cover rounded-md mb-3 cursor-pointer"
@@ -152,7 +152,7 @@ return (
         {item.gallery && item.gallery.length > 0 && (
           <div className="grid grid-cols-3 gap-2 mb-3">
             {item.gallery.map((imgSrc, index) => (
-              <img
+              <Image 
                 key={index}
                 src={`https://takbon.biz/${imgSrc}`}
                 alt={`gallery-${index}`}

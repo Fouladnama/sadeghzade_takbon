@@ -27,7 +27,7 @@ const Navbar = () => {
 
     useEffect(() => {
         setLanguage(searchParams.get("lang"));
-    }, []);
+    }, [searchParams]);
 
     const handleShowPhoneNav = () => {
         setShowPhoneNav(!showPhoneNav);
@@ -60,7 +60,7 @@ const Navbar = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [isNavbarFixed]);
 
     useEffect(() => {
         const handleScrollTop = () => {

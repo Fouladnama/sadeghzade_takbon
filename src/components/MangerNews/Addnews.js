@@ -4,6 +4,7 @@ import ApiConfig from "../../Api";
 import DatePickerInput from "./DatePickerInput";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Image from 'next/image';
 
 export default function AddNews({ onTaskAdded }) {
   const [title, setTitle] = useState("");
@@ -139,7 +140,7 @@ const handleGalleryChange = async (e) => {
         <div className="text-sm text-gray-500">در حال آپلود: {uploadProgress}%</div>
       )}
       {image && (
-        <img
+        <Image 
           src={`https://takbon.biz/${image}`}
           alt="تصویر انتخابی"
           className="w-full h-40 object-cover rounded"
@@ -163,7 +164,7 @@ const handleGalleryChange = async (e) => {
 {gallery.length > 0 && (
   <div className="grid grid-cols-3 gap-2 mt-2 mb-2">
     {gallery.map((imgSrc, idx) => (
-      <img
+      <Image 
         key={idx}
         src={`https://takbon.biz/${imgSrc}`}
         alt={`gallery-preview-${idx}`}
