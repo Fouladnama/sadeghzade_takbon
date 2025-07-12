@@ -127,8 +127,8 @@ useEffect(() => {
 
             <TabContent>
   {selectedTab === 0 && (
-    <TabContentContainer adjust={language === 'fa'}>
-      <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 0}>
+    <TabContentContainer $adjust={language === 'fa'}>
+      <ProjectTitle $adjust={language === 'fa'} selected={selectedTab === 0}>
         {language === 'fa' ? "عنوان پروژه" : "Project Title"}
       </ProjectTitle>
       <h3>{language === 'fa' ? Project.tilte : Project.tilte_en}</h3>
@@ -136,8 +136,8 @@ useEffect(() => {
   )}
 
   {selectedTab === 1 && (
-    <TabContentContainer adjust={language === 'fa'}>
-      <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 1}>
+    <TabContentContainer $adjust={language === 'fa'}>
+      <ProjectTitle $adjust={language === 'fa'} selected={selectedTab === 1}>
         {language === 'fa' ? "شرح پروژه" : "Project Description"}
       </ProjectTitle>
       <h3>{language === 'fa' ? Project.explain : Project.explain_en}</h3>
@@ -145,8 +145,8 @@ useEffect(() => {
   )}
 
  {selectedTab === 2 && (
-  <TabContentContainer adjust={language === 'fa'}>
-    <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 2}>
+  <TabContentContainer $adjust={language === 'fa'}>
+    <ProjectTitle $adjust={language === 'fa'} selected={selectedTab === 2}>
       {language === 'fa' ? "اهداف پروژه" : "Project Objectives"}
     </ProjectTitle>
     <ul>
@@ -158,8 +158,8 @@ useEffect(() => {
 )}
 
 {selectedTab === 3 && (
-  <TabContentContainer adjust={language === 'fa'}>
-    <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 3}>
+  <TabContentContainer $adjust={language === 'fa'}>
+    <ProjectTitle $adjust={language === 'fa'} selected={selectedTab === 3}>
       {language === 'fa' ? "ابزارهای مورد استفاده" : "Used Tools"}
     </ProjectTitle>
 <Pics style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
@@ -183,20 +183,22 @@ useEffect(() => {
             // backgroundColor حذف شد
           }}
         >
-          <Image 
-            src={`https://takbon.biz/images/${imageName}`}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/fallback-image.jpg';
-            }}
-            alt={`Tool ${idx}`}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              display: 'block',
-            }}
-          />
+         <Image 
+  src={`https://takbon.biz/images/${imageName}`}
+  width={500}  // مقدار عددی مناسب برای width
+  height={300} // مقدار عددی مناسب برای height
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/fallback-image.jpg';
+  }}
+  alt={`Tool ${idx}`}
+  style={{
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    display: 'block',
+  }}
+/>
         </div>
       ) : (
         <div

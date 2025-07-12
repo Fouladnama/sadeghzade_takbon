@@ -42,8 +42,8 @@ const Contact = () => {
         else {
             window.location.href = '/contact-us?lang=fa';
         }
-    }, [searchParams]);
-
+    }, );
+ [searchParams, language]
     return (
         <>
             {
@@ -57,7 +57,7 @@ const Contact = () => {
                         <Content>
                             <Info>
                                 <CommunicationTitle>تماس  با ما:</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'} >
+                                <CommunicationBody $font={language == 'fa'} >
                                     <div>نشانی:</div>
                                     <p>اصفهان، خیابان سهروردی، ساختمان کاژه، طبقه سه، واحد B، شرکت تاک بن</p>
                                     <div>تلفن:</div>
@@ -73,7 +73,13 @@ const Contact = () => {
                                 </CommunicationLinks>
                             </Info>
                             <Pic>
-                                <Image src={building.src} alt={"building"} />
+<Image 
+  src={building.src} 
+  alt="building" 
+  width={500} // ✅ عرض مورد نیاز
+  height={300} // ✅ ارتفاع مورد نیاز
+  style={{ width: "100%", height: "auto" }} // اختیاری برای رسپانسیو
+/>
                             </Pic>
                             <Location selected={selectedMap} >
                                 <MapSelect>
@@ -105,7 +111,7 @@ const Contact = () => {
                         <Content>
                             <Info>
                                 <CommunicationTitle>Contact Us:</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'} >
+                                <CommunicationBody $font={language == 'fa'} >
                                     <div>Address:</div>
                                     <p>Isfahan, Sohrab Street, Kāže Building, 3rd Floor, Unit B, Takbon Company</p>
                                     <div>Phone:</div>

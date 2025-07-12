@@ -26,7 +26,7 @@ const NotFound = () => {
     else {
         setLanguage("fa");
     }
-}, [searchParams]); 
+},  [searchParams, language]); 
 
     return (
         <>

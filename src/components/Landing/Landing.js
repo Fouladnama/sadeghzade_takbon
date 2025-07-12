@@ -99,7 +99,7 @@ const LandingPage = () => {
             ...settings,
             slidesToShow: slidesToShow
         });
-    }, [settings]);
+    }, []);
     // news:
     const [sliderData, setSliderData] = useState(null);
     const [selectedNews, setSelectedNews] = useState(0);
@@ -185,7 +185,7 @@ const LandingPage = () => {
                 window.location.href = '/landing?lang=fa';
             }
         }
-    }, [searchParams]);
+    }, [searchParams, language]);
 
     // for decision image animation
     const [isIntersecting, setIsIntersecting] = useState(false);
@@ -357,7 +357,7 @@ const LandingPage = () => {
                                     </div>
                                 </Heading>
 
-                                <Typewriter letterSpace={language == 'fa'}>
+                                <Typewriter $letterSpace={language == 'fa'}>
                                     <TypeAnimation
                                         cursor={false}
                                         className="typewriter"
@@ -405,8 +405,14 @@ const LandingPage = () => {
                                                                 <NewsItem onClick={() => {
                                                                     router.push("/news" + "/" + `?lang=fa` + "&data=" + index)
                                                                 }} key={index}>
-                                                                    <Image src={'https://takbon.biz/' + slide.image}
-                                                                           alt={slide.title}/>
+                                                                   <Image
+  src={'https://takbon.biz/' + slide.image}
+  alt={slide.title}
+  width={1200}  // عرض واقعی یا حدودی
+  height={800}  // ارتفاع واقعی یا حدودی
+  style={{ width: "100%", height: "auto" }}
+/>
+
                                                                     <Text>
                                                                         <h3>{slide.title}</h3>
                                                                         <Date>
@@ -438,10 +444,10 @@ const LandingPage = () => {
                                     <Property className="graduation">
                                         <PropertyIcon image={graduation_cap}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 ارتباط با فضای آکادمیک
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 <div>استفاده از فارغ التحصیلان دانشگاه های معتبر کشور در مقاطع تحصیلات
                                                     تکمیلی
                                                 </div>
@@ -454,10 +460,10 @@ const LandingPage = () => {
                                     <Property className="rocket">
                                         <PropertyIcon image={rocket}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 فناوری های جدید
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 مجهز به آخرين روش ها، فناوری ها و بروز ترین ابزارهاي تصميم گيري
                                             </PropertyText>
                                         </PropertyTitleContainer>
@@ -465,10 +471,10 @@ const LandingPage = () => {
                                     <Property className="random">
                                         <PropertyIcon image={random}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 سامانه های پشتیبان تصمیم
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 طراحي و مدل سازي انواع سامانه هاي پشتيبان تصميم به ويژه سيستم هاي مورد
                                                 نياز در صنايع بزرگ
                                             </PropertyText>
@@ -483,15 +489,15 @@ const LandingPage = () => {
                                             <div>ویژگی های سیستم های پشتیبان تصمیم :</div>
                                         </DescriptionTitle>
                                         <DescriptionPart>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>يك سيستم بر پايه كامپيوتر است كه از تكنولوژي ها و متدولوژي هاي كامپيوتري استفاده مي كند.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>به تصميم گيري كمك مي كند ولي جايگزين فرد تصميم گير نمي شود.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>از پايگاه هاي داده، مدل هاي تحليلي و محاسباتي، سيستم هاي خبره و الگوريتم هاي بهينه يابي درحل مسائل استفاده مي كند.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>قابليت پشتيباني از تصميم گيري هاي فردي و گروهي را دارد.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>براي كليه سطوح مديريتي قابل استفاده است.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>دقت، سرعت و كيفيت تصميم گيري را بهبود مي بخشد.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>يك سيستم بر پايه كامپيوتر است كه از تكنولوژي ها و متدولوژي هاي كامپيوتري استفاده مي كند.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>به تصميم گيري كمك مي كند ولي جايگزين فرد تصميم گير نمي شود.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>از پايگاه هاي داده، مدل هاي تحليلي و محاسباتي، سيستم هاي خبره و الگوريتم هاي بهينه يابي درحل مسائل استفاده مي كند.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>قابليت پشتيباني از تصميم گيري هاي فردي و گروهي را دارد.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>براي كليه سطوح مديريتي قابل استفاده است.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>دقت، سرعت و كيفيت تصميم گيري را بهبود مي بخشد.</span></DescriptionItem>
                                         </DescriptionPart>
                                     </DescriptionText>
-                                    <DescriptionImage adjust={language == 'fa'} className="image"
+                                    <DescriptionImage $adjust={language == 'fa'} className="image"
                                                       image={descriptionImage}>
                                         <ImageText>
                                             <div>Enjoy your decisions</div>
@@ -508,24 +514,24 @@ const LandingPage = () => {
                                             <div>ویژگی های زنجیره تامین دیجیتال :</div>
                                         </ChainTitle>
                                         <ChainPart>
-                                            <ChainItem letterSpace={language == 'fa'}><span>ابزاری:</span> اطلاعات موجود
+                                            <ChainItem $letterSpace={language == 'fa'}><span>ابزاری:</span> اطلاعات موجود
                                                 در زنجیره تامین نسل بعدی به طور عمده توسط ماشین تولید می‌شوند، به عنوان
                                                 مثال توسط سنسورها، تگ‌های RFID، کنتورها و بسیاری دیگر.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>پیوستگی:</span> کل زنجیره
+                                            <ChainItem $letterSpace={language == 'fa'}><span>پیوستگی:</span> کل زنجیره
                                                 تامین، شامل نهادها و دارایی‌هایی کسب‌و‌کار، سیستمهای IT، محصولات و سایر
                                                 اشیا هوشمند همه در یک زنجیره تأمین هوشمند به هم متصل
                                                 شده‌اند.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>هوشمند:</span> زنجیره‌های
+                                            <ChainItem $letterSpace={language == 'fa'}><span>هوشمند:</span> زنجیره‌های
                                                 تامین هوشمند برای بهینه‌سازی عملکرد، تصمیمات بهینه در مقیاس بزرگ را
                                                 اتخاذ می‌کنند.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>اتوماسیون:</span> زنجیره‌های
+                                            <ChainItem $letterSpace={language == 'fa'}><span>اتوماسیون:</span> زنجیره‌های
                                                 تامین هوشمند با استفاده از ماشین‌آلات به عنوان جایگزین سایر منابع کم
                                                 بازده از جمله نیروی کار، بیشتر فرآیندهای خود را به صورت خودکار انجام
                                                 می‌دهند.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>یکپارچگی:</span> یکپارچگی
+                                            <ChainItem $letterSpace={language == 'fa'}><span>یکپارچگی:</span> یکپارچگی
                                                 فرآیندهای زنجیره تامین شامل همکاری در مراحل زنجیره تامین، تصمیم‌گیری‌های
                                                 مشترک، سیستم‌های مشترک و به اشتراک‌گذاری اطلاعات است.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>نوآورانی:</span> نوآوری
+                                            <ChainItem $letterSpace={language == 'fa'}><span>نوآورانی:</span> نوآوری
                                                 عبارت است از توسعه ارزش‌های جدید از طریق راه حل‌هایی که نیازهای جدید،
                                                 نیازهای بزرگ و یا حتی نیازهای موجود را از راه‌های بهتر تأمین
                                                 می‌کنند.</ChainItem>
@@ -567,7 +573,7 @@ const LandingPage = () => {
                                     </div>
                                 </Heading>
 
-                                <Typewriter letterSpace={language == 'fa'}>
+                                <Typewriter $letterSpace={language == 'fa'}>
                                     <TypeAnimation
                                         cursor={false}
                                         className="typewriter"
@@ -615,7 +621,11 @@ const LandingPage = () => {
                                                                 <NewsItem onClick={() => {
                                                                     router.push("/news" + "/" + `?lang=fa` + "&data=" + JSON.stringify(slide))
                                                                 }} key={index}>
-                                                                    <Image src={'https://takbon.biz/' + slide.image}
+                                                                    <Image 
+                                                                    width={width}
+    height={height}
+    style={{ width: "100%", height: "auto" }}
+                                                                    src={'https://takbon.biz/' + slide.image}
                                                                            alt={slide.title}/>
                                                                     <Text>
                                                                         <h3>{slide.title}</h3>
@@ -648,10 +658,10 @@ const LandingPage = () => {
                                     <Property className="graduation">
                                         <PropertyIcon image={graduation_cap}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 Engagement with Academic Community
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 <div>Utilizing graduates from reputable national universities for
                                                     postgraduate studies
                                                 </div>
@@ -664,10 +674,10 @@ const LandingPage = () => {
                                     <Property className="rocket">
                                         <PropertyIcon image={rocket}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 New Technologies
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 Equipped with the latest methods, technologies, and cutting-edge
                                                 decision-making tools
                                             </PropertyText>
@@ -676,10 +686,10 @@ const LandingPage = () => {
                                     <Property className="random">
                                         <PropertyIcon image={random}/>
                                         <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
+                                            <PropertyTitle $adjust={language == 'fa'}>
                                                 Decision Support Systems
                                             </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
+                                            <PropertyText $adjust={language == 'fa'}>
                                                 Designing and modeling various decision support systems, especially
                                                 systems required in major industries
                                             </PropertyText>
@@ -694,15 +704,15 @@ const LandingPage = () => {
                                             <div>Decision Support System Features :</div>
                                         </DescriptionTitle>
                                         <DescriptionPart>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>A computer-based system that utilizes computer technologies and methodologies.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It aids decision-making but does not replace the decision-maker.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It utilizes databases, analytical and computational models, expert systems, and optimization algorithms to solve problems.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It has the capability to support individual and group decision-making.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It is usable for all levels of management.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It improves the accuracy, speed, and quality of decision-making.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>A computer-based system that utilizes computer technologies and methodologies.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>It aids decision-making but does not replace the decision-maker.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>It utilizes databases, analytical and computational models, expert systems, and optimization algorithms to solve problems.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>It has the capability to support individual and group decision-making.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>It is usable for all levels of management.</span></DescriptionItem>
+                                            <DescriptionItem $letterSpace={language == 'fa'}><span>It improves the accuracy, speed, and quality of decision-making.</span></DescriptionItem>
                                         </DescriptionPart>
                                     </DescriptionText>
-                                    <DescriptionImage adjust={language == 'fa'} className="image"
+                                    <DescriptionImage $adjust={language == 'fa'} className="image"
                                                       image={descriptionImage}>
                                         <ImageText>
                                             <div>Enjoy your decisions</div>
@@ -719,29 +729,29 @@ const LandingPage = () => {
                                             <div>The features of digital supply chain :</div>
                                         </ChainTitle>
                                         <ChainPart>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Tools:</span> Information in
+                                            <ChainItem $letterSpace={language == 'fa'}><span>Tools:</span> Information in
                                                 the next-generation supply chain is primarily generated by machines, for
                                                 example, through sensors, RFID tags, counters, and many
                                                 others.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Continuity:</span> The
+                                            <ChainItem $letterSpace={language == 'fa'}><span>Continuity:</span> The
                                                 entire supply chain, including business entities, IT systems, products,
                                                 and other smart objects, is interconnected in an intelligent supply
                                                 chain.</ChainItem>
                                             <ChainItem
-                                                letterSpace={language == 'fa'}><span>intelligence:</span> Intelligent
+                                                $letterSpace={language == 'fa'}><span>intelligence:</span> Intelligent
                                                 supply chains adopt optimal decisions on a large scale to optimize
                                                 performance.</ChainItem>
                                             <ChainItem
-                                                letterSpace={language == 'fa'}><span>Automation:</span> Intelligent
+                                                $letterSpace={language == 'fa'}><span>Automation:</span> Intelligent
                                                 supply chains, using machines as substitutes for less efficient
                                                 resources such as labor, automate a majority of their
                                                 processes.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Integration:</span> The
+                                            <ChainItem $letterSpace={language == 'fa'}><span>Integration:</span> The
                                                 integration of supply chain processes includes collaboration in supply
                                                 chain stages, joint decision-making, shared systems, and information
                                                 sharing.</ChainItem>
                                             <ChainItem
-                                                letterSpace={language == 'fa'}><span>Innovation:</span> Innovation is
+                                                $letterSpace={language == 'fa'}><span>Innovation:</span> Innovation is
                                                 the development of new values through solutions that address new needs,
                                                 significant needs, or even existing needs in better ways.</ChainItem>
                                         </ChainPart>

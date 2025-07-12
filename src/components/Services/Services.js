@@ -39,7 +39,7 @@ const Services = () => {
         else {
             window.location.href = '/services?lang=fa';
         }
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     const handleTabClick = (index) => {
         setSelectedTab(index);
@@ -102,8 +102,8 @@ const Services = () => {
                             <TabContent>
                                 {
                                     selectedTab == 0 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 0} >عارضه یابی</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 0} >عارضه یابی</ProjectTitle>
                                         <ul>
                                             <li>عارضه یابی سازمانی</li>
                                             <li>عارضه یابی هزینه ای</li>
@@ -112,8 +112,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 1 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 1} >مدلسازی و بهینه سازی</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 1} >مدلسازی و بهینه سازی</ProjectTitle>
                                         <p>
                                             <span>برنامه ریزی و تخصیص</span>
                                             <ul className="normal">
@@ -127,8 +127,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 2 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 2} >تحلیل فرآیندها</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 2} >تحلیل فرآیندها</ProjectTitle>
                                         <p>
                                             فرایند مجموعه‌ای از وظایف مرتبط به هم است که ورودی‌ها را به یک خروجی معین تبدیل میکند.
                                         </p>
@@ -136,8 +136,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 3 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 3} >شبیه سازی</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 3} >شبیه سازی</ProjectTitle>
                                         <p>
                                             شبیه‌ سازی تقلید از عملکرد یک فرایند یا یک سیستم واقعی در طول زمان است.
                                         </p>
@@ -145,8 +145,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 4 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 4} >آموزش</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 4} >آموزش</ProjectTitle>
                                         <p>
                                             <ul className="normal">
                                                 <li>GAMS</li>
@@ -161,8 +161,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 5 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 5} >طراحی و استقرار سیستم های اطلاعاتی</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 5} >طراحی و استقرار سیستم های اطلاعاتی</ProjectTitle>
                                         <p>
                                             <span>طراحی و استقرار سیستم</span>
                                             <ul className="normal" >
@@ -176,8 +176,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 6 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 6} >تحلیل داده</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 6} >تحلیل داده</ProjectTitle>
                                         <p>
                                             فرآیند فهمیدن، پاک‌سازی، آماده‌سازی و تحلیل داده‌ها که به منظور استخراج اطلاعات سودمند برای تصمیم‌گیری انجام می‌شود.
                                         </p>
@@ -185,8 +185,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 7 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 7} >گزارشات هوش تجاری</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 7} >گزارشات هوش تجاری</ProjectTitle>
                                         <p>
                                             گزارشات مدیریتی هستند که داده‌ های خام و بدون معنا را به اطلاعاتی معنادار برای سود بخشیدن به امور تجاری، مالی و بازرگانی تبدیل می کنند.
                                         </p>
@@ -253,8 +253,8 @@ const Services = () => {
                             <TabContent>
                                 {
                                     selectedTab == 0 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 0} >Troubleshooting</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 0} >Troubleshooting</ProjectTitle>
                                         <ul>
                                             <li>Organizational troubleshooting</li>
                                             <li>Financial troubleshooting</li>
@@ -263,8 +263,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 1 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 1} >Modeling and Optimization</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 1} >Modeling and Optimization</ProjectTitle>
                                         <p>
                                             <span>Planning and allocation of</span>
                                             <ul className="normal">
@@ -278,8 +278,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 2 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 2} >Process Analysis</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 2} >Process Analysis</ProjectTitle>
                                         <p>
                                             A process is a set of related tasks that transforms inputs into a specific output.
                                         </p>
@@ -287,8 +287,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 3 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 3} >Simulation</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 3} >Simulation</ProjectTitle>
                                         <p>
                                             Simulation is the imitation of the operation or performance of a real-world process or system over time.
                                         </p>
@@ -296,8 +296,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 4 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 4} >Education</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 4} >Education</ProjectTitle>
                                         <p>
                                             <ul className="normal">
                                                 <li>GAMS</li>
@@ -312,8 +312,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 5 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 5} >Design and Implementation of Information Systems</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 5} >Design and Implementation of Information Systems</ProjectTitle>
                                         <p>
                                             System design and deployment
                                             <ul className="normal" >
@@ -326,8 +326,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 6 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 6} >Data Analysis</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 6} >Data Analysis</ProjectTitle>
                                         <p>
                                             The process of understanding, cleaning, preparing, and analyzing data that is done to extract useful information for decision-making.
                                         </p>
@@ -335,8 +335,8 @@ const Services = () => {
                                 }
                                 {
                                     selectedTab == 7 &&
-                                    <TabContentContainer adjust={language == 'fa'} >
-                                        <ProjectTitle adjust={language == 'fa'} selected={selectedTab == 7} >Business Intelligence Reports</ProjectTitle>
+                                    <TabContentContainer $adjust={language == 'fa'} >
+                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 7} >Business Intelligence Reports</ProjectTitle>
                                         <p>
                                             Management reports are those that transform raw and meaningless data into meaningful information to benefit business, financial, and commercial affairs.
                                         </p>

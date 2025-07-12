@@ -55,7 +55,10 @@ export default function AdminLoginPage() {
         transition={{ duration: 0.8 }}
         className="hidden md:flex md:w-1/2 items-center justify-center bg-[#0a4b78]"
       >
-        <Image src={wallpaper} alt="Admin Illustration" className="w-3/4 h-auto rounded-xl shadow-lg" />
+        <Image
+         src={wallpaper}
+          alt="Admin Illustration" 
+          className="w-3/4 h-auto rounded-xl shadow-lg" />
       </motion.div>
       <motion.div
         initial={{ x: 100, opacity: 0 }}

@@ -48,7 +48,7 @@ const Collaborate = () => {
         else {
             window.location.href = '/collaboration?lang=fa';
         }
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     // toastify:
     const notifyError = (msg, options) => toast.error(msg, options);
@@ -720,33 +720,33 @@ const Collaborate = () => {
                             <Logo href={`/landing?lang=${language}`} hover={logoGif} />
                         </Heading>
                         <Content>
-                            <Title adjust={language == 'fa'} >درخواست همکاری</Title>
+                            <Title $adjust={language == 'fa'} >درخواست همکاری</Title>
                             <Field>
-                                <FieldTitle adjust={language == 'fa'} >اطلاعات شخصی</FieldTitle>
+                                <FieldTitle $adjust={language == 'fa'} >اطلاعات شخصی</FieldTitle>
                                 <Form>
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="name" type="text" value={name} onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="name" type="text" value={name} onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             نام
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             نام خانوادگی<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             شماره تماس<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             رشته تحصیلی<span className="star" />
                                         </Label>
@@ -857,14 +857,14 @@ const Collaborate = () => {
                                     </InputContainer>
                                     
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             آخرین دانشگاه مقطع تحصیلی<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
+                                        <Textarea $font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
                                             return item.label == "سایر"
                                         }) > -1} placeholder="درصورت انتخاب سایر توضیحاتی در این قسمت درج کنید." />
                                         <Select
@@ -975,7 +975,7 @@ const Collaborate = () => {
                                         </Label>
                                     </InputContainer>
 
-                                    <InputContainerSpecial show={genderStatus?.label == "مرد"} >
+                                    <InputContainerSpecial $show={genderStatus?.label == "مرد"} >
                                         <Select
                                             defaultValue={militaryStatus}
                                             styles={{
@@ -1079,7 +1079,7 @@ const Collaborate = () => {
                                         </Label>
                                     </InputContainer>
 
-                                    <InputContainer adjust={language == 'fa'} >
+                                    <InputContainer $adjust={language == 'fa'} >
                                         <DatePicker
                                             round="x2"
                                             defaultValue={birthDate}
@@ -1095,7 +1095,7 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Address font={language == "fa"}  className="address" type="text" value={address} required onChange={(e) => {handleInput(e)}} />
+                                        <Address $font={language == "fa"}  className="address" type="text" value={address ?? ""} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             آدرس محل سکونت<span className="star" />
                                         </Label>
@@ -1106,17 +1106,17 @@ const Collaborate = () => {
                                             {
                                                 uploading ?
                                                 <ProgressBarContainer>
-                                                    <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
+                                                    <ProgressBar $adjust={language == 'fa'} width={progress.toFixed(1)} >
                                                         <p>{progress.toFixed(1)}%</p>
                                                     </ProgressBar>
                                                 </ProgressBarContainer>
                                                 :
                                                 <>
-                                                    <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
+                                                    <DropInput $adjust={language == 'fa'} className="resume" type="text" readOnly />
                                                     <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
                                                     <div {...getRootProps({className: 'dropzone'})} >
                                                         <input {...getInputProps()} />
-                                                        <Choose adjust={language == 'fa'} >انتخاب فایل</Choose>
+                                                        <Choose $adjust={language == 'fa'} >انتخاب فایل</Choose>
                                                     </div>
                                                 </>
                                             }
@@ -1127,7 +1127,7 @@ const Collaborate = () => {
                                     </InputContainer>
                                 </Form>
                             </Field>
-                            <SubmitButton onClick={handleSubmit} isSubmitting={isSubmitting} >
+                            <SubmitButton onClick={handleSubmit} $isSubmitting={isSubmitting} >
                                 {
                                     isSubmitting ?
                                     <div className={"spinner"}>
@@ -1163,33 +1163,33 @@ const Collaborate = () => {
                             <Logo href={`/landing?lang=${language}`} hover={logoGif} />
                         </Heading>
                         <Content>
-                            <Title adjust={language == 'fa'} >Collaboration Request</Title>
+                            <Title $adjust={language == 'fa'} >Collaboration Request</Title>
                             <Field>
-                                <FieldTitle adjust={language == 'fa'} >Personal Information</FieldTitle>
+                                <FieldTitle $adjust={language == 'fa'} >Personal Information</FieldTitle>
                                 <Form>
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="name" type="text" value={name} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="name" type="text" value={name} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             Name
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             Family Name<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             Phone Number<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             Field of Study<span className="star" />
                                         </Label>
@@ -1300,14 +1300,14 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
+                                        <Input $font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             The last academic institution<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
+                                        <Textarea $font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
                                             return item.label == "Other"
                                         }) > -1} placeholder={`If you choose the "Other" option, please provide additional information in this section.`} />
                                         <Select
@@ -1520,7 +1520,7 @@ const Collaborate = () => {
                                         </Label>
                                     </InputContainer>
 
-                                    <InputContainer adjust={language == 'fa'} >
+                                    <InputContainer $adjust={language == 'fa'} >
                                         <DatePicker
                                             round="x2"
                                             defaultValue={birthDate}
@@ -1537,7 +1537,7 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Address font={language == "fa"}  className="address" type="text" value={address} required onChange={(e) => {handleInput(e)}} />
+                                        <Address $font={language == "fa"}  className="address" type="text" value={address} required onChange={(e) => {handleInput(e)}} />
                                         <Label>
                                             Residential Address<span className="star" />
                                         </Label>
@@ -1548,17 +1548,17 @@ const Collaborate = () => {
                                             {
                                                 uploading ?
                                                 <ProgressBarContainer>
-                                                    <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
+                                                    <ProgressBar $adjust={language == 'fa'} width={progress.toFixed(1)} >
                                                         <p>{progress.toFixed(1)}%</p>
                                                     </ProgressBar>
                                                 </ProgressBarContainer>
                                                 :
                                                 <>
-                                                    <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
+                                                    <DropInput $adjust={language == 'fa'} className="resume" type="text" readOnly />
                                                     <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
                                                     <div {...getRootProps({className: 'dropzone'})} >
                                                         <input {...getInputProps()} />
-                                                        <Choose adjust={language == 'fa'} >Select File</Choose>
+                                                        <Choose $adjust={language == 'fa'} >Select File</Choose>
                                                     </div>
                                                 </>
                                             }

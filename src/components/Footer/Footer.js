@@ -110,7 +110,7 @@ The main activities of this company are focused on the design and development of
 
 useEffect(() => {
     setLanguage(searchParams.get("lang"));
-}, [searchParams]);
+},  [searchParams, language]);
 
 
     return (
@@ -134,7 +134,7 @@ useEffect(() => {
                                     {
                                         provideItem.map((item, index) => {
                                             return (
-                                                <ProvideItem letterSpace={language == 'fa'} key={index}>
+                                                <ProvideItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{item}</span>
                                                 </ProvideItem>
                                             )
@@ -150,7 +150,7 @@ useEffect(() => {
                                     {
                                         abilities.map((ability, index) => {
                                             return (
-                                                <AbilityItem letterSpace={language == 'fa'} key={index}>
+                                                <AbilityItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{ability}</span>
                                                 </AbilityItem>
                                             )
@@ -160,7 +160,7 @@ useEffect(() => {
                             </Ability>
                             <Communication>
                                 <CommunicationTitle>راه های ارتباطی</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'}>
+                                <CommunicationBody $font={language == 'fa'}>
                                     {
                                         communicationBody.map((item, index) => <span key={index}>{item}</span>)
                                     }
@@ -204,7 +204,7 @@ useEffect(() => {
                                     {
                                         provideItemEN.map((item, index) => {
                                             return (
-                                                <ProvideItem letterSpace={language == 'fa'} key={index}>
+                                                <ProvideItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{item}</span>
                                                 </ProvideItem>
                                             )
@@ -220,7 +220,7 @@ useEffect(() => {
                                     {
                                         abilitiesEN.map((ability, index) => {
                                             return (
-                                                <AbilityItem letterSpace={language == 'fa'} key={index}>
+                                                <AbilityItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{ability}</span>
                                                 </AbilityItem>
                                             )
@@ -230,7 +230,7 @@ useEffect(() => {
                             </Ability>
                             <Communication>
                                 <CommunicationTitle>Communication channels</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'}>
+                                <CommunicationBody $font={language == 'fa'}>
                                     {
                                         communicationBodyEN.map((item, index) => <span key={index}>{item}</span>)
                                     }

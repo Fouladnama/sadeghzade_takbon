@@ -110,7 +110,7 @@ The main activities of this company are focused on the design and development of
 
     useEffect(() => {
         setLanguage(searchParams.get("lang"));
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     return (
         <>
@@ -133,7 +133,7 @@ The main activities of this company are focused on the design and development of
                                     {
                                         provideItem.map((item, index) => {
                                             return (
-                                                <ProvideItem letterSpace={language == 'fa'} key={index}>
+                                                <ProvideItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{item}</span>
                                                 </ProvideItem>
                                             )
@@ -149,7 +149,7 @@ The main activities of this company are focused on the design and development of
                                     {
                                         abilities.map((ability, index) => {
                                             return (
-                                                <AbilityItem letterSpace={language == 'fa'} key={index}>
+                                                <AbilityItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{ability}</span>
                                                 </AbilityItem>
                                             )
@@ -159,7 +159,7 @@ The main activities of this company are focused on the design and development of
                             </Ability>
                             <Communication>
                                 <CommunicationTitle>راه های ارتباطی</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'}>
+                                <CommunicationBody $font={language == 'fa'}>
                                     {
                                         communicationBody.map((item, index) => <span key={index}>{item}</span>)
                                     }
@@ -203,7 +203,7 @@ The main activities of this company are focused on the design and development of
                                     {
                                         provideItemEN.map((item, index) => {
                                             return (
-                                                <ProvideItem letterSpace={language == 'fa'} key={index}>
+                                                <ProvideItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{item}</span>
                                                 </ProvideItem>
                                             )
@@ -219,7 +219,7 @@ The main activities of this company are focused on the design and development of
                                     {
                                         abilitiesEN.map((ability, index) => {
                                             return (
-                                                <AbilityItem letterSpace={language == 'fa'} key={index}>
+                                                <AbilityItem $letterSpace={language == 'fa'} key={index}>
                                                     <span>{ability}</span>
                                                 </AbilityItem>
                                             )
@@ -229,7 +229,7 @@ The main activities of this company are focused on the design and development of
                             </Ability>
                             <Communication>
                                 <CommunicationTitle>Communication channels</CommunicationTitle>
-                                <CommunicationBody font={language == 'fa'}>
+                                <CommunicationBody $font={language == 'fa'}>
                                     {
                                         communicationBodyEN.map((item, index) => <span key={index}>{item}</span>)
                                     }

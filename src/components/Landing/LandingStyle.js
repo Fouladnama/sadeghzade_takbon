@@ -128,7 +128,7 @@ export const Typewriter = styled.div`
     font-family: "Shabnam", sans-serif;
     font-size: 1.7rem;
     font-weight: 600;
-    letter-spacing: ${props => (props.letterSpace ? "0.2em" : "0")};
+  letter-spacing: ${props => props.$letterSpace ? "0.2em" : "0"};
     user-select: none;
     transition: all ease-in-out .2s;
 

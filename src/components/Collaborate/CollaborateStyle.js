@@ -365,19 +365,21 @@ export const Label = styled.label`
     }
 `;
 
-export const Textarea = styled.textarea`
+export const Textarea = styled.textarea.withConfig({
+    shouldForwardProp: (prop) => !['show', '$font', 'font'].includes(prop),
+})`
     width: 100%;
-    height: ${props => (props.show) ? "100px" : "0"};
-    margin-top: ${props => (props.show) ? "10px" : "0"};
+    height: ${props => (props.show ? "100px" : "0")};
+    margin-top: ${props => (props.show ? "10px" : "0")};
     resize: none;
-    border: ${props => (props.show) ? "1px solid #adb1b8" : "0"};
+    border: ${props => (props.show ? "1px solid #adb1b8" : "0")};
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
-    padding: ${props => (props.show) ? "5px 10px" : "0"};
+    padding: ${props => (props.show ? "5px 10px" : "0")};
     outline: none !important;
     font-size: 16px;
-    font-family: ${props => (props.font) ? `"IRANSansWeb", sans-serif` : `"FontAwesome", sans-serif`};
+    font-family: ${props => (props.font ? `"IRANSansWeb", sans-serif` : `"FontAwesome", sans-serif`)};
     color: #fff;
     transition: all .2s ease-in-out;
 
@@ -389,13 +391,11 @@ export const Textarea = styled.textarea`
         width: 8px;
     }
 
-    /* Track */
     &::-webkit-scrollbar-track {
         box-shadow: none; 
         border-radius: 10px;
     }
-        
-        /* Handle */
+
     &::-webkit-scrollbar-thumb {
         background: #999; 
         border-radius: 10px;
@@ -403,7 +403,7 @@ export const Textarea = styled.textarea`
 
     @media screen and (max-width: 900px) {
         width: 100%;
-        height: ${props => (props.show) ? "150px" : "0"};
+        height: ${props => (props.show ? "150px" : "0")};
     }
 `;
 

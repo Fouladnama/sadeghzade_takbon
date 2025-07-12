@@ -5,6 +5,9 @@ const nextConfig = {
     },
     reactStrictMode: true,
     distDir: 'build',
+    images: {
+        domains: ['takbon.biz'],
+    },
     // swcMinify: true,
 }
 

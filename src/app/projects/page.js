@@ -110,20 +110,22 @@ return (
     zIndex: 1
   }}
 >
-                              <Image 
-                                src={imageUrl}
-                                alt={language === 'en' ? item.en_name : item.fa_name}
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-
-                                }}
-                                onError={(e) => {
-                                  console.error('خطا در بارگذاری تصویر:', e.target.src);
-                                  e.target.onerror = null;
-                                  e.target.src = '/fallback-image.jpg';
-                                }}
-                              />
+                            <Image 
+  src={imageUrl}
+  alt={language === 'en' ? item.en_name : item.fa_name}
+  width={130}  // اضافه کردن width
+  height={130} // اضافه کردن height
+  style={{
+    objectFit: 'contain',
+    width: '100%',
+    height: '100%',
+  }}
+  onError={(e) => {
+    console.error('خطا در بارگذاری تصویر:', e.target.src);
+    e.target.onerror = null;
+    e.target.src = '/fallback-image.jpg';
+  }}
+/>
                             </div>
                           </div>
 <RightText style={{ flex: 1, marginLeft: '-20px' }}>
@@ -158,7 +160,7 @@ return (
     zIndex: 1
   }}
 >
-                              <Image 
+                              <img
                                 src={imageUrl}
                                 alt={language === 'en' ? item.en_name : item.fa_name}
                                 style={{

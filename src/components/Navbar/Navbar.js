@@ -27,7 +27,7 @@ const Navbar = () => {
 
     useEffect(() => {
         setLanguage(searchParams.get("lang"));
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     const handleShowPhoneNav = () => {
         setShowPhoneNav(!showPhoneNav);
@@ -83,7 +83,7 @@ const Navbar = () => {
             {
                 language == 'fa' &&
                 <>
-                    <LanguageSection display={isNavbarFixed} direction={"rtl"} >
+                    <LanguageSection $display={isNavbarFixed} direction={"rtl"} >
                         <div className="headerContainer">
                             <Lang
                                 onClick={handleReloadPage}
@@ -94,25 +94,25 @@ const Navbar = () => {
                         </div>
                     </LanguageSection>
                     <Nav>
-                        <NavItem adjust={language == 'fa'} href={`/landing/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/landing/?lang=${language}`} >
                             <NavLink>خانه</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/services/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/services/?lang=${language}`} >
                             <NavLink>خدمات قابل ارائه</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/projects/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/projects/?lang=${language}`} >
                             <NavLink>لیست پروژه ها</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/news-archive/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/news-archive/?lang=${language}`} >
                             <NavLink>اخبار شرکت</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/about-us/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/about-us/?lang=${language}`} >
                             <NavLink>درباره ما</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/contact-us/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/contact-us/?lang=${language}`} >
                             <NavLink>تماس با ما</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/collaboration/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/collaboration/?lang=${language}`} >
                             <NavLink>همکاری با ما</NavLink>
                         </NavItem>
                     </Nav>
@@ -166,25 +166,25 @@ const Navbar = () => {
                         </div>
                     </LanguageSection>
                     <Nav>
-                        <NavItem adjust={language == 'fa'} href={`/about-us/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/about-us/?lang=${language}`} >
                             <NavLink>About Us</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/contact-us/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/contact-us/?lang=${language}`} >
                             <NavLink>Contact Us</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/collaboration/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/collaboration/?lang=${language}`} >
                             <NavLink>Collaboration</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/news-archive/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/news-archive/?lang=${language}`} >
                             <NavLink>News</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/projects/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/projects/?lang=${language}`} >
                             <NavLink>Projects</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/services/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/services/?lang=${language}`} >
                             <NavLink>Services</NavLink>
                         </NavItem>
-                        <NavItem adjust={language == 'fa'} href={`/landing/?lang=${language}`} >
+                        <NavItem $adjust={language == 'fa'} href={`/landing/?lang=${language}`} >
                             <NavLink>Home</NavLink>
                         </NavItem>
                     </Nav>

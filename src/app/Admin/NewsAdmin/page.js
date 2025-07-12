@@ -136,7 +136,7 @@ return (
         <p className="text-xs text-gray-500 mb-2">{item.publish}</p>
 
         {/* عکس اصلی با دابل کلیک */}
-        <Image 
+         
           src={`https://takbon.biz/${item.image}`}
           alt={item.title}
           className="w-full h-40 object-cover rounded-md mb-3 cursor-pointer"

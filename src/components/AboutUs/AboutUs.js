@@ -33,7 +33,7 @@ const AboutUs = () => {
         else {
             window.location.href = '/about-us?lang=fa';
         }
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     return (
         <>
@@ -71,7 +71,13 @@ const AboutUs = () => {
                             </RightDiv>
                             <LeftDiv>
                                 <Pic>
-                                    <Image  src={building.src} alt={"building"} />
+<Image 
+  src={building.src} 
+  alt="building" 
+  width={500} // ✅ عرض مورد نیاز
+  height={300} // ✅ ارتفاع مورد نیاز
+  style={{ width: "100%", height: "auto" }} // اختیاری برای رسپانسیو
+/>
                                 </Pic>
                                 <Decision>
                                     <div className="title">سیستم های پشتیبان تصمیم</div>

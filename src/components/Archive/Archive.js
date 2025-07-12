@@ -38,7 +38,7 @@ const Archive = () => {
         else if (typeof window !== "undefined") {
             window.location.href = '/news-archive?lang=fa';
         }
-    }, [searchParams]);
+    },  [searchParams, language]);
 
     // pagination
     const [itemOffset, setItemOffset] = useState(0);

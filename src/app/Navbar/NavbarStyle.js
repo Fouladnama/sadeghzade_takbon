@@ -12,7 +12,7 @@ export const Nav = styled.div`
     margin: 10px 10px 0 0;
     border-radius: 5px;
     position: fixed;
-    font-family: "IRANSansWeb", sans-serif;
+    -family: "IRANSansWeb", sans-serif;
     z-index: 1000;
     transition: all ease 0.5s;
 
@@ -56,7 +56,7 @@ export const NavItem = styled(Link)`
 
 export const NavLink = styled.div`
     color: #fff;
-    font-size: 18px;
+    -size: 18px;
     text-decoration: none;
     text-align: center;
 `;
@@ -138,14 +138,14 @@ export const Menu = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    -size: 1.2rem;
     left: 0;
     top: 0;
     opacity: ${props => (props.isopen != "false") ? "100%" : "0"};
     position: fixed;
     right: ${props => (props.isopen != "false") ?  "0" : "-100%"};
     transition: 0.3s ease-in-out;
-    font-family: "IRANSansWeb", sans-serif;
+    -family: "IRANSansWeb", sans-serif;
     border-left: 1px solid black;
 
     //can not select link
@@ -182,8 +182,8 @@ export const MenuItem = styled(Link)`
 
 export const MenuLink = styled.div`
     color: #fff;
-    font-size: 20px;
-    font-weight: bold;
+    -size: 20px;
+    -weight: bold;
     text-decoration: none;
     text-align: center;
 `;
@@ -197,7 +197,7 @@ export const LanguageSection = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-family: "IRANSansWeb", sans-serif;
+    -family: "IRANSansWeb", sans-serif;
     overflow: hidden;
     transition: all ease 0.2s;
 
