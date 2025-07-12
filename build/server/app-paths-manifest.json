@@ -1,9 +1,22 @@
 {
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/services/page": "app/services/page.js",
-  "/news-archive/page": "app/news-archive/page.js",
-  "/projects/[projectCat]/page": "app/projects/[projectCat]/page.js",
-  "/landing/page": "app/landing/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about-us/page": "app/about-us/page.js",
   "/collaboration/page": "app/collaboration/page.js",
-  "/projects/page": "app/projects/page.js"
+  "/contact-us/page": "app/contact-us/page.js",
+  "/news-archive/page": "app/news-archive/page.js",
+  "/landing/page": "app/landing/page.js",
+  "/page": "app/page.js",
+  "/news/page": "app/news/page.js",
+  "/projects/[projectCat]/[project]/page": "app/projects/[projectCat]/[project]/page.js",
+  "/projects/[projectCat]/page": "app/projects/[projectCat]/page.js",
+  "/services/page": "app/services/page.js",
+  "/projects/page": "app/projects/page.js",
+  "/Admin/ProjectsAdmin/ProjectDetailAdmin/page": "app/Admin/ProjectsAdmin/ProjectDetailAdmin/page.js",
+  "/Admin/NewsAdmin/page": "app/Admin/NewsAdmin/page.js",
+  "/Admin/ProjectsAdmin/ProjectsNameAdmin/page": "app/Admin/ProjectsAdmin/ProjectsNameAdmin/page.js",
+  "/Admin/ProjectsAdmin/page": "app/Admin/ProjectsAdmin/page.js",
+  "/Admin/ProjectsAdmin/EquipmentAdmin/page": "app/Admin/ProjectsAdmin/EquipmentAdmin/page.js",
+  "/Admin/dashboard/page": "app/Admin/dashboard/page.js",
+  "/Admin/login/page": "app/Admin/login/page.js"
 }
