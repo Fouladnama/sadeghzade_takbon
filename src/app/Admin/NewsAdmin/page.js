@@ -131,12 +131,10 @@ return (
       />
     ) : (
       <>
-        {/* عنوان و تاریخ */}
         <h2 className="font-semibold mb-1">{item.title}</h2>
         <p className="text-xs text-gray-500 mb-2">{item.publish}</p>
 
-        {/* عکس اصلی با دابل کلیک */}
-         
+         <Image
           src={`https://takbon.biz/${item.image}`}
           alt={item.title}
           className="w-full h-40 object-cover rounded-md mb-3 cursor-pointer"
@@ -148,11 +146,12 @@ return (
           }
         />
 
-        {/* گالری عکس‌ها */}
         {item.gallery && item.gallery.length > 0 && (
           <div className="grid grid-cols-3 gap-2 mb-3">
             {item.gallery.map((imgSrc, index) => (
               <Image 
+                width={500}  // مقدار عددی مناسب برای width
+  height={300} 
                 key={index}
                 src={`https://takbon.biz/${imgSrc}`}
                 alt={`gallery-${index}`}
@@ -168,10 +167,8 @@ return (
           </div>
         )}
 
-        {/* محتوای خبر */}
         <p className="text-sm text-gray-700 mb-3 line-clamp-3">{item.content}</p>
 
-        {/* دکمه‌های مدیریت */}
         <div className="mt-auto flex gap-3">
           <button
             onClick={() => seteditnews(item._id)}
@@ -191,7 +188,6 @@ return (
   </div>
 ))}
 
-{/* نمایش مودال خارج از map برای جلوگیری از ارور و اجرا صحیح */}
 {modalOpen && modalImages.length > 0 && (
   <ImageWithModal
     images={modalImages}
