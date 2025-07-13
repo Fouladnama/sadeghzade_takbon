@@ -40,3 +40,4 @@ package-lock.json
 /takbonapi/node_modules
 /takbonapi/uploads
 /.idea/
+.build
