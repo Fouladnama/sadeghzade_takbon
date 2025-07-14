@@ -30,8 +30,6 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const MAX_FILE_SIZE_MB = 2;
-
-// آپلود تصویر با ظاهر جذاب و پیشرفت انیمیشنی
 const ImageUploadField = ({ col, formValues, imageFiles, uploadProgress, onImageChange, onTitleChange }) => (
   <Box mb={3}>
     <Typography variant="subtitle1" gutterBottom fontWeight="600" color="primary">
