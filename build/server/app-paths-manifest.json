@@ -1,9 +1,0 @@
-{
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/news/page": "app/news/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/Admin/dashboard/page": "app/Admin/dashboard/page.js",
-  "/Admin/ProjectsAdmin/page": "app/Admin/ProjectsAdmin/page.js",
-  "/Admin/ProjectsAdmin/EquipmentAdmin/page": "app/Admin/ProjectsAdmin/EquipmentAdmin/page.js",
-  "/Admin/NewsAdmin/page": "app/Admin/NewsAdmin/page.js"
-}
