@@ -16,6 +16,7 @@ export default function AddNews({ onTaskAdded }) {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 const [gallery, setGallery] = useState([]); // آرایه آدرس تصاویر گالری
+const MAX_FILE_SIZE_MB = 2;
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -49,16 +50,68 @@ const [gallery, setGallery] = useState([]); // آرایه آدرس تصاویر 
   }
 };
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 مگابایت
+const MAX_GALLERY_IMAGES = 2;
+
+const handleImageChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // چک کردن حجم فایل
+  if (file.size > MAX_FILE_SIZE) {
+    toast.error("حجم تصویر اصلی نباید بیشتر از 2 مگابایت باشد");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    setUploadProgress(0);
+    const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      onUploadProgress: (pe) => {
+        const prog = Math.round((pe.loaded * 100) / pe.total);
+        setUploadProgress(prog);
+      },
+    });
+
+    const fileName = res.data.key || res.data.filename || res.data.fileName;
+    const imagePath = `images/${fileName}`;
+    setImage(imagePath);
+
+    toast.success("تصویر با موفقیت آپلود شد");
+    setUploadProgress(0);
+  } catch (err) {
+    console.error(err);
+    toast.error("خطا در آپلود تصویر");
+  }
+};
+
 const handleGalleryChange = async (e) => {
   const files = Array.from(e.target.files);
   if (files.length === 0) return;
+
+  // چک کردن تعداد تصاویر جدید و کل تصاویر گالری
+  if (gallery.length + files.length > MAX_GALLERY_IMAGES) {
+    toast.error(`تعداد تصاویر گالری نمی‌تواند بیشتر از ${MAX_GALLERY_IMAGES} باشد`);
+    return;
+  }
 
   setUploadProgress(0);
   const uploadedPaths = [];
 
   for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    // چک کردن حجم هر فایل
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`حجم تصویر شماره ${i + 1} نباید بیشتر از 2 مگابایت باشد`);
+      continue; // این عکس آپلود نشود و بقیه ادامه پیدا کنند
+    }
+
     const formData = new FormData();
-    formData.append("file", files[i]);
+    formData.append("file", file);
 
     try {
       const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
@@ -83,34 +136,6 @@ const handleGalleryChange = async (e) => {
   setUploadProgress(0);
 };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      setUploadProgress(0);
-      const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (pe) => {
-          const prog = Math.round((pe.loaded * 100) / pe.total);
-          setUploadProgress(prog);
-        },
-      });
-
-      const fileName = res.data.key || res.data.filename || res.data.fileName;
-      const imagePath = `images/${fileName}`;
-      setImage(imagePath);
-
-      toast.success("تصویر با موفقیت آپلود شد");
-      setUploadProgress(0);
-    } catch (err) {
-      console.error(err);
-      toast.error("خطا در آپلود تصویر");
-    }
-  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-4 border rounded w-80">
@@ -144,7 +169,10 @@ const handleGalleryChange = async (e) => {
           src={`https://takbon.biz/${image}`}
           alt="تصویر انتخابی"
           className="w-full h-40 object-cover rounded"
+          width={500} 
+                height={300} 
         />
+        
       )}
 
       {/* افزودن فیلد انتخاب تاریخ شمسی */}

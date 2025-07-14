@@ -153,7 +153,7 @@ const handleDelete = id => {
       if (row[col.field]) {
         const src = `https://takbon.biz/images/${row[col.field]}`;
         return (
-          <Image 
+          <img 
             src={src}
             alt={col.field}
             style={{
@@ -199,9 +199,9 @@ return (
             {columns.map(col => (
               <Box key={col.field} mb={1}>
                 <Typography fontSize={14} fontWeight={600}>{col.header}:</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {renderFieldValue(col, row)}
-                </Typography>
+               <Typography variant="body2" color="text.secondary" component="div">
+  {renderFieldValue(col, row)}
+</Typography>
               </Box>
             ))}
             <Stack direction="row" spacing={1} mt={1}>
@@ -232,7 +232,7 @@ return (
                 )}
                 {editValues[col.field] && (
                   <Box mt={1}>
-                    <Image 
+                    <img 
                       src={`https://takbon.biz/images/${editValues[col.field]}`}
                       alt="preview"
                       style={{
@@ -300,10 +300,12 @@ return (
           const opt = col.options.find(o => o.code === value);
           if (!opt) return null;
           return (
-            <Image 
+            <img 
               key={value}
               src={`https://takbon.biz/images/${opt.name}`}
               alt={opt.name}
+              width={80}
+              height={80}
               style={{
                 width: 80,
                 height: 80,
@@ -321,9 +323,11 @@ return (
     {col.options.map(opt => (
       <MenuItem key={opt.code} value={opt.code}>
         <Checkbox checked={editValues[col.field]?.includes(opt.code)} />
-        <Image ش
+        <img 
           src={`https://takbon.biz/images/${opt.name}`}
           alt={opt.name}
+          width={40}
+          height={40}
           style={{
             width: 40,
             height: 40,

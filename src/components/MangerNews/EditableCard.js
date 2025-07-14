@@ -98,6 +98,8 @@ export default function EditableCard({ item, onCancel, onSave }) {
     <div className="flex flex-col gap-2">
       {editValues.image && (
         <Image 
+        width={500} 
+                height={300} 
           src={`https://takbon.biz/${editValues.image}`}
           alt={editValues.title}
           className="w-full h-32 object-cover rounded"
@@ -141,6 +143,8 @@ export default function EditableCard({ item, onCancel, onSave }) {
         {gallery.map((imgSrc, idx) => (
           <div key={idx} className="relative group">
             <Image 
+            width={500} 
+                height={300} 
               src={`https://takbon.biz/${imgSrc}`}
               alt={`gallery-${idx}`}
               className="w-full h-20 object-cover rounded"

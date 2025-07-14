@@ -11,6 +11,17 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
+    "/Admin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/Admin/layout.js"
+    ],
+    "/Admin/ProjectsAdmin/ProjectDetailAdmin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/Admin/ProjectsAdmin/ProjectDetailAdmin/page.css",
+      "static/chunks/app/Admin/ProjectsAdmin/ProjectDetailAdmin/page.js"
+    ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -22,15 +33,35 @@
       "static/css/app/landing/page.css",
       "static/chunks/app/landing/page.js"
     ],
+    "/projects/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/projects/page.js"
+    ],
+    "/projects/[projectCat]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/projects/[projectCat]/page.js"
+    ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
     ],
-    "/Admin/layout": [
+    "/projects/[projectCat]/[project]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Admin/layout.js"
+      "static/chunks/app/projects/[projectCat]/[project]/page.js"
+    ],
+    "/services/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/page.js"
+    ],
+    "/news/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/news/page.js"
     ],
     "/Admin/dashboard/page": [
       "static/chunks/webpack.js",
@@ -42,6 +73,18 @@
       "static/chunks/main-app.js",
       "static/css/app/Admin/NewsAdmin/page.css",
       "static/chunks/app/Admin/NewsAdmin/page.js"
+    ],
+    "/Admin/ProjectsAdmin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/Admin/ProjectsAdmin/page.css",
+      "static/chunks/app/Admin/ProjectsAdmin/page.js"
+    ],
+    "/Admin/ProjectsAdmin/EquipmentAdmin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/Admin/ProjectsAdmin/EquipmentAdmin/page.css",
+      "static/chunks/app/Admin/ProjectsAdmin/EquipmentAdmin/page.js"
     ]
   }
 }

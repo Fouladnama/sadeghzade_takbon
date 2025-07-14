@@ -158,7 +158,10 @@ const News = () => {
                             <Logo href={`/landing?lang=${language}`} hover={logo}/>
                         </Heading>
                         <Content>
-                            <Image src={'https://takbon.biz/' + news[newsIndex].image} alt={news[newsIndex].title}/>
+                            <Image 
+                            src={'https://takbon.biz/' + news[newsIndex].image} 
+                            alt={news[newsIndex].title}
+                            />
                             <Date>{Persianize_Numbers(parseInt(news[newsIndex].publish.split("/")[2], 10))} {Persian_month[parseInt(news[newsIndex].publish.split("/")[1]) - 1]} {Persianize_Numbers(news[newsIndex].publish.split("/")[0])}</Date>
                             {
                                 (news[newsIndex].source != undefined && news[newsIndex].source != '' ) &&

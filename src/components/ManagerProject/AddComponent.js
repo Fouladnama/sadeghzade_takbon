@@ -29,6 +29,7 @@ import Slide from '@mui/material/Slide';
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+const MAX_FILE_SIZE_MB = 2;
 
 // آپلود تصویر با ظاهر جذاب و پیشرفت انیمیشنی
 const ImageUploadField = ({ col, formValues, imageFiles, uploadProgress, onImageChange, onTitleChange }) => (
@@ -127,7 +128,15 @@ const ImageUploadField = ({ col, formValues, imageFiles, uploadProgress, onImage
 );
 
 const AddComponent = ({ url, columns, onClose, onAdd, open }) => {
-  const [formValues, setFormValues] = useState({});
+const initialFormValues = {};
+columns.forEach(col => {
+  if (col.field === "imagemain" || col.field === "target" || col.field === "target_en") {
+    initialFormValues[col.field] = [];
+  } else {
+    initialFormValues[col.field] = "";
+  }
+});
+const [formValues, setFormValues] = useState(initialFormValues);
   const [imageFiles, setImageFiles] = useState({});
   const [uploadProgress, setUploadProgress] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -137,31 +146,40 @@ const [expandedFields, setExpandedFields] = useState({});
     setFormValues(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleImageChange = async (field, e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImageFiles(prev => ({ ...prev, [field]: file }));
+const handleImageChange = async (field, e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+  // بررسی حجم فایل بر اساس مگابایت
+  const maxSizeBytes = MAX_FILE_SIZE_MB * 1024 * 1024;
+  if (file.size > maxSizeBytes) {
+    toast.error(`حجم فایل نمی‌تواند بیشتر از ${MAX_FILE_SIZE_MB} مگابایت باشد.`);
+    return;  // جلوگیری از آپلود فایل بزرگ
+  }
 
-    try {
-      setUploadProgress(p => ({ ...p, [field]: 0 }));
-      const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: pe => {
-          const prog = Math.round((pe.loaded * 100) / pe.total);
-          setUploadProgress(p => ({ ...p, [field]: prog }));
-        }
-      });
-      handleChange(field, res.data.key);
-      toast.success("تصویر با موفقیت آپلود شد");
-      setUploadProgress(p => ({ ...p, [field]: 0 }));
-    } catch (err) {
-      console.error(err);
-      toast.error("خطا در آپلود تصویر");
-    }
-  };
+  setImageFiles(prev => ({ ...prev, [field]: file }));
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    setUploadProgress(p => ({ ...p, [field]: 0 }));
+    const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      onUploadProgress: pe => {
+        const prog = Math.round((pe.loaded * 100) / pe.total);
+        setUploadProgress(p => ({ ...p, [field]: prog }));
+      }
+    });
+    handleChange(field, res.data.key);
+    toast.success("تصویر با موفقیت آپلود شد");
+    setUploadProgress(p => ({ ...p, [field]: 0 }));
+  } catch (err) {
+    console.error(err);
+    toast.error("خطا در آپلود تصویر");
+  }
+};
+
 const handleSubmit = async e => {
   e.preventDefault();
   setIsSubmitting(true);
@@ -177,7 +195,6 @@ const handleSubmit = async e => {
     setIsSubmitting(false);
   }
 };
-
 
   const isAnyImageValid = columns
     .filter(c => c.field === "image")
