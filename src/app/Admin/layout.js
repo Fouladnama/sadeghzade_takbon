@@ -23,16 +23,10 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="flex h-screen">
-      {/* سایدبار */}
-      <AdminSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
-
-      {/* محتوا */}
+    <div className="flex">
+            <AdminSidebar  />
       <div className="flex-1 flex flex-col">
-        {/* Navbar با دکمه Toggle */}
         <AdminNavbar onHamburgerClick={toggleSidebar} />
-
-        {/* بادی */}
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 import Link from "next/link.js";
-import Navbar from "../../app/Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import building from "../../../public/Assests/Contact/building.jpeg";

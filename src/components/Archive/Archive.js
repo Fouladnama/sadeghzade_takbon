@@ -4,7 +4,7 @@ import {useRouter, useSearchParams} from 'next/navigation';
 import {Circles} from 'react-loader-spinner';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-import Navbar from "../../app/Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import calendarIcon from "../../../public/Assests/Landing/calendar.svg";

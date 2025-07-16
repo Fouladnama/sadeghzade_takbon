@@ -164,8 +164,8 @@ const handleGalleryChange = async (e) => {
       {uploadProgress > 0 && uploadProgress < 100 && (
         <div className="text-sm text-gray-500">در حال آپلود: {uploadProgress}%</div>
       )}
-      {image && (
-        <Image 
+      {image && (           <img
+ 
           src={`https://takbon.biz/${image}`}
           alt="تصویر انتخابی"
           className="w-full h-40 object-cover rounded"
@@ -192,7 +192,7 @@ const handleGalleryChange = async (e) => {
 {gallery.length > 0 && (
   <div className="grid grid-cols-3 gap-2 mt-2 mb-2">
     {gallery.map((imgSrc, idx) => (
-      <Image 
+              <img
         key={idx}
         src={`https://takbon.biz/${imgSrc}`}
         alt={`gallery-preview-${idx}`}

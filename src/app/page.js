@@ -7,7 +7,7 @@ export default function Home(props) {
 
   useEffect(() => {
     router.push("/landing/?lang=fa");
-  }, [router]); // ✅ اصلاح شده
+  }, []);
 
   return null;
 }

@@ -42,7 +42,6 @@ export default function ImageGalleryModal({ images, initialIndex = 0, onClose })
           <FaArrowRight />
         </button>
 
-        {/* عکس */}
         <Image 
           src={images[currentIndex]}
           alt={`gallery-${currentIndex}`}

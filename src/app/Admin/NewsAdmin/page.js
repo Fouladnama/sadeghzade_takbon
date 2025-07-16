@@ -151,7 +151,7 @@ src={encodeURI(`https://takbon.biz/${item.image}`)}
         {item.gallery && item.gallery.length > 0 && (
           <div className="grid grid-cols-3 gap-2 mb-3">
             {item.gallery.map((imgSrc, index) => (
-              <Image 
+              <img
                 width={500} 
                 height={300} 
                 key={index}

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 import LazyLoad, { lazyload } from 'react-lazyload';
-import Navbar from "../../app/Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import background from "../../../public/Assests/Services/background.jpg";

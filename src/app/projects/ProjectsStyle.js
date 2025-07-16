@@ -2,10 +2,10 @@ import styled, { keyframes } from "styled-components";
 import Link from "next/link";
 
 export const ProjectContainer = styled.div`
-    -family: "IRANSansWeb", sans-serif;
+    font-family: "IRANSansWeb", sans-serif;
 
     pre, p, h3 {
-        -family: "IRANSansWeb", sans-serif;
+        font-family: "IRANSansWeb", sans-serif;
     }
 `;
 
@@ -142,12 +142,12 @@ export const RightText = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    -size: 20px;
-    -weight: bold;
+    font-size: 20px;
+    font-weight: bold;
 
     @media screen and (max-width: 430px){
         width: 210px;
-        -size: 17px;
+        font-size: 17px;
     }
 `;
 
@@ -165,11 +165,11 @@ export const LeftText = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    -size: 20px;
-    -weight: bold;
+    font-size: 20px;
+    font-weight: bold;
 
     @media screen and (max-width: 430px){
         width: 210px;
-        -size: 17px;
+        font-size: 17px;
     }
 `;

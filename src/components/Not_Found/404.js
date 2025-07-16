@@ -20,27 +20,27 @@ const NotFound = () => {
         window.location.replace(`${pathname}?lang=${language === "fa" ? "en" : "fa"}`);
     };
 
-   useEffect(() => {
-    if (searchParams.get("lang") === "fa" || searchParams.get("lang") === "en")
-        setLanguage(searchParams.get("lang"));
-    else {
-        setLanguage("fa");
-    }
-},  [searchParams, language]); 
+    useEffect(() => {
+        if (searchParams.get("lang") === "fa" || searchParams.get("lang") === "en")
+            setLanguage(searchParams.get("lang"));
+        else {
+            setLanguage("fa");
+        }
+    }, []);
 
     return (
         <>
             {
                 language === 'en' &&
                 <NotFoundContainer language={language} >
-                    <div class="flex-container">
-                        <div class="text-center">
+                    <div className="flex-container">
+                        <div className="text-center">
                             <h1>
-                                <span class="fade-in" id="digit1">4</span>
-                                <span class="fade-in" id="digit2">0</span>
-                                <span class="fade-in" id="digit3">4</span>
+                                <span className="fade-in" id="digit1">4</span>
+                                <span className="fade-in" id="digit2">0</span>
+                                <span className="fade-in" id="digit3">4</span>
                             </h1>
-                            <h3 class="fadeIn">PAGE NOT FOUND</h3>
+                            <h3 className="fadeIn">PAGE NOT FOUND</h3>
                             <Link href={`landing/?lang=${language}`} ><button type="button" name="button">Return To Home</button></Link>
                         </div>
                     </div>
@@ -57,14 +57,14 @@ const NotFound = () => {
             {
                 language === 'fa' &&
                 <NotFoundContainer language={language} >
-                    <div class="flex-container">
-                        <div class="text-center">
+                    <div className="flex-container">
+                        <div className="text-center">
                             <h1>
-                                <span class="fade-in" id="digit1">4</span>
-                                <span class="fade-in" id="digit2">0</span>
-                                <span class="fade-in" id="digit3">4</span>
+                                <span className="fade-in" id="digit1">4</span>
+                                <span className="fade-in" id="digit2">0</span>
+                                <span className="fade-in" id="digit3">4</span>
                             </h1>
-                            <h3 class="fadeIn">صفحه مورد نظر یافت نشد</h3>
+                            <h3 className="fadeIn">صفحه مورد نظر یافت نشد</h3>
                             <Link href={`landing/?lang=${language}`} ><button type="button" name="button">بازگشت به صفحه اصلی</button></Link>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import axios from 'axios';
-import Navbar from "../../app/Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import wallpaper from "../../../public/Assests/Collaborate/wallpaper.jpg";

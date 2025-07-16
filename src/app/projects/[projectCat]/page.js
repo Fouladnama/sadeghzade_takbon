@@ -1,11 +1,10 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useParams } from 'next/navigation';
 import axios from "axios";
 import Link from 'next/link';
-import Navbar from "../../Navbar/Navbar";
-import Footer from "../../Footer/Footer";
+import Navbar from "../../../components/Navbar/Navbar";
+import Footer from "../../../components/Footer/Footer";
 import logoGif from "../../../../public/Assests/Landing/takbon.gif";
 import wallpaper from "../../../../public/Assests/Projects/project.jpg";
 import {
@@ -18,7 +17,6 @@ import {
   Title,
   ShowMore
 } from "./Project_CatStyle";
-import Image from 'next/image';
 
 const Project_titles = () => {
   const current_path = usePathname();
@@ -34,9 +32,7 @@ const Project_titles = () => {
     if (lang === "fa" || lang === "en") {
       setLanguage(lang);
     } else {
-      if (typeof window !== "undefined") {
-        window.location.href = `${current_path}?lang=fa`;
-      }
+      window.location.href = `${current_path}?lang=fa`;
     }
   }, [searchParams, current_path]);
 
@@ -46,8 +42,8 @@ const Project_titles = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`https://takbon.biz:3402/get_projects_name/?id=${projectCat}`);
-        const dataArray = Array.isArray(response.data)
-          ? response.data
+        const dataArray = Array.isArray(response.data) 
+          ? response.data 
           : (response.data?.value || []);
         setProjectsData(dataArray);
       } catch (err) {
@@ -61,9 +57,10 @@ const Project_titles = () => {
     fetchData();
   }, [language, projectCat]);
 
-  if (!language || !projectCat) return null;
-  if (loading) return <div style={{ textAlign: "center", padding: "2rem" }}>در حال بارگذاری...</div>;
-  if (error) return <div style={{ textAlign: "center", padding: "2rem" }}>{error}</div>;
+  if (!language) return null;
+
+  if (loading) return <div>در حال بارگذاری...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <ProjectsContainer>
@@ -77,47 +74,42 @@ const Project_titles = () => {
             <p style={{ textAlign: "center" }}>اطلاعاتی برای نمایش وجود ندارد</p>
           ) : (
             projectsData.map((item) => {
-              if (!item || !item._id) {
-                console.warn("Project item missing _id, skipping:", item);
-                return null;
-              }
-
-              const imageUrl = item.image
+              const imageUrl = item.image 
                 ? item.image.startsWith('http')
                   ? item.image
                   : `https://takbon.biz/images/${item.image}`
                 : '/fallback-image.jpg';
-
-              const title = language === 'en' ? item.tilte_en : item.tilte;
-              const href = `/projects/${projectCat}/${item._id}?lang=${language}`;
+              
+              const tilte = language === 'en' ? item.tilte_en : item.tilte;
 
               return (
+                
                 <ProjectMajor key={item._id}>
-                  <Image
-                    src={imageUrl}
-                    alt={title || "project image"}
-                    width={90}
-                    height={90}
-                    style={{
-                      width: "90px",
-                      height: "90px",
-                      objectFit: "cover",
-                      borderRadius: "8px"
-                    }}
-                  />
-                  <Title $font={language === 'fa'}>{title || "بدون عنوان"}</Title>
+                 <img 
+  src={imageUrl} 
+  alt={tilte}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/fallback-image.jpg';
+  }}
+  style={{
+    width: "90px",
+    height: "90px",
+    objectFit: "cover", // یا "contain"
+    borderRadius: "8px" // اگر خواستی گرد باشه
+  }}
+/>
 
-                  {projectCat && item._id && language ? (
-                    <Link href={href}>
-    <ShowMore as="div">
-                        {language === 'en' ? 'More details' : 'توضیحات بیشتر'}
-                      </ShowMore>
-                    </Link>
-                  ) : (
-  <ShowMore as="div" style={{ cursor: "not-allowed", opacity: 0.5 }}>
+                  <Title font={language === 'fa'}>{tilte}</Title>
+                  <Link 
+                    href={`/projects/${projectCat}/${item._id}?lang=${language}`} 
+                    passHref
+                    legacyBehavior
+                  >
+                    <ShowMore>
                       {language === 'en' ? 'More details' : 'توضیحات بیشتر'}
                     </ShowMore>
-                  )}
+                  </Link>
                 </ProjectMajor>
               );
             })
