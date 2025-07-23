@@ -195,7 +195,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                     />
                     {image && (
                       <img
-                        src={`https://takbon.biz/${image}`}
+                        src={`https://takbon.biz:3402/${image}`}
                         alt="پیش نمایش"
                         className="w-32 h-32 object-cover rounded mt-2 border"
                       />
@@ -215,7 +215,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                         {gallery.map((imgPath, idx) => (
                           <img
                             key={idx}
-                            src={`https://takbon.biz/${imgPath}`}
+                            src={`https://takbon.biz:3402/${imgPath}`}
                             alt={`گالری ${idx + 1}`}
                             className="w-24 h-24 object-cover rounded border"
                           />
@@ -223,37 +223,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                       </div>
                     )}
                   </>
-                ) :isArray ? (
-  <div className="flex flex-col gap-2">
-    <label className="font-semibold text-gray-700">{header}</label>
-    {(Array.isArray(formData[value]) ? formData[value] : []).map((itemVal, idx) => (
-      <div key={idx} className="flex items-center gap-2">
-        <span className="text-sm text-gray-500">{idx + 1}.</span>
-        <EditHandler
-          type="text"
-          value={itemVal}
-          onChange={(e) => handleArrayItemChange(value, idx, e.target.value)}
-          label=""
-        />
-        <button
-          type="button"
-          onClick={() => handleRemoveArrayItem(value, idx)}
-          className="text-red-500 hover:text-red-700"
-          title="حذف"
-        >
-          <FaTrash />
-        </button>
-      </div>
-    ))}
-    <button
-      type="button"
-      onClick={() => handleAddArrayItem(value)}
-      className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm mt-1"
-    >
-      <FaPlus /> افزودن
-    </button>
-  </div>
-): (
+                ) : (
                   <textarea
                     value={formData[value] || ""}
                     onChange={(e) => handleChange(value, e.target.value)}
