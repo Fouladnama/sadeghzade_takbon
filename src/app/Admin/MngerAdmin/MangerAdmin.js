@@ -70,7 +70,7 @@ export default function MangerAdmin({ apiUrl, cart, title }) {
           onClick={() => setIsModalOpen(true)}
           className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded shadow hover:shadow-md transition"
         >
-          اضافه کردن
+          اضافه کردن +
         </button>
       </div>
 
