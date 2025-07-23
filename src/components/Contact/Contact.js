@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
-import Navbar from "../../app/Navbar/Navbar.js";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
 import contact from "../../../public/Assests/Contact/contact.jpg";
