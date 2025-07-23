@@ -41,3 +41,4 @@ package-lock.json
 /takbonapi/uploads
 /.idea/
 /build/
+/.gitignore
