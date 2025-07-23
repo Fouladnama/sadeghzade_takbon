@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import DatePickerInput from "./DatePickerInput";
 import { toast } from "react-toastify";
+import { FaTrash, FaPlus } from "react-icons/fa";
 
 export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
   const [formData, setFormData] = useState({});
@@ -11,11 +12,29 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
   const [image, setImage] = useState(null);
   const [gallery, setGallery] = useState([]);
 
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const MAX_GALLERY_IMAGES = 5;
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleAddArrayItem = (key) => {
+    const currentArray = Array.isArray(formData[key]) ? formData[key] : [];
+    handleChange(key, [...currentArray, ""]);
+  };
+
+  const handleRemoveArrayItem = (key, idx) => {
+    const currentArray = Array.isArray(formData[key]) ? formData[key] : [];
+    const updatedArray = currentArray.filter((_, i) => i !== idx);
+    handleChange(key, updatedArray);
+  };
+
+  const handleArrayItemChange = (key, idx, newValue) => {
+    const currentArray = Array.isArray(formData[key]) ? formData[key] : [];
+    const updatedArray = [...currentArray];
+    updatedArray[idx] = newValue;
+    handleChange(key, updatedArray);
   };
 
   const handleImageChange = async (e) => {
@@ -120,20 +139,47 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-     
       <div className="fixed inset-0 flex items-center justify-center p-4">
-     
-       <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl border border-gray-200">
-
-          <Dialog.Title
-className="text-lg font-semibold mb-4 text-gray-700"
-          >افزودن مورد جدید</Dialog.Title>
-          
+        <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl border border-gray-200">
+          <Dialog.Title className="text-lg font-semibold mb-4 text-gray-700">
+            افزودن مورد جدید
+          </Dialog.Title>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {cart.map(({ value, header }) => (
+            {cart.map(({ value, header, isArray }) => (
               <div key={value} className="flex flex-col">
                 <label className="text-sm font-semibold">{header}</label>
-                {value === "publish" ? (
+                {isArray ? (
+                  <div className="flex flex-col gap-2">
+                    {(formData[value] || []).map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span className="text-gray-600 text-sm">{idx + 1}.</span>
+                        <input
+                          type="text"
+                          value={item}
+                          onChange={(e) =>
+                            handleArrayItemChange(value, idx, e.target.value)
+                          }
+                          className="border rounded p-1 flex-1 text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveArrayItem(value, idx)}
+                          className="text-red-500"
+                          title="حذف"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => handleAddArrayItem(value)}
+                      className="flex items-center gap-1 text-green-600 text-sm mt-1"
+                    >
+                      <FaPlus /> افزودن
+                    </button>
+                  </div>
+                ) : value === "publish" ? (
                   <DatePickerInput
                     value={formData[value] || ""}
                     onChange={(val) => handleChange(value, val)}
@@ -145,13 +191,13 @@ className="text-lg font-semibold mb-4 text-gray-700"
                       type="file"
                       accept="image/*"
                       onChange={handleImageChange}
-className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                      className="border rounded p-2 text-sm"
                     />
                     {image && (
                       <img
-                        src={`https://takbon.biz:3402/${image}`}
+                        src={`https://takbon.biz/${image}`}
                         alt="پیش نمایش"
-className="w-32 h-32 object-cover rounded-lg mt-2 border border-gray-300 shadow-sm hover:shadow-md transition"
+                        className="w-32 h-32 object-cover rounded mt-2 border"
                       />
                     )}
                   </>
@@ -162,53 +208,80 @@ className="w-32 h-32 object-cover rounded-lg mt-2 border border-gray-300 shadow-
                       accept="image/*"
                       multiple
                       onChange={handleGalleryChange}
-className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                      className="border rounded p-2 text-sm"
                     />
                     {gallery.length > 0 && (
                       <div className="grid grid-cols-3 gap-2 mt-2">
                         {gallery.map((imgPath, idx) => (
                           <img
                             key={idx}
-                            src={`https://takbon.biz:3402/${imgPath}`}
+                            src={`https://takbon.biz/${imgPath}`}
                             alt={`گالری ${idx + 1}`}
-className="w-24 h-24 object-cover rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition"
+                            className="w-24 h-24 object-cover rounded border"
                           />
                         ))}
                       </div>
                     )}
                   </>
-                ) : (
+                ) :isArray ? (
+  <div className="flex flex-col gap-2">
+    <label className="font-semibold text-gray-700">{header}</label>
+    {(Array.isArray(formData[value]) ? formData[value] : []).map((itemVal, idx) => (
+      <div key={idx} className="flex items-center gap-2">
+        <span className="text-sm text-gray-500">{idx + 1}.</span>
+        <EditHandler
+          type="text"
+          value={itemVal}
+          onChange={(e) => handleArrayItemChange(value, idx, e.target.value)}
+          label=""
+        />
+        <button
+          type="button"
+          onClick={() => handleRemoveArrayItem(value, idx)}
+          className="text-red-500 hover:text-red-700"
+          title="حذف"
+        >
+          <FaTrash />
+        </button>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => handleAddArrayItem(value)}
+      className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm mt-1"
+    >
+      <FaPlus /> افزودن
+    </button>
+  </div>
+): (
                   <textarea
-    value={formData[value] || ""}
-    onChange={(e) => handleChange(value, e.target.value)}
-className="border border-gray-300 rounded-lg p-2 w-full min-h-[40px] resize-y text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-    placeholder={`وارد کردن ${header}`}
-    rows={Math.min((formData[value]?.split("\n").length || 1), 15)}
-  />
+                    value={formData[value] || ""}
+                    onChange={(e) => handleChange(value, e.target.value)}
+                    className="border rounded p-2 text-sm"
+                    rows={3}
+                  />
                 )}
               </div>
             ))}
-
             {uploadProgress > 0 && (
-<div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                 <div
-    className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-300"
+                  className="bg-green-500 h-2 rounded-full"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
             )}
-
-            <div className="flex justify-end gap-2 mt-4">
+            <div className="flex justify-end gap-2">
               <button
                 type="button"
                 onClick={onClose}
-className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg transition"
+                className="px-4 py-2 bg-gray-400 text-white rounded"
               >
                 انصراف
               </button>
               <button
                 type="submit"
-className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition"
+                className="px-4 py-2 bg-green-500 text-white rounded"
               >
                 ثبت
               </button>

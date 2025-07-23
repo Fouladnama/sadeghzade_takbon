@@ -25,9 +25,9 @@ const Project = () => {
   const [isClient, setIsClient] = useState(false);
   const [ProjectsData, setProjectsData] = useState([]);
 
-  useEffect(() => {
-    setIsClient(true); // مهم!
-  }, []);
+  // useEffect(() => {
+  //   setIsClient(true); // مهم!
+  // }, []);
 
   useEffect(() => {
     const lang = searchParams.get("lang");

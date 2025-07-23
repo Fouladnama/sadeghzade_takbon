@@ -50,8 +50,6 @@ export default function ItemCard({ item, cart, onDelete, onDataChange, apiUrl })
 
   return (
     <div className="bg-white shadow rounded-xl p-4 flex flex-col gap-2 relative">
-
-      {/* مودال ویرایش */}
       {editingId === item._id && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"

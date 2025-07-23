@@ -54,9 +54,10 @@ const ProjectDetail = ({}) => {
         console.error("خطا در دریافت API:", err);
       });
   }, []);
-    useEffect(() => {
-    setIsClient(true);
-   }, []);
+
+  //   useEffect(() => {
+  //   setIsClient(true);
+  //  }, []);
 
     useEffect(() => {
     const lang = searchParams.get("lang");
