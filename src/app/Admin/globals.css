@@ -1,0 +1,26 @@
+/* اگر font-vazir هنوز اضافه نکردی، این کد رو تو tails.config.js و globals.css بذار. */
+
+.glass-box {
+  backdrop-filter: blur(18px) saturate(180%);
+  background-color: rgba(192, 164, 218, 0.62);
+  border: 1.7px solid rgba(58, 3, 80, 0.09);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(80px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-\[fadeIn_1s\] {
+  animation: fadeIn 1s both;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(+4px); }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX(+6px); }
+}
+.animate-shake {
+  animation: shake 0.35s both;
+}
+
+/* Font iranYekan or Vazir ... (در صورت نیاز اضافه کن) */
