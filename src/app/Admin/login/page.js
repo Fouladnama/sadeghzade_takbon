@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ApiConfig from "../../../Api";
 import Image from "next/image";
-import wallpaper from "../../../../public/Assests/Admin/login/1.png";
+import wallpaper from "../../../../public/Assests/Admin/login/1.jpg";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
 
