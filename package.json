@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^5.1.1",
     "@mui/icons-material": "^6.4.12",
     "@mui/material": "^6.3.1",
@@ -19,6 +20,7 @@
     "build": "^0.1.4",
     "date-object": "^2.1.6",
     "framer-motion": "^12.19.2",
+    "jalali-moment": "^3.3.11",
     "lucide-react": "^0.525.0",
     "moment-jalaali": "^0.10.4",
     "next": "^15.3.5",

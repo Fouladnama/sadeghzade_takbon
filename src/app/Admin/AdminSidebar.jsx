@@ -11,6 +11,8 @@ const links = [
   { label: "ابزار ها", href: "/Admin/ProjectsAdmin/EquipmentAdmin", icon: "🛠️" },
   { label: "رزومه‌ها", href: "/Admin/CollaborationAdmin", icon: "📄" },
   { label: "اخبار", href: "/Admin/NewsAdmin", icon: "📰" },
+  { label: "خدمات ", href: "/Admin/ServicesAdmin", icon: "📰" },
+
 ];
 
 export default function AdminSidebar() {

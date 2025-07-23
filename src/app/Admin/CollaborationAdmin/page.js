@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ApiConfig from "../../../Api";
 import Swal from "sweetalert2";
+import moment from "jalali-moment";
 
 export default function CollaborationAdmin() {
   const [news, setNews] = useState([]);
@@ -46,6 +47,8 @@ export default function CollaborationAdmin() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {news.map((item) => {
           const isSeen = seenIds.includes(item._id);
+            const shamsiDate = moment(item.created_at).locale('fa').format('YYYY/MM/DD HH:mm');
+
           return (
             <div
               key={item._id}
@@ -56,6 +59,7 @@ export default function CollaborationAdmin() {
               {isSeen && (
                 <div className="text-green-700 font-bold text-sm mb-2">✅ دیده شده</div>
               )}
+              <h2 className="font-semibold text-lg mb-2">🕒 {shamsiDate}</h2>
               <h2 className="font-semibold text-lg mb-2">{item.name} {item.family}</h2>
               <p className="text-sm text-gray-600 mb-1">📞 {item.phonenumber}</p>
               <p className="text-sm text-gray-600 mb-1">🎓رشته تحصیلی {item.field}</p>

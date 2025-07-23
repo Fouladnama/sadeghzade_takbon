@@ -1,7 +1,6 @@
 "use client";
-
 import { Dialog } from "@headlessui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import DatePickerInput from "./DatePickerInput";
 import { toast } from "react-toastify";
@@ -46,6 +45,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
       setImage(imagePath);
       toast.success("تصویر با موفقیت آپلود شد");
     } catch (err) {
+      console.error(err);
       toast.error("خطا در آپلود تصویر");
     } finally {
       setUploadProgress(0);
@@ -87,7 +87,8 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
         setGallery((prev) => [...prev, imagePath]);
         toast.success(`تصویر ${i + 1} با موفقیت آپلود شد`);
       }
-    } catch {
+    } catch (err) {
+      console.error(err);
       toast.error("خطا در آپلود تصاویر گالری");
     } finally {
       setUploadProgress(0);
@@ -110,10 +111,8 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
       toast.success("با موفقیت اضافه شد!");
       onClose();
       onSuccess();
-      setFormData({});
-      setImage(null);
-      setGallery([]);
-    } catch {
+    } catch (err) {
+      console.error(err);
       toast.error("خطا در ارسال اطلاعات");
     }
   };
@@ -121,9 +120,15 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+     
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="bg-white rounded p-6 max-w-md w-full">
-          <Dialog.Title className="text-lg font-bold mb-4">افزودن مورد جدید</Dialog.Title>
+     
+       <Dialog.Panel className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl border border-gray-200">
+
+          <Dialog.Title
+className="text-lg font-semibold mb-4 text-gray-700"
+          >افزودن مورد جدید</Dialog.Title>
+          
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {cart.map(({ value, header }) => (
               <div key={value} className="flex flex-col">
@@ -140,13 +145,13 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                       type="file"
                       accept="image/*"
                       onChange={handleImageChange}
-                      className="border rounded p-2"
+className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                     />
                     {image && (
                       <img
                         src={`https://takbon.biz:3402/${image}`}
                         alt="پیش نمایش"
-                        className="w-32 h-32 object-cover rounded mt-2 border"
+className="w-32 h-32 object-cover rounded-lg mt-2 border border-gray-300 shadow-sm hover:shadow-md transition"
                       />
                     )}
                   </>
@@ -157,7 +162,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                       accept="image/*"
                       multiple
                       onChange={handleGalleryChange}
-                      className="border rounded p-2"
+className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                     />
                     {gallery.length > 0 && (
                       <div className="grid grid-cols-3 gap-2 mt-2">
@@ -166,28 +171,28 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                             key={idx}
                             src={`https://takbon.biz:3402/${imgPath}`}
                             alt={`گالری ${idx + 1}`}
-                            className="w-24 h-24 object-cover rounded border"
+className="w-24 h-24 object-cover rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition"
                           />
                         ))}
                       </div>
                     )}
                   </>
                 ) : (
-                  <input
-                    type="text"
-                    value={formData[value] || ""}
-                    onChange={(e) => handleChange(value, e.target.value)}
-                    className="border rounded p-2"
-                    placeholder={`وارد کردن ${header}`}
-                  />
+                  <textarea
+    value={formData[value] || ""}
+    onChange={(e) => handleChange(value, e.target.value)}
+className="border border-gray-300 rounded-lg p-2 w-full min-h-[40px] resize-y text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+    placeholder={`وارد کردن ${header}`}
+    rows={Math.min((formData[value]?.split("\n").length || 1), 15)}
+  />
                 )}
               </div>
             ))}
 
             {uploadProgress > 0 && (
-              <div className="w-full bg-gray-200 rounded-full h-2">
+<div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
                 <div
-                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
+    className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
@@ -197,11 +202,14 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-400 text-white rounded"
+className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg transition"
               >
                 انصراف
               </button>
-              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
+              <button
+                type="submit"
+className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition"
+              >
                 ثبت
               </button>
             </div>
