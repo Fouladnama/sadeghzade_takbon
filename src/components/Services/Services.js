@@ -14,6 +14,8 @@ import production_planning from "../../../public/Assests/Services/production-pla
 import informationSystem from "../../../public/Assests/Services/inf-system.jpg";
 import data_analysis from "../../../public/Assests/Services/data-analysis.jpg";
 import report from "../../../public/Assests/Services/report.jpg";
+import axios from "axios";
+
 import {
     ServicesContainer,
     Main,
@@ -32,7 +34,22 @@ const Services = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const searchParams = useSearchParams();
     const [language, setLanguage] = useState(null);
-
+    const [ServicesData, setServicesData] = useState([]);
+useEffect(() => {
+  axios
+    .get("https://takbon.biz:3402/services_available")
+    .then((response) => {
+      const validatedData = response.data.value.map((Services) => ({
+        ...Services,
+        content: Services.content || "",
+      }));
+      setServicesData(validatedData);
+    })
+    .catch((error) => {
+      console.error("Error fetching Services data:", error);
+    });
+    
+}, []);
     useEffect(() => {
         if (searchParams.get("lang") == "fa" || searchParams.get("lang") == "en")
             setLanguage(searchParams.get("lang"));
@@ -47,8 +64,8 @@ const Services = () => {
 
     return (
         <>
-            {
-                language == 'fa' &&
+            {ServicesData.length > 0 && (
+                // language == 'fa' &&
                 <ServicesContainer>
                     <Navbar />
                     <Main image={background} direction={"rtl"} >
@@ -56,148 +73,45 @@ const Services = () => {
                             <Logo href={`/landing?lang=${language}`} hover={logoGif} />
                         </Heading>
                         <Content>
-                            <Tabs>
-                                <LazyLoad className="lazy" height={100} offset={200}>
-                                    <Tab onClick={() => {handleTabClick(0);}} >
-                                        <TabDetail image={diagnostics} />
-                                        <p>عارضه یابی</p>
-                                    </Tab>
-                                    
-                                    <Tab onClick={() => {handleTabClick(1);}} >
-                                        <TabDetail image={production_planning} />
-                                        <p>مدلسازی و بهینه سازی</p>
-                                    </Tab>
-                                    
-                                    <Tab onClick={() => {handleTabClick(2);}} >
-                                        <TabDetail image={processDesign} />
-                                        <p>تحلیل فرآیندها</p>
-                                    </Tab>
-                                    
-                                    <Tab onClick={() => {handleTabClick(3);}} >
-                                        <TabDetail image={simulation} />
-                                        <p>شبیه سازی</p>
-                                    </Tab>
-                                    
-                                    {/* <Tab onClick={() => {handleTabClick(4);}} >
-                                        <TabDetail image={learning} />
-                                        <p>آموزش</p>
-                                    </Tab> */}
-                                    
-                                    <Tab onClick={() => {handleTabClick(5);}} >
-                                        <TabDetail image={informationSystem} />
-                                        <p>طراحی و تحلیل سیستم های اطلاعاتی</p>
-                                    </Tab>
+                         <Tabs>
+  <LazyLoad className="lazy" height={100} offset={200}>
+    {ServicesData.map((item, index) => (
+      <Tab key={item._id} onClick={() => handleTabClick(index)}>
+        <TabDetail image={`https://takbon.biz/${item.image}`} />
+        <p>{language === 'fa' ? item.title_fa.trim() : item.title_en.trim()}</p>
+      </Tab>
+    ))}
+  </LazyLoad>
+</Tabs>
+                      <TabContent>
+  {ServicesData[selectedTab] && (
+    <TabContentContainer $adjust={language === 'fa'}>
+      <ProjectTitle
+        $adjust={language === 'fa'}
+        selected={true}
+      >
+        {language === 'fa'
+          ? ServicesData[selectedTab].title_fa.trim()
+          : ServicesData[selectedTab].title_en.trim()}
+      </ProjectTitle>
 
-                                    <Tab onClick={() => {handleTabClick(6);}} >
-                                        <TabDetail image={data_analysis} />
-                                        <p>تحلیل داده</p>
-                                    </Tab>
-                                    
-                                    <Tab onClick={() => {handleTabClick(7);}} >
-                                        <TabDetail image={report} />
-                                        <p>گزارشات هوش تجاری</p>
-                                    </Tab>
-                                </LazyLoad>
-                            </Tabs>
-                            <TabContent>
-                                {
-                                    selectedTab == 0 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 0} >عارضه یابی</ProjectTitle>
-                                        <ul>
-                                            <li>عارضه یابی سازمانی</li>
-                                            <li>عارضه یابی هزینه ای</li>
-                                        </ul>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 1 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 1} >مدلسازی و بهینه سازی</ProjectTitle>
-                                        <p>
-                                            <span>برنامه ریزی و تخصیص</span>
-                                            <ul className="normal">
-                                                <li>مواد اولیه</li>
-                                                <li>کارگران</li>
-                                                <li>ایستگاه های کاری</li>
-                                            </ul>
-                                            <span>برای انجام به موقع سفارشات</span>
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 2 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 2} >تحلیل فرآیندها</ProjectTitle>
-                                        <p>
-                                            فرایند مجموعه‌ای از وظایف مرتبط به هم است که ورودی‌ها را به یک خروجی معین تبدیل میکند.
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 3 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 3} >شبیه سازی</ProjectTitle>
-                                        <p>
-                                            شبیه‌ سازی تقلید از عملکرد یک فرایند یا یک سیستم واقعی در طول زمان است.
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 4 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 4} >آموزش</ProjectTitle>
-                                        <p>
-                                            <ul className="normal">
-                                                <li>GAMS</li>
-                                                <li>Anylogic</li>
-                                                <li>Python</li>
-                                                <li>#C</li>
-                                                <li>SQL</li>
-                                                <li>BPMN<span>2.0</span></li>
-                                            </ul>
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 5 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 5} >طراحی و استقرار سیستم های اطلاعاتی</ProjectTitle>
-                                        <p>
-                                            <span>طراحی و استقرار سیستم</span>
-                                            <ul className="normal" >
-                                                <li>سیاست گذاری برنامه ریزی خرید</li>
-                                                <li>وفاداری مشتریان</li>
-                                                <li>مدل پایلوت برنامه ریزی هوشمند خرید</li>
-                                            </ul>
-                                            <span></span>
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 6 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 6} >تحلیل داده</ProjectTitle>
-                                        <p>
-                                            فرآیند فهمیدن، پاک‌سازی، آماده‌سازی و تحلیل داده‌ها که به منظور استخراج اطلاعات سودمند برای تصمیم‌گیری انجام می‌شود.
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                                {
-                                    selectedTab == 7 &&
-                                    <TabContentContainer $adjust={language == 'fa'} >
-                                        <ProjectTitle $adjust={language == 'fa'} selected={selectedTab == 7} >گزارشات هوش تجاری</ProjectTitle>
-                                        <p>
-                                            گزارشات مدیریتی هستند که داده‌ های خام و بدون معنا را به اطلاعاتی معنادار برای سود بخشیدن به امور تجاری، مالی و بازرگانی تبدیل می کنند.
-                                        </p>
-                                    </TabContentContainer>
-                                }
-                            </TabContent>
+      <ul>
+        {(language === 'fa'
+          ? ServicesData[selectedTab].items_fa
+          : ServicesData[selectedTab].items_en
+        ).map((item, idx) => (
+          <li key={idx}>{item.trim()}</li>
+        ))}
+      </ul>
+    </TabContentContainer>
+  )}
+</TabContent>
+
                         </Content>
                     </Main>
                     <Footer />
                 </ServicesContainer>
-            }
+            )}
             {
                 language == 'en' &&
                 <ServicesContainer>

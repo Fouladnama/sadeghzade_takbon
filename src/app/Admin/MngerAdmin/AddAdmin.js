@@ -1,7 +1,7 @@
 "use client";
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
-import axios from "axios";
+import ApiConfig from "../../../Api";
 import DatePickerInput from "./DatePickerInput";
 import { toast } from "react-toastify";
 import { FaTrash, FaPlus } from "react-icons/fa";
@@ -51,7 +51,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
 
     try {
       setUploadProgress(0);
-      const res = await axios.post("https://takbon.biz:3402/uploads", data, {
+      const res = await ApiConfig.post("https://takbon.biz:3402/uploads", data, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (pe) => {
           const prog = Math.round((pe.loaded * 100) / pe.total);
@@ -195,7 +195,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                     />
                     {image && (
                       <img
-                        src={`https://takbon.biz:3402/${image}`}
+                        src={`https://takbon.biz/${image}`}
                         alt="پیش نمایش"
                         className="w-32 h-32 object-cover rounded mt-2 border"
                       />
@@ -215,7 +215,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
                         {gallery.map((imgPath, idx) => (
                           <img
                             key={idx}
-                            src={`https://takbon.biz:3402/${imgPath}`}
+                            src={`https://takbon.biz/${imgPath}`}
                             alt={`گالری ${idx + 1}`}
                             className="w-24 h-24 object-cover rounded border"
                           />

@@ -125,7 +125,7 @@ export const TabDetail = styled.div`
     width: 150px;
     height: 100px;
     border-radius: 15px 15px 0 0;
-    background-image: url(${props => props.image.src});
+    background-image: url(${props => props.image});
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

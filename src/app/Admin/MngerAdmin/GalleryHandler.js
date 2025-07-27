@@ -3,7 +3,7 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
-import axios from "axios";
+import ApiConfig from "../../../Api";
 
 export default function GalleryHandler({
   editedValues,
@@ -21,7 +21,7 @@ export default function GalleryHandler({
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+      const res = await ApiConfig.post("https://takbon.biz:3402/uploads", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const imagePath = `images/${res.data.key}`;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import ApiConfig from "../../../Api";
 import AddAdmin from "./AddAdmin";
 import ItemList from "./ItemList";
 import Swal from "sweetalert2";
@@ -15,7 +15,7 @@ export default function MangerAdmin({ apiUrl, cart, title }) {
   const fetchData = () => {
     if (!apiUrl) return;
     setLoading(true);
-    axios
+    ApiConfig
       .get(`https://takbon.biz:3402/${apiUrl}`)
       .then((res) => {
         if (res.data && Array.isArray(res.data.value)) {

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import ApiConfig from "../../../Api";
 
 export default function ImageUploader({ editedValues, setEditedValues, field, header }) {
   const handleImageUpload = async (e) => {
@@ -13,7 +13,7 @@ export default function ImageUploader({ editedValues, setEditedValues, field, he
     formData.append("file", file);
 
     try {
-      const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+      const res = await ApiConfig.post("https://takbon.biz:3402/uploads", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
