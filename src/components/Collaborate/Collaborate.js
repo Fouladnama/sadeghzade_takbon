@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
-import ApiConfig from "../../../Api";
+import axios from 'axios';
 import Navbar from "../Navbar/Navbar.js";
 import Footer from "../Footer/Footer.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
@@ -416,7 +416,7 @@ const Collaborate = () => {
                 const formData = new FormData();
                 formData.append('file', resumeFile);
         
-                const response = await ApiConfig.post('https://takbon.biz:3402/upload', formData, {
+                const response = await axios.post('https://takbon.biz:3402/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -611,7 +611,7 @@ const Collaborate = () => {
             formData.append('address', address);
             formData.append('upload_file', uploadedResume);
 
-            const response = await ApiConfig.post('https://takbon.biz:3402/collaborate', formData, {
+            const response = await axios.post('https://takbon.biz:3402/collaborate', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
