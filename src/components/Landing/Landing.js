@@ -6,7 +6,7 @@ import {Circles} from 'react-loader-spinner';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import axios from 'axios';
+import ApiConfig from "../../Api";
 import Footer from "../Footer/Footer.js";
 import Navbar from "../Navbar/Navbar.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
@@ -105,7 +105,7 @@ const LandingPage = () => {
     const [selectedNews, setSelectedNews] = useState(0);
 
     useEffect(() => {
-        axios.get('https://takbon.biz:3402/news?page=1&size=3')
+        ApiConfig.get('https://takbon.biz:3402/news?page=1&size=3')
             .then(response => {
                 setSliderData(response.data.value);
             })

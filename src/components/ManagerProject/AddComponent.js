@@ -21,7 +21,7 @@ import {
   Tooltip
 } from "@mui/material";
 import { MdClose, MdCheckCircle, MdUploadFile } from "react-icons/md";
-import axios from "axios";
+import ApiConfig from "../../Api";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Slide from '@mui/material/Slide';
@@ -162,7 +162,7 @@ const handleImageChange = async (field, e) => {
 
   try {
     setUploadProgress(p => ({ ...p, [field]: 0 }));
-    const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+    const res = await ApiConfig.post("https://takbon.biz:3402/uploads", formData, {
       headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress: pe => {
         const prog = Math.round((pe.loaded * 100) / pe.total);
@@ -182,7 +182,7 @@ const handleSubmit = async e => {
   e.preventDefault();
   setIsSubmitting(true);
   try {
-    await axios.post(url, formValues);
+    await ApiConfig.post(url, formValues);
     toast.success("آیتم با موفقیت اضافه شد");
     onAdd();       // آپدیت داده‌ها
     onClose();     // بستن مودال

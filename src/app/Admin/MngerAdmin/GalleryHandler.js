@@ -50,7 +50,7 @@ export default function GalleryHandler({
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await axios.post("https://takbon.biz:3402/uploads", formData, {
+        const res = await ApiConfig.post("https://takbon.biz:3402/uploads", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 

@@ -2,7 +2,7 @@
 import {useState, useEffect } from "react";
 import {useRouter, useSearchParams} from 'next/navigation';
 import {Circles} from 'react-loader-spinner';
-import axios from "axios";
+import ApiConfig from "../../Api";
 import ReactPaginate from 'react-paginate';
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer.js";
@@ -61,7 +61,7 @@ useEffect(() => {
 }, [itemOffset, pageisChanging]);
 
     useEffect(() => {
-        axios.get('https://takbon.biz:3402/news?page=1&size=3')
+        ApiConfig.get('https://takbon.biz:3402/news?page=1&size=3')
             .then(response => {
                 setNews(response.data.value);
             })

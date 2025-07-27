@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import ManagerProject from "../../../../components/ManagerProject/ManagerProject";
-import axios from "axios";
+import ApiConfig from "../../../../Api";
 
 export default function ProjectsNameAdmin() {
   const [project, setProject] = useState([]);
 
   useEffect(() => {
-    axios
+    ApiConfig
       .get("https://takbon.biz:3402/get_projects")
       .then((res) => {
         if (res.data && Array.isArray(res.data.value)) {

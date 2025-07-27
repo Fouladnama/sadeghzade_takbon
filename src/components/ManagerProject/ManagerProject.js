@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import ApiConfig from "../../Api";
 import AddComponent from "./AddComponent";
 import {
   Box,
@@ -31,7 +31,7 @@ const ManagerProject = ({ url, columns, title }) => {
 const [editModalOpen, setEditModalOpen] = useState(false);
 
   const fetchData = useCallback(() => {
-    axios.get(url)
+    ApiConfig.get(url)
       .then(res => {
         if (res.data && Array.isArray(res.data.value)) {
           setData(res.data.value);
@@ -72,7 +72,7 @@ useEffect(() => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const uploadRes = await axios.post(
+      const uploadRes = await ApiConfig.post(
         'https://takbon.biz:3402/uploads',
         formData,
         {
@@ -96,7 +96,7 @@ useEffect(() => {
 
   const handleSave = async id => {
     try {
-      const res = await axios.post(url, editValues, {
+      const res = await ApiConfig.post(url, editValues, {
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.data) {
@@ -125,7 +125,7 @@ const handleDelete = id => {
         cancelButtonText: 'لغو'
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.delete(`${url}/?id=${id}`)
+            ApiConfig.delete(`${url}/?id=${id}`)
                 .then(() => {
                     setData(prev => prev.filter(item => item._id !== id));
                     Swal.fire({

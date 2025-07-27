@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import ApiConfig from "../../../Api";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://takbon.biz:3402/login", {
+      const response = await ApiConfig.post("https://takbon.biz:3402/login", {
         username,
         password
       });

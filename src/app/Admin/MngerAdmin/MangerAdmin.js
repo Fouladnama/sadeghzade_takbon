@@ -49,7 +49,7 @@ export default function MangerAdmin({ apiUrl, cart, title }) {
       cancelButtonText: "لغو",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        ApiConfig
           .delete(`https://takbon.biz:3402/${apiUrl}?id=${id}`)
           .then(() => {
             setData((prev) => prev.filter((item) => item._id !== id));

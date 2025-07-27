@@ -2,7 +2,7 @@
 
 import { Dialog } from "@headlessui/react";
 import React, { useState } from "react";
-import axios from "axios";
+import ApiConfig from "../../Api";
 import DatePickerInput from "./DatePickerInput";
 import { toast } from "react-toastify";
 
@@ -33,7 +33,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
 
     try {
       setUploadProgress(0);
-      const res = await axios.post("https://takbon.biz:3402/uploads", data, {
+      const res = await ApiConfig.post("https://takbon.biz:3402/uploads", data, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (pe) => {
           const prog = Math.round((pe.loaded * 100) / pe.total);
@@ -73,7 +73,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
         const data = new FormData();
         data.append("file", file);
 
-        const res = await axios.post("https://takbon.biz:3402/uploads", data, {
+        const res = await ApiConfig.post("https://takbon.biz:3402/uploads", data, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (pe) => {
             const prog = Math.round((pe.loaded * 100) / pe.total);
@@ -105,7 +105,7 @@ export default function AddAdmin({ isOpen, onClose, cart, apiUrl, onSuccess }) {
       if (image) preparedData["image"] = image;
       if (gallery.length > 0) preparedData["gallery"] = gallery;
 
-      await axios.post(`https://takbon.biz:3402/${apiUrl}`, preparedData);
+      await ApiConfig.post(`https://takbon.biz:3402/${apiUrl}`, preparedData);
 
       toast.success("با موفقیت اضافه شد!");
       onClose();
