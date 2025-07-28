@@ -6,7 +6,7 @@ import {Circles} from 'react-loader-spinner';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ApiConfig from "../../Api";
+import axios from "axios";
 import Footer from "../Footer/Footer.js";
 import Navbar from "../Navbar/Navbar.js";
 import logoGif from "../../../public/Assests/Landing/takbon.gif";
@@ -19,9 +19,6 @@ import descriptionImage from "../../../public/Assests/Landing/decision03.jpg";
 import starIcon from "../../../public/Assests/Landing/star.svg";
 import chainImage from "../../../public/Assests/Landing/scm.jpg";
 import calendarIcon from "../../../public/Assests/Landing/calendar.svg";
-import fouladMobarakeh from "../../../public/Assests/Landing/foulad.jpeg";
-import amirKabir from "../../../public/Assests/Landing/Amirkabir.jpg";
-import foluadHormozgan from "../../../public/Assests/Landing/FouladHormozgan.svg";
 import {
     Loader,
     LandingContainer,
@@ -103,9 +100,10 @@ const LandingPage = () => {
     // news:
     const [sliderData, setSliderData] = useState(null);
     const [selectedNews, setSelectedNews] = useState(0);
+    const [companydata, setCompanyData] = useState([]);
 
     useEffect(() => {
-        ApiConfig.get('https://takbon.biz:3402/news?page=1&size=3')
+        axios.get('https://takbon.biz:3402/news?page=1&size=3')
             .then(response => {
                 setSliderData(response.data.value);
             })
@@ -113,7 +111,15 @@ const LandingPage = () => {
                 console.log(error);
             });
     }, []);
-
+    useEffect(() => {
+        axios.get("https://takbon.biz:3402/company")
+            .then((response) => {
+                setCompanyData(response.data.value || []);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
     const Persianize_Numbers = (str) => {
         str = str.toString();
         let persianized = "";
@@ -532,239 +538,37 @@ const LandingPage = () => {
                                         </ChainPart>
                                     </ChainText>
                                 </Chain>
+   <Trust>
+            <TrustTitle>شرکت‌هایی که به تاک‌بن اعتماد کرده‌اند</TrustTitle>
 
-                                <Trust>
-                                    <TrustTitle>شرکت هایی که به تاک بن اعتماد کرده اند</TrustTitle>
-                                    <TrustLogos>
-                                        <Slider {...settings} >
-                                            <TrustLogo src={fouladMobarakeh.src} alt={"fouladMobarakeh"}/>
-                                            <TrustLogo src={amirKabir.src} alt={"amirKabir"}/>
-                                            <ExceptionLogo src={foluadHormozgan.src} alt={"foluadHormozgan"}/>
-                                            <TrustLogo src={fouladMobarakeh.src} alt={"fouladMobarakeh"}/>
-                                            <TrustLogo src={amirKabir.src} alt={"amirKabir"}/>
-                                            <ExceptionLogo src={foluadHormozgan.src} alt={"foluadHormozgan"}/>
-                                        </Slider>
-                                    </TrustLogos>
-                                </Trust>
+            {companydata.length > 0 && (
+                <TrustLogos>
+                    <Slider {...settings}>
+                        {companydata.map((item, index) => {
+                            const imageUrl = item.image
+                                ? item.image.startsWith("http")
+                                    ? item.image
+                                    : `https://takbon.biz/images/${item.image.replace(/^images\//, "")}`
+                                : "/fallback-image.jpg";
+
+                            // اگر بخوای مثلاً هر تصویر خاص با ExceptionLogo بیاد:
+                            const isException = item.title.includes("هرمزگان");
+
+                            return isException ? (
+                                <ExceptionLogo key={index} src={imageUrl} alt={item.title} title={item.title} />
+                            ) : (
+                                <TrustLogo key={index} src={imageUrl} alt={item.title} title={item.title} />
+                            );
+                        })}
+                    </Slider>
+                </TrustLogos>
+            )}
+        </Trust>
                             </Main>
                             <Footer/>
                         </LandingContainer>
                     }
-                    {
-                        language == 'en' &&
-                        <LandingContainer>
-                            <Navbar/>
-                            <Main direction={"ltr"}>
-                                <LogoContainer>
-                                    <Logo href={`/landing?lang=${language}`} hover={logoGif}/>
-                                </LogoContainer>
-                                <Heading>
-                                    <Video autoPlay loop muted>
-                                        <source src={"/Assests/Landing/computer.mp4"} type="video/mp4"/>
-                                    </Video>
-                                    <div className="hero">
-                                        <HeroImage image={hero}/>
-                                    </div>
-                                </Heading>
-
-                                <Typewriter letterSpace={language == 'fa'}>
-                                    <TypeAnimation
-                                        cursor={false}
-                                        className="typewriter"
-                                        preRenderFirstString={false}
-                                        sequence={[
-                                            500,
-                                            'Decision Support Systems Engineering Company - Takbon',
-                                            2000,
-                                            ''
-                                        ]}
-                                        speed={10}
-                                        repeat={Infinity}
-                                    />
-                                </Typewriter>
-
-                                {
-                                    (sliderData.length > 0) &&
-                                    <NewsMag>
-                                        <NewsTitle>Company's latest news</NewsTitle>
-                                        <NewsSection>
-                                            <RightSec className='newsSection'>
-                                                <News>
-                                                    <NewsImage
-                                                        src={'https://takbon.biz/' + sliderData[selectedNews].image}
-                                                        alt={sliderData[selectedNews].title}/>
-                                                    <NewsText>
-                                                        <p>
-                                                            <Calendar src={calendarIcon.src} alt={"calendarIcon"}/>
-                                                            {Persianize_Numbers(sliderData[selectedNews].publish.split("/")[2])} {Persian_month[parseInt(sliderData[selectedNews].publish.split("/")[1]) - 1]} {Persianize_Numbers(sliderData[selectedNews].publish.split("/")[0])}
-                                                        </p>
-                                                        <h3>{sliderData[selectedNews].title}</h3>
-                                                        <div>
-                                                            <ModalButton onClick={() => {
-                                                                router.push("/news" + "/" + `?lang=fa` + "&data=" + JSON.stringify(sliderData[selectedNews]))
-                                                            }}>ادامه مطلب</ModalButton>
-                                                        </div>
-                                                    </NewsText>
-                                                </News>
-                                            </RightSec>
-                                            <LeftSec>
-                                                <div className='newsLeft'>
-                                                    {
-                                                        sliderData.slice(0, 6).map((slide, index) => {
-                                                            return (
-                                                                <NewsItem onClick={() => {
-                                                                    router.push("/news" + "/" + `?lang=fa` + "&data=" + JSON.stringify(slide))
-                                                                }} key={index}>
-                                                                    <Image src={'https://takbon.biz/' + slide.image}
-                                                                           alt={slide.title}/>
-                                                                    <Text>
-                                                                        <h3>{slide.title}</h3>
-                                                                        <Date>
-                                                                            <Calendar src={calendarIcon.src}
-                                                                                      alt={"calendarIcon"}/>
-                                                                            <p>{Persianize_Numbers(parseInt(slide.publish.split("/")[2], 10))} {Persian_month[parseInt(slide.publish.split("/")[1]) - 1]} {Persianize_Numbers(slide.publish.split("/")[0])}</p>
-                                                                        </Date>
-                                                                    </Text>
-                                                                </NewsItem>
-                                                            )
-                                                        })
-                                                    }
-                                                </div>
-                                                <ArchiveButton onClick={() => {
-                                                    router.push("/news-archive" + "/" + `?lang=${language}`)
-                                                }}>آرشیو اخبار</ArchiveButton>
-                                            </LeftSec>
-                                        </NewsSection>
-                                    </NewsMag>
-                                }
-
-                                <DecisionImageEN ref={decisionRef} image={decision}>
-                                    <DecisionTextEN className="choice">
-                                        Precision, Rapid, Optimal Decision-Making
-                                    </DecisionTextEN>
-                                </DecisionImageEN>
-
-                                <Properties ref={propertyRef}>
-                                    <Property className="graduation">
-                                        <PropertyIcon image={graduation_cap}/>
-                                        <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
-                                                Engagement with Academic Community
-                                            </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
-                                                <div>Utilizing graduates from reputable national universities for
-                                                    postgraduate studies
-                                                </div>
-                                                <div>Utilizing prominent professors and consultants from domestic and
-                                                    international universities
-                                                </div>
-                                            </PropertyText>
-                                        </PropertyTitleContainer>
-                                    </Property>
-                                    <Property className="rocket">
-                                        <PropertyIcon image={rocket}/>
-                                        <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
-                                                New Technologies
-                                            </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
-                                                Equipped with the latest methods, technologies, and cutting-edge
-                                                decision-making tools
-                                            </PropertyText>
-                                        </PropertyTitleContainer>
-                                    </Property>
-                                    <Property className="random">
-                                        <PropertyIcon image={random}/>
-                                        <PropertyTitleContainer>
-                                            <PropertyTitle adjust={language == 'fa'}>
-                                                Decision Support Systems
-                                            </PropertyTitle>
-                                            <PropertyText adjust={language == 'fa'}>
-                                                Designing and modeling various decision support systems, especially
-                                                systems required in major industries
-                                            </PropertyText>
-                                        </PropertyTitleContainer>
-                                    </Property>
-                                </Properties>
-
-                                <PropertyDescription ref={descriptionRef}>
-                                    <DescriptionText className="text">
-                                        <DescriptionTitle image={starIcon}>
-                                            <div/>
-                                            <div>Decision Support System Features :</div>
-                                        </DescriptionTitle>
-                                        <DescriptionPart>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>A computer-based system that utilizes computer technologies and methodologies.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It aids decision-making but does not replace the decision-maker.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It utilizes databases, analytical and computational models, expert systems, and optimization algorithms to solve problems.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It has the capability to support individual and group decision-making.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It is usable for all levels of management.</span></DescriptionItem>
-                                            <DescriptionItem letterSpace={language == 'fa'}><span>It improves the accuracy, speed, and quality of decision-making.</span></DescriptionItem>
-                                        </DescriptionPart>
-                                    </DescriptionText>
-                                    <DescriptionImage adjust={language == 'fa'} className="image"
-                                                      image={descriptionImage}>
-                                        <ImageText>
-                                            <div>Enjoy your decisions</div>
-                                            <div>We offer our decision support system (DSS) Services</div>
-                                        </ImageText>
-                                    </DescriptionImage>
-                                </PropertyDescription>
-
-                                <Chain ref={chainRef}>
-                                    <ChainImage className="image" image={chainImage}/>
-                                    <ChainText className="text">
-                                        <ChainTitle image={starIcon}>
-                                            <div/>
-                                            <div>The features of digital supply chain :</div>
-                                        </ChainTitle>
-                                        <ChainPart>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Tools:</span> Information in
-                                                the next-generation supply chain is primarily generated by machines, for
-                                                example, through sensors, RFID tags, counters, and many
-                                                others.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Continuity:</span> The
-                                                entire supply chain, including business entities, IT systems, products,
-                                                and other smart objects, is interconnected in an intelligent supply
-                                                chain.</ChainItem>
-                                            <ChainItem
-                                                letterSpace={language == 'fa'}><span>intelligence:</span> Intelligent
-                                                supply chains adopt optimal decisions on a large scale to optimize
-                                                performance.</ChainItem>
-                                            <ChainItem
-                                                letterSpace={language == 'fa'}><span>Automation:</span> Intelligent
-                                                supply chains, using machines as substitutes for less efficient
-                                                resources such as labor, automate a majority of their
-                                                processes.</ChainItem>
-                                            <ChainItem letterSpace={language == 'fa'}><span>Integration:</span> The
-                                                integration of supply chain processes includes collaboration in supply
-                                                chain stages, joint decision-making, shared systems, and information
-                                                sharing.</ChainItem>
-                                            <ChainItem
-                                                letterSpace={language == 'fa'}><span>Innovation:</span> Innovation is
-                                                the development of new values through solutions that address new needs,
-                                                significant needs, or even existing needs in better ways.</ChainItem>
-                                        </ChainPart>
-                                    </ChainText>
-                                </Chain>
-
-                                <Trust>
-                                    <TrustTitle>The companies that have trusted Takbon</TrustTitle>
-                                    <TrustLogos>
-                                        <Slider {...settings} >
-                                            <TrustLogo src={fouladMobarakeh.src} alt={"fouladMobarakeh"}/>
-                                            <TrustLogo src={amirKabir.src} alt={"amirKabir"}/>
-                                            <ExceptionLogo src={foluadHormozgan.src} alt={"foluadHormozgan"}/>
-                                            <TrustLogo src={fouladMobarakeh.src} alt={"fouladMobarakeh"}/>
-                                            <TrustLogo src={amirKabir.src} alt={"amirKabir"}/>
-                                            <ExceptionLogo src={foluadHormozgan.src} alt={"foluadHormozgan"}/>
-                                        </Slider>
-                                    </TrustLogos>
-                                </Trust>
-                            </Main>
-                            <Footer/>
-                        </LandingContainer>
-                    }
+                  
                 </>
             }
             {

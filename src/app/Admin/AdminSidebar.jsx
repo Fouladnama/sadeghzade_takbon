@@ -12,6 +12,7 @@ const links = [
   { label: "رزومه‌ها", href: "/Admin/CollaborationAdmin", icon: "📄" },
   { label: "اخبار", href: "/Admin/NewsAdmin", icon: "📰" },
   { label: "خدمات ", href: "/Admin/ServicesAdmin", icon: "📰" },
+  { label: "مشتریان ", href: "/Admin/CompanyAdmin", icon: "📰" },
 
 ];
 

@@ -12,8 +12,11 @@ const apiUrl = "get_equipment";
       title="ابزارهای پروژه"
         cart={[
           {value:"imageTitle",header:"نام"},
-          {value:"image",header:" عکس",  isImage: true,
-            useImagesPath: true  }
+          {value:"image",
+          header:" عکس",
+          isImage: true,
+          useImagesPath: true 
+         }
         ]}
         apiUrl={apiUrl}
       />

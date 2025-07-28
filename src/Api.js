@@ -1,61 +1,62 @@
 import axios from "axios";
-// import { deleteAllCookies, getCookie } from "./helper";
 import { toast } from "react-toastify";
+
 const ApiConfig = axios.create();
 
 ApiConfig.interceptors.request.use(
-  async config => {
-    let access_token = localStorage.getItem("access_token")
+  config => {
+    const access_token = localStorage.getItem("access_token");
     if (access_token) {
       config.headers = {
-        'Authorization': localStorage.getItem("access_token"),
-        'Accept': 'application/json'
-      }
+        ...config.headers,
+        'Authorization': `Bearer ${access_token}`,
+        'Accept': 'application/json',
+      };
     }
     return config;
   },
-  error => {
-    Promise.reject(error)
-  });
+  error => Promise.reject(error)
+);
 
-ApiConfig.interceptors.response.use((response) => {
-  return response
-}, async (error) => {
-  const config = error.config;
- 
-  if (error.response && error.response.status === 403 && !config._retry) {
-    config._retry = true;
+ApiConfig.interceptors.response.use(
+  response => response,
+  async error => {
+    const config = error.config;
+    const isAdminRoute = window.location.pathname.startsWith("/Admin");
 
-    // deleteAllCookies();
-    localStorage.clear()
-    toast.error("خطا احراز هویت");
-    window.location.replace("/Admin/login")
-    try {
+    if (error.response?.status === 403 && !config._retry) {
+      config._retry = true;
+
       const refresh_token = localStorage.getItem("refresh_token");
       if (refresh_token) {
-        const rs = await ApiConfig.post(process.env.REACT_APP_API_URL + "/refreshToken?refreshToken="+refresh_token, {refreshToken:refresh_token}, {
-          headers: { "x-refresh-token": refresh_token }
-        });
-        const { refreshToken, token } = rs.data;
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("refresh_token", refreshToken)
-        axios.defaults.headers.common['x-access-token'] = token;
+        try {
+          const rs = await ApiConfig.post(`${process.env.REACT_APP_API_URL}/refreshToken?refreshToken=${refresh_token}`);
+          const { token, refreshToken } = rs.data;
+          localStorage.setItem("access_token", token);
+          localStorage.setItem("refresh_token", refreshToken);
+          config.headers['Authorization'] = `Bearer ${token}`;
+          return ApiConfig(config);
+        } catch (err) {
+          toast.error("دسترسی منقضی شده. لطفاً دوباره وارد شوید.");
+          localStorage.clear();
+          window.location.replace("/Admin/login");
+          return Promise.reject(err);
+        }
       } else {
+        toast.error("لطفاً دوباره وارد شوید.");
         localStorage.clear();
         window.location.replace("/Admin/login");
+        return Promise.reject(error);
       }
-      return ApiConfig(config);
-    } catch (err) {
-      return Promise.reject(err)
     }
-  }else if (error.response && error.response.status === 401) {
-    localStorage.clear();
-    window.location.replace("/login");
-    return Promise.reject(error)
-  }
-  //handle global error
-  
-  return Promise.reject(error)
-});
 
-export default ApiConfig; 
+    if (error.response?.status === 401) {
+      localStorage.clear();
+      window.location.replace("/Admin/login");
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default ApiConfig;
