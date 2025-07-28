@@ -30,7 +30,7 @@ ApiConfig.interceptors.response.use(
       const refresh_token = localStorage.getItem("refresh_token");
       if (refresh_token) {
         try {
-          const rs = await ApiConfig.post(`takbon.biz:3402/Admin/login`);
+          const rs = await ApiConfig.post(`takbon.biz:3402/login`);
           const { token, refreshToken } = rs.data;
           localStorage.setItem("access_token", token);
           localStorage.setItem("refresh_token", refreshToken);
