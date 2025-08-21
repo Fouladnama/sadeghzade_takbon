@@ -35,7 +35,7 @@ const ProjectDetail = ({}) => {
     const [isClient, setIsClient] = useState(false);
     const [language, setLanguage] = useState('fa');
     const { project } = useParams(); 
-  const [equipment, setEquipment] = useState([]);
+    const [equipment, setEquipment] = useState([]);
   useEffect(() => {
     axios.get("https://takbon.biz:3402/get_equipment")
       .then((res) => {
@@ -159,28 +159,29 @@ useEffect(() => {
     <ProjectTitle adjust={language === 'fa'} selected={selectedTab === 3}>
       {language === 'fa' ? "ابزارهای مورد استفاده" : "Used Tools"}
     </ProjectTitle>
-<Pics style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
+<Pics 
+style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}
+>
   {Array.isArray(Project.imagemain) && Project.imagemain.length > 0 ? (
     Project.imagemain.map((imgId, idx) => {
       const foundEquipment = equipment.find(e => e.code?.toString().trim() === imgId?.toString().trim());
       const imageName = foundEquipment ? foundEquipment.name : null;
 
       return imageName ? (
-        <div
+           <div
           key={idx}
           style={{
-            width: 150,
-            height: 150,
-            borderRadius: 12,
+            flex: '1 1 100px', // حداقل عرض 300px و رشد خودکار
+            maxWidth: '200px', // حداکثر عرض هر عکس
+            aspectRatio: '16/9', // نسبت تصویر ثابت
+           borderRadius: 12,
             overflow: 'hidden',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            // backgroundColor حذف شد
           }}
         >
-          <img
+      <img
             src={`https://takbon.biz/images/${imageName}`}
             onError={(e) => {
               e.target.onerror = null;
@@ -188,25 +189,26 @@ useEffect(() => {
             }}
             alt={`Tool ${idx}`}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
+              width: '70%',
+              height: '70%',
+              objectFit: 'cover',
               display: 'block',
             }}
           />
         </div>
       ) : (
-        <div
+     <div
           key={idx}
           style={{
-            width: 150,
-            height: 150,
+            flex: '1 1 10px',
+            maxWidth: '10px',
+            aspectRatio: '1/1',
             borderRadius: 12,
             border: '1px dashed gray',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 14,
+            fontSize: 8,
             color: '#999',
           }}
         >

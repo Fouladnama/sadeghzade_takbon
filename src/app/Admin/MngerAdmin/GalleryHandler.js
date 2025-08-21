@@ -24,7 +24,7 @@ export default function GalleryHandler({
       const res = await ApiConfig.post("https://takbon.biz:3402/uploads", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      const imagePath = `images/${res.data.key}`;
+      const imagePath = `${res.data.key}`;
       setEditedValues((prev) => {
         const gallery = prev[field] && Array.isArray(prev[field]) ? [...prev[field]] : [];
         gallery[idx] = imagePath;
@@ -54,7 +54,7 @@ export default function GalleryHandler({
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        uploadedImages.push(`images/${res.data.key}`);
+        uploadedImages.push(`${res.data.key}`);
         Swal.fire("آپلود شد", `تصویر ${i + 1} با موفقیت آپلود شد`, "success");
       }
 

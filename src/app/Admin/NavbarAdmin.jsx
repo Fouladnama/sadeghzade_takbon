@@ -1,4 +1,3 @@
-// app/(admin)/components/AdminNavbar.jsx
 "use client";
 import { useState } from "react";
 import Link from "next/link";

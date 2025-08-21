@@ -7,7 +7,6 @@ export default function ServicesAdmin() {
 
   return (
     <div className="p-4">
-      <h2 className="text-lg font-bold mb-4">خدمات</h2>
       <MangerAdmin
       title="مدیریت خدمات  تاک بن"
         cart={[

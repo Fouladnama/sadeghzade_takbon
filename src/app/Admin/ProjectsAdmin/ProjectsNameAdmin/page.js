@@ -37,10 +37,10 @@ export default function ProjectsNameAdmin() {
       url="https://takbon.biz:3402/get_all_projects_name"
       columns={[
         { field: "fa_name", header: "عنوان پروژه" },
-        { field: "image", header: "عکس" },
+        { field: "image", header: "عکس", useImagesPath: true },
 
         {
-              options: project, // این خط مهمه
+          options: project, // این خط مهمه
 
           field: "external_link",
           header: "نوع پروژه",

@@ -63,9 +63,12 @@ export default function MangerAdmin({ apiUrl, cart, title }) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4 mt-10">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-        <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+  
+  <div className="w-full p-4 mt-10">
+    <div className="flex justify-center mb-6">
+  <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+</div>
+<div className="flex flex-col items-end sm:flex-row sm:justify-end sm:items-center mb-6 gap-4">
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded shadow hover:shadow-md transition"

@@ -19,7 +19,7 @@ export default function ImageUploader({ editedValues, setEditedValues, field, he
 
       toast.success("تصویر با موفقیت آپلود شد");
       const fileName = res.data.key || res.data.filename || res.data.fileName;
-      const imagePath = `images/${fileName}`;
+      const imagePath = `${fileName}`;
 
       setEditedValues((prev) => ({
         ...prev,

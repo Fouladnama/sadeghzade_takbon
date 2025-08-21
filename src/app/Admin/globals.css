@@ -5,6 +5,27 @@
   background-color: rgba(192, 164, 218, 0.62);
   border: 1.7px solid rgba(58, 3, 80, 0.09);
 }
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/iransans-web@v6.2.0/dist/font-face.css');
+
+body, html {
+  font-family: 'IRANSans', sans-serif;
+  font-weight: 400; /* متن معمولی */
+  font-size: 18px;  /* بزرگتر برای خوانایی */
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700; /* تیترها بولد */
+  line-height: 1.3;
+}
+
+h1 { font-size: 32px; }
+h2 { font-size: 28px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
+h5 { font-size: 18px; }
+h6 { font-size: 16px; }
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(80px); }

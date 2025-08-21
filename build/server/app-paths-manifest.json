@@ -1,8 +1,9 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/landing/page": "app/landing/page.js",
   "/Admin/dashboard/page": "app/Admin/dashboard/page.js",
-  "/Admin/ProjectsAdmin/page": "app/Admin/ProjectsAdmin/page.js",
+  "/Admin/CollaborationAdmin/page": "app/Admin/CollaborationAdmin/page.js",
+  "/Admin/ProjectsAdmin/ProjectDetailAdmin/page": "app/Admin/ProjectsAdmin/ProjectDetailAdmin/page.js",
+  "/Admin/ProjectsAdmin/EquipmentAdmin/page": "app/Admin/ProjectsAdmin/EquipmentAdmin/page.js",
+  "/Admin/NewsAdmin/page": "app/Admin/NewsAdmin/page.js",
   "/Admin/login/page": "app/Admin/login/page.js"
 }

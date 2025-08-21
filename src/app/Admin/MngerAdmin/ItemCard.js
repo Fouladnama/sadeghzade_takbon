@@ -45,7 +45,7 @@ export default function ItemCard({ item, cart, onDelete, onDataChange, apiUrl })
     if (!path) return "";
     return useImagesPath
       ? `https://takbon.biz/images/${path}`
-      : `https://takbon.biz/${path}`;
+      : `https://takbon.biz/images/${path}`;
   };
 
   return (
