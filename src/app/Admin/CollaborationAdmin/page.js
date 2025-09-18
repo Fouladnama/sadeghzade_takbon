@@ -48,24 +48,7 @@ export default function CollaborationAdmin() {
     return item.state === activeTab;
   });
 
-  const handleSeen = (id) => {
-    Swal.fire({
-      title: "آیا مطمئن هستید؟",
-      text: "این درخواست به عنوان دیده شده ثبت می‌شود.",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "بله",
-      cancelButtonText: "خیر",
-    }).then((result) => {
-      if(result.isConfirmed) {
-        setNews(prevNews =>
-          prevNews.map(n => n._id === id ? { ...n, seen: true, state: 2 } : n)
-        );
-        setActiveTab(2);
-        Swal.fire("ثبت شد!", "این درخواست به عنوان دیده شده علامت‌گذاری شد.", "success");
-      }
-    });
-  };
+
 
   if (loading) {
     return <div className="text-center mt-20 text-blue-600 text-lg font-semibold animate-pulse">در حال بارگذاری...</div>;
@@ -86,12 +69,12 @@ export default function CollaborationAdmin() {
                 item.seen ? "from-green-50 to-green-100" : "from-white to-gray-50"
               }`}
             >
-           {item.seen && (
+           {/* {item.seen && (
   <div className="flex items-center gap-2 bg-green-100 text-green-800 font-semibold text-sm px-3 py-1 rounded-full shadow-sm w-max">
     <span className="inline-flex items-center justify-center w-5 h-5 bg-green-200 text-green-700 rounded-full">✅</span>
     دیده شده
   </div>
-)}
+)} */}
 
 
              <h2 className="flex items-center gap-2 text-gray-800 font-bold text-lg mb-2">
@@ -145,12 +128,12 @@ export default function CollaborationAdmin() {
     آدرس: {item.address}
   </p>
 </div>
-
 <div className="flex items-center gap-3 mt-4">
   <span className="text-gray-700 text-sm font-semibold">وضعیت بررسی</span>
   
   <select
     value={item.state}
+    disabled={item.state !== 2}  // ⬅️ اینجا اضافه شد: فقط وقتی دانلود شده (state=2) فعال میشه
     onChange={async (e) => {
       const newStateId = parseInt(e.target.value);
       setNews(prevNews =>
@@ -169,32 +152,52 @@ export default function CollaborationAdmin() {
         );
       }
     }}
-    className="border border-gray-300 rounded-lg px-3 py-1 text-sm font-medium bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+    className={`border border-gray-300 rounded-lg px-3 py-1 text-sm font-medium bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 
+      ${item.state !== 2 ? "opacity-50 cursor-not-allowed" : ""}`} // ظاهر غیر فعال
   >
-    <option 
-      value={1} 
-      disabled={item.state !== 1} 
-      className={`font-medium ${item.state !== 1 ? "text-gray-400" : "text-blue-600"}`}
-    >
+    <option value={1} disabled className="text-gray-400">
       دریافت شده
     </option>
-    <option value={2} className="text-yellow-600 font-medium">دیده شده 👀</option>
     <option value={4} className="text-green-600 font-medium">تایید شده ✅</option>
     <option value={3} className="text-red-600 font-medium">رد شده ❌</option>
   </select>
 </div>
 
+{item.upload_file && (
+  <a
+    href={`https://takbon.biz/cvdownloads/${item.upload_file}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-600 underline text-sm mt-1"
+    onClick={async (e) => {
+      e.stopPropagation();
 
-              {item.upload_file && (
-                 <button
-                  href={`https://takbon.biz/cvdownloads/${item.upload_file}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-sm"
-                >
-                  دانلود فایل رزومه
-                </button>
-              )}
+      // اگر هنوز دیده نشده
+      if (!item.seen || item.state !== 2) {
+        try {
+          // آپدیت استیت محلی
+          setNews(prevNews =>
+            prevNews.map(n =>
+              n._id === item._id ? { ...n, seen: true, state: 2 } : n
+            )
+          );
+
+          // ارسال درخواست به بک‌اند برای تغییر state به 2
+          await ApiConfig.post("https://takbon.biz:3402/get_cv", {
+            ...item,
+            state: 2,
+          });
+
+          console.log("رزومه به عنوان دیده‌شده ثبت شد");
+        } catch (err) {
+          console.error("خطا در تغییر وضعیت رزومه:", err);
+        }
+      }
+    }}
+  >
+    دانلود فایل رزومه
+  </a>
+)}
 
              
             </div>

@@ -59,7 +59,7 @@ const Collaborate = () => {
     const [family, setFamily] = useState("");
     const [phone, setPhone] = useState("");
     const [fieldOfStudy, setFieldOfStudy] = useState("");
-    
+
     const [grade, setGrade] = useState("");
     const gradeOptions = [
         { value: 'کارشناسی', label: 'کارشناسی' },
@@ -89,16 +89,18 @@ const Collaborate = () => {
 
     const [favoriteFieldOfWorkStatus, setFavoriteFieldOfWorkStatus] = useState(null);
     const [otherDescription, setOtherDescription] = useState("");
-    const favoriteFieldOfWork= [
-        { value: 'برنامه ریزی تولید', label: 'برنامه ریزی تولید' },
-        { value: 'مدلسازی ریاضی', label: 'مدلسازی ریاضی' },
-        { value: 'داده کاوی', label: 'داده کاوی' },
-        { value: 'شبیه سازی', label: 'شبیه سازی' },
-        { value: 'تحقیقات بازار', label: 'تحقیقات بازار' },
-        { value: 'نیازسنجی و برنامه ریزی', label: 'نیازسنجی و برنامه ریزی' },
-        { value: 'کنترل موجودی', label: 'کنترل موجودی' },
-        { value: 'سایر', label: 'سایر' }
-    ];
+const favoriteFieldOfWork = [
+    { value: 'برنامه ریزی تولید و حمل', label: 'برنامه ریزی تولید و حمل' },
+    { value: 'مدلسازی ریاضی', label: 'مدلسازی ریاضی' },
+    { value: 'داده کاوی', label: 'داده کاوی' },
+    { value: 'شبیه سازی', label: 'شبیه سازی' },
+    { value: 'تحقیقات بازار', label: 'تحقیقات بازار' },
+    { value: 'نیازسنجی', label: 'نیازسنجی' },
+    { value: 'کنترل موجودی', label: 'کنترل موجودی' },
+    { value: 'عارضه یابی', label: 'عارضه یابی' }, 
+    { value: 'تدوین و بهبود فرآیند', label: 'تدوین و بهبود فرآیند' }, 
+    { value: 'سایر', label: 'سایر' }
+];
     const favoriteFieldOfWorkEN = [
         { value: 'Production Planning', label: 'Production Planning' },
         { value: 'Mathematical Modeling', label: 'Mathematical Modeling' },
@@ -107,6 +109,8 @@ const Collaborate = () => {
         { value: 'Market Research', label: 'Market Research' },
         { value: 'Needs Assessment and Planning', label: 'Needs Assessment and Planning' },
         { value: 'Inventory Control', label: 'Inventory Control' },
+        { value: 'Problem Diagnosis', label: 'Problem Diagnosis' },
+        { value: 'Process Development and Improvement', label: 'Process Development and Improvement' },
         { value: 'Other', label: 'Other' }
     ];
 
@@ -190,9 +194,9 @@ const Collaborate = () => {
 
     const changeValuesToEnglish = (num) => {
         let temp = '';
-        for (let i = 0; i < num.length ; i++) {
+        for (let i = 0; i < num.length; i++) {
             if (num[i] === ",") {
-                void(0);
+                void (0);
             }
             else {
                 switch (num[i]) {
@@ -264,12 +268,12 @@ const Collaborate = () => {
         }
         else if (name.includes("phone")) {
             if (language == 'fa') {
-                if(isNumber(e.nativeEvent) && value.length <= 11) {
+                if (isNumber(e.nativeEvent) && value.length <= 11) {
                     setPhone(Persianize_Numbers(value));
                 }
             }
             else {
-                if(isNumber(e.nativeEvent) && value.length <= 11) {
+                if (isNumber(e.nativeEvent) && value.length <= 11) {
                     setPhone(changeValuesToEnglish(Persianize_Numbers(value)));
                 }
             }
@@ -277,7 +281,7 @@ const Collaborate = () => {
         else if (name.includes("field_of_Study")) {
             setFieldOfStudy(value);
         }
-        else if (name.includes("otherDescription")){
+        else if (name.includes("otherDescription")) {
             setOtherDescription(value);
         }
         else if (name.includes("recentUniversity")) {
@@ -294,7 +298,7 @@ const Collaborate = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
-    const {getRootProps, getInputProps} = useDropzone({
+    const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'application/pdf': []
         },
@@ -340,10 +344,10 @@ const Collaborate = () => {
                         theme: "light",
                         limit: 1
                     });
-    
+
                     return;
                 }
-    
+
                 if (acceptedFiles[0].size > 204800) {
                     notifyError("فایل انتخابی باید کمتر از 200 کیلوبایت حجم داشته باشد!", {
                         position: "top-right",
@@ -356,7 +360,7 @@ const Collaborate = () => {
                         theme: "light",
                         limit: 1
                     });
-    
+
                     return;
                 }
             }
@@ -373,10 +377,10 @@ const Collaborate = () => {
                         theme: "light",
                         limit: 1
                     });
-    
+
                     return;
                 }
-    
+
                 if (acceptedFiles[0].size > 204800) {
                     notifyError("The chosen file must be less than 200 kilobytes in size!", {
                         position: "top-right",
@@ -389,7 +393,7 @@ const Collaborate = () => {
                         theme: "light",
                         limit: 1
                     });
-    
+
                     return;
                 }
             }
@@ -410,12 +414,12 @@ const Collaborate = () => {
         const upload = async () => {
             if (resumeFile == "")
                 return;
-            
+
             try {
                 setUploading(true);
                 const formData = new FormData();
                 formData.append('file', resumeFile);
-        
+
                 const response = await axios.post('https://takbon.biz:3402/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -425,7 +429,7 @@ const Collaborate = () => {
                         setProgress(progress);
                     },
                 });
-        
+
                 if (response.status === 200) {
                     setUploadedResume(response.data.key);
                     if (language == "fa") {
@@ -556,9 +560,9 @@ const Collaborate = () => {
             return;
         }
         if ((family == "" || family == null) || (phone == "" || phone == null) || (fieldOfStudy == "" || fieldOfStudy == null)
-        || (educationalStatus?.label == "" || educationalStatus?.label == null) || (grade?.label == "" || grade?.label == null) || (recentUniversity == "" || recentUniversity == null)
-        || (genderStatus?.label == "" || genderStatus?.label == null) || (marrigeStatus?.label == "" || marrigeStatus?.label == null)
-        || (address == "" || address == null) || (family == "" || family == null) || (resumeFile == "" || resumeFile == null) || (uploadedResume == "" || uploadedResume == null)) {
+            || (educationalStatus?.label == "" || educationalStatus?.label == null) || (grade?.label == "" || grade?.label == null) || (recentUniversity == "" || recentUniversity == null)
+            || (genderStatus?.label == "" || genderStatus?.label == null) || (marrigeStatus?.label == "" || marrigeStatus?.label == null)
+            || (address == "" || address == null) || (family == "" || family == null) || (resumeFile == "" || resumeFile == null) || (uploadedResume == "" || uploadedResume == null)) {
             if (language == "fa") {
                 notifyError("لطفا تمامی فیلدها را پر کنید.", {
                     position: "top-right",
@@ -673,7 +677,7 @@ const Collaborate = () => {
                 }
             }
         }
-        catch(error) {
+        catch (error) {
             console.log(error);
             if (language == "fa") {
                 notifyError("مشکلی رخ داده لطفا دوباره تلاش کنید.", {
@@ -725,28 +729,28 @@ const Collaborate = () => {
                                 <FieldTitle adjust={language == 'fa'} >اطلاعات شخصی</FieldTitle>
                                 <Form>
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="name" type="text" value={name} onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="name" type="text" value={name} onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             نام
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             نام خانوادگی<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             شماره تماس<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             رشته تحصیلی<span className="star" />
                                         </Label>
@@ -781,21 +785,21 @@ const Collaborate = () => {
                                             theme={theme => ({
                                                 ...theme,
                                                 colors: {
-                                                ...theme.colors,
-                                                primary25: '#1469d2',
-                                                primary50: '#1469d2',
-                                                primary: 'transparent',
-                                                neutral90: '#fff',
-                                                neutral80: '#fff',
-                                                neutral70: '#fff',
-                                                neutral60: '#fff',
-                                                neutral50: '#fff',
-                                                neutral0: 'rgba(0, 0, 0, 0.2)'
+                                                    ...theme.colors,
+                                                    primary25: '#1469d2',
+                                                    primary50: '#1469d2',
+                                                    primary: 'transparent',
+                                                    neutral90: '#fff',
+                                                    neutral80: '#fff',
+                                                    neutral70: '#fff',
+                                                    neutral60: '#fff',
+                                                    neutral50: '#fff',
+                                                    neutral0: 'rgba(0, 0, 0, 0.2)'
                                                 },
                                             })}
                                             onChange={setEducationalStatus}
                                             className="EducationalStatus"
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={educationalStatusOptions}
                                             placeholder={"یک مورد را انتخاب کنید."}
                                         />
@@ -846,7 +850,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setGrade}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={gradeOptions}
                                             className="Grade"
                                             placeholder={"یک مورد را انتخاب کنید."}
@@ -855,16 +859,16 @@ const Collaborate = () => {
                                             مقطع تحصیلی<span className="star" />
                                         </Label>
                                     </InputContainer>
-                                    
+
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             آخرین دانشگاه مقطع تحصیلی<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
+                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => { handleInput(e) }} show={favoriteFieldOfWorkStatus?.findIndex(item => {
                                             return item.label == "سایر"
                                         }) > -1} placeholder="درصورت انتخاب سایر توضیحاتی در این قسمت درج کنید." />
                                         <Select
@@ -912,8 +916,8 @@ const Collaborate = () => {
                                             })}
                                             isMulti
                                             closeMenuOnSelect={true}
-                                            onChange={(e) => {setFavoriteFieldOfWorkStatus(e)}}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onChange={(e) => { setFavoriteFieldOfWorkStatus(e) }}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={favoriteFieldOfWork}
                                             className="FavoriteFieldOfWork"
                                             placeholder={"حداقل یک مورد را انتخاب کنید."}
@@ -965,7 +969,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setGenderStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={genderOptions}
                                             className="Gender"
                                             placeholder={"یک مورد را انتخاب کنید."}
@@ -1017,7 +1021,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setMilitaryStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={militaryOptions}
                                             className="Military"
                                             placeholder={"یک مورد را انتخاب کنید."}
@@ -1069,7 +1073,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setMarrigeStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={marrigeOptions}
                                             className="Marrige"
                                             placeholder={"یک مورد را انتخاب کنید."}
@@ -1087,7 +1091,7 @@ const Collaborate = () => {
                                             customShowDateFormat="YYYY/MM/DD"
                                             inputClass="birthDate"
                                             className="birthDateMenu"
-                                            onChange={(e) => {setBirthDate(e.value.toLocaleDateString('fa-IR')); document.querySelector(".birthDateMenu").style.display = "none"}}
+                                            onChange={(e) => { setBirthDate(e.value.toLocaleDateString('fa-IR')); document.querySelector(".birthDateMenu").style.display = "none" }}
                                         />
                                         <Label>
                                             تاریخ تولد<span className="star" />
@@ -1095,7 +1099,7 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Address font={language == "fa"}  className="address" type="text" value={address} required onChange={(e) => {handleInput(e)}} />
+                                        <Address font={language == "fa"} className="address" type="text" value={address} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             آدرس محل سکونت<span className="star" />
                                         </Label>
@@ -1105,20 +1109,20 @@ const Collaborate = () => {
                                         <DropZone>
                                             {
                                                 uploading ?
-                                                <ProgressBarContainer>
-                                                    <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
-                                                        <p>{progress.toFixed(1)}%</p>
-                                                    </ProgressBar>
-                                                </ProgressBarContainer>
-                                                :
-                                                <>
-                                                    <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
-                                                    <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
-                                                    <div {...getRootProps({className: 'dropzone'})} >
-                                                        <input {...getInputProps()} />
-                                                        <Choose adjust={language == 'fa'} >انتخاب فایل</Choose>
-                                                    </div>
-                                                </>
+                                                    <ProgressBarContainer>
+                                                        <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
+                                                            <p>{progress.toFixed(1)}%</p>
+                                                        </ProgressBar>
+                                                    </ProgressBarContainer>
+                                                    :
+                                                    <>
+                                                        <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
+                                                        <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
+                                                        <div {...getRootProps({ className: 'dropzone' })} >
+                                                            <input {...getInputProps()} />
+                                                            <Choose adjust={language == 'fa'} >انتخاب فایل</Choose>
+                                                        </div>
+                                                    </>
                                             }
                                         </DropZone>
                                         <Label>
@@ -1130,21 +1134,21 @@ const Collaborate = () => {
                             <SubmitButton onClick={handleSubmit} isSubmitting={isSubmitting} >
                                 {
                                     isSubmitting ?
-                                    <div className={"spinner"}>
-                                        <svg
-                                            width="30"
-                                            height="30"
-                                            viewBox="0 0 13 14"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231   0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475   2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464    1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
-                                            />
-                                        </svg>
-                                    </div>
-                                    :
-                                    "ثبت درخواست"
+                                        <div className={"spinner"}>
+                                            <svg
+                                                width="30"
+                                                height="30"
+                                                viewBox="0 0 13 14"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231   0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475   2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464    1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
+                                                />
+                                            </svg>
+                                        </div>
+                                        :
+                                        "ثبت درخواست"
                                 }
                             </SubmitButton>
                         </Content>
@@ -1168,28 +1172,28 @@ const Collaborate = () => {
                                 <FieldTitle adjust={language == 'fa'} >Personal Information</FieldTitle>
                                 <Form>
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="name" type="text" value={name} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="name" type="text" value={name} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             Name
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="family" type="text" value={family} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             Family Name<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="phone" type="text" value={phone} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             Phone Number<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="field_of_Study" type="text" value={fieldOfStudy} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             Field of Study<span className="star" />
                                         </Label>
@@ -1224,21 +1228,21 @@ const Collaborate = () => {
                                             theme={theme => ({
                                                 ...theme,
                                                 colors: {
-                                                ...theme.colors,
-                                                primary25: '#1469d2',
-                                                primary50: '#1469d2',
-                                                primary: 'transparent',
-                                                neutral90: '#fff',
-                                                neutral80: '#fff',
-                                                neutral70: '#fff',
-                                                neutral60: '#fff',
-                                                neutral50: '#fff',
-                                                neutral0: 'rgba(0, 0, 0, 0.2)'
+                                                    ...theme.colors,
+                                                    primary25: '#1469d2',
+                                                    primary50: '#1469d2',
+                                                    primary: 'transparent',
+                                                    neutral90: '#fff',
+                                                    neutral80: '#fff',
+                                                    neutral70: '#fff',
+                                                    neutral60: '#fff',
+                                                    neutral50: '#fff',
+                                                    neutral0: 'rgba(0, 0, 0, 0.2)'
                                                 },
                                             })}
                                             onChange={setEducationalStatus}
                                             className="EducationalStatus"
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={educationalStatusOptionsEN}
                                             placeholder={"Select one option."}
                                         />
@@ -1289,7 +1293,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setGrade}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={gradeOptionsEN}
                                             className="Grade"
                                             placeholder={"Select one option."}
@@ -1300,14 +1304,14 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => {handleInput(e)}} />
+                                        <Input font={language == "fa"} className="recentUniversity" type="text" value={recentUniversity} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             The last academic institution<span className="star" />
                                         </Label>
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => {handleInput(e)}} show={favoriteFieldOfWorkStatus?.findIndex(item => {
+                                        <Textarea font={language == "fa"} className="otherDescription" onChange={(e) => { handleInput(e) }} show={favoriteFieldOfWorkStatus?.findIndex(item => {
                                             return item.label == "Other"
                                         }) > -1} placeholder={`If you choose the "Other" option, please provide additional information in this section.`} />
                                         <Select
@@ -1355,8 +1359,8 @@ const Collaborate = () => {
                                             })}
                                             isMulti
                                             closeMenuOnSelect={true}
-                                            onChange={(e) => {setFavoriteFieldOfWorkStatus(e)}}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onChange={(e) => { setFavoriteFieldOfWorkStatus(e) }}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={favoriteFieldOfWorkEN}
                                             className="FavoriteFieldOfWork"
                                             placeholder={"Select at least one option."}
@@ -1407,7 +1411,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setGenderStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={genderOptionsEN}
                                             className="Gender"
                                             placeholder={"Select one option."}
@@ -1459,7 +1463,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setMilitaryStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={militaryOptionsEN}
                                             className="Military"
                                             placeholder={"Select one option."}
@@ -1510,7 +1514,7 @@ const Collaborate = () => {
                                                 },
                                             })}
                                             onChange={setMarrigeStatus}
-                                            onBlur={(e) => {e.preventDefault()}}
+                                            onBlur={(e) => { e.preventDefault() }}
                                             options={marrigeOptionsEN}
                                             className="Marrige"
                                             placeholder={"Select one option."}
@@ -1529,7 +1533,7 @@ const Collaborate = () => {
                                             customShowDateFormat="YYYY/MM/DD"
                                             inputClass="birthDate"
                                             className="birthDateMenu"
-                                            onChange={(e) => {setBirthDate(e.value); document.querySelector(".birthDateMenu").style.display = "none"}}
+                                            onChange={(e) => { setBirthDate(e.value); document.querySelector(".birthDateMenu").style.display = "none" }}
                                         />
                                         <Label>
                                             Birth Date<span className="star" />
@@ -1537,7 +1541,7 @@ const Collaborate = () => {
                                     </InputContainer>
 
                                     <InputContainer>
-                                        <Address font={language == "fa"}  className="address" type="text" value={address} required onChange={(e) => {handleInput(e)}} />
+                                        <Address font={language == "fa"} className="address" type="text" value={address} required onChange={(e) => { handleInput(e) }} />
                                         <Label>
                                             Residential Address<span className="star" />
                                         </Label>
@@ -1547,20 +1551,20 @@ const Collaborate = () => {
                                         <DropZone>
                                             {
                                                 uploading ?
-                                                <ProgressBarContainer>
-                                                    <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
-                                                        <p>{progress.toFixed(1)}%</p>
-                                                    </ProgressBar>
-                                                </ProgressBarContainer>
-                                                :
-                                                <>
-                                                    <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
-                                                    <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
-                                                    <div {...getRootProps({className: 'dropzone'})} >
-                                                        <input {...getInputProps()} />
-                                                        <Choose adjust={language == 'fa'} >Select File</Choose>
-                                                    </div>
-                                                </>
+                                                    <ProgressBarContainer>
+                                                        <ProgressBar adjust={language == 'fa'} width={progress.toFixed(1)} >
+                                                            <p>{progress.toFixed(1)}%</p>
+                                                        </ProgressBar>
+                                                    </ProgressBarContainer>
+                                                    :
+                                                    <>
+                                                        <DropInput adjust={language == 'fa'} className="resume" type="text" readOnly />
+                                                        <DeleteFile show={resumeFile.name != null & resumeFile != ''} onClick={handleDeleteFile} >X</DeleteFile>
+                                                        <div {...getRootProps({ className: 'dropzone' })} >
+                                                            <input {...getInputProps()} />
+                                                            <Choose adjust={language == 'fa'} >Select File</Choose>
+                                                        </div>
+                                                    </>
                                             }
                                         </DropZone>
                                         <Label>
@@ -1572,21 +1576,21 @@ const Collaborate = () => {
                             <SubmitButton onClick={handleSubmit} isSubmitting={isSubmitting} >
                                 {
                                     isSubmitting ?
-                                    <div className={"spinner"}>
-                                        <svg
-                                            width="30"
-                                            height="30"
-                                            viewBox="0 0 13 14"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231   0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475   2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464    1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
-                                            />
-                                        </svg>
-                                    </div>
-                                    :
-                                    "Submit Application"
+                                        <div className={"spinner"}>
+                                            <svg
+                                                width="30"
+                                                height="30"
+                                                viewBox="0 0 13 14"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231   0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475   2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464    1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
+                                                />
+                                            </svg>
+                                        </div>
+                                        :
+                                        "Submit Application"
                                 }
                             </SubmitButton>
                         </Content>
