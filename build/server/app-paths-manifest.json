@@ -1,9 +1,6 @@
 {
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/landing/page": "app/landing/page.js",
-  "/collaboration/page": "app/collaboration/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/Admin/dashboard/page": "app/Admin/dashboard/page.js",
   "/Admin/CollaborationAdmin/page": "app/Admin/CollaborationAdmin/page.js",
-  "/Admin/login/page": "app/Admin/login/page.js"
+  "/Admin/ProjectsAdmin/EquipmentAdmin/page": "app/Admin/ProjectsAdmin/EquipmentAdmin/page.js"
 }

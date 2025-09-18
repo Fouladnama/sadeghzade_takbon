@@ -1,209 +1,337 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import ApiConfig from "../../../Api";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Input,
+  Button,
+  Badge,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  CardContent,
+  Card,
+  CardHeader,
+  CardTitle,
+  SelectTrigger,
+  Select,
+  SelectValue,
+  SelectContent, SelectItem, FormControl, InputLabel, MenuItem,Tooltip
+} from "@mui/material";
+
+import { Download, Search, Filter, Eye, CheckCircle, XCircle, Clock } from "lucide-react";
+import ResumeHeader from "./ResumeHeader";
+import ApiConfig from "../../../Api"; // مسیر واقعی API
 import Swal from "sweetalert2";
 import moment from "jalali-moment";
-import ResumeHeader from './ResumeHeader';
 
 export default function CollaborationAdmin() {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(1);
+  const [news, setNews] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState(1)
+  const [searchText, setSearchText] = useState("")
+
+  const [filters, setFilters] = useState({
+    Educational_status: "",
+    favorits: "",
+    military_status: "",
+    sex: "",
+    marital_status: "",
+  })
 
   const tabs = [
-    { id: 1, title: 'دریافت شده' },
-    { id: 2, title: 'دیده شده' },
-    { id: 4, title: 'تایید شده' },
-    { id: 3, title: 'رد شده' },
-  ];
+    { id: 1, title: "دریافت شده" },
+    { id: 2, title: "دیده شده" },
+    { id: 4, title: "تایید شده" },
+    { id: 3, title: "رد شده" },
+  ]
 
+  const columnLabels = {
+    Educational_status: "مقطع تحصیلی",
+    favorits: "علاقه",
+    military_status: "وضعیت نظام وظیفه",
+    sex: "جنسیت",
+    marital_status: "وضعیت تاهل",
+  }
+
+  // --- خواندن داده از بک‌اند ---
   useEffect(() => {
+    setLoading(true)
     ApiConfig.get("https://takbon.biz:3402/get_cv")
       .then((res) => {
-        const dataWithSeen = res.data.value.map(item => ({
-          ...item,
-          seen: !!item.seen,
-          state: item.state || 1,
-        }));
-        setNews(dataWithSeen);
-        setLoading(false);
+        setNews(res.data.value || [])
       })
       .catch((err) => {
-        console.error("خطا در دریافت:", err);
-        setLoading(false);
+        console.error("خطا در دریافت داده‌ها:", err)
+        Swal.fire("خطا", "دریافت داده‌ها از سرور ناموفق بود", "error")
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  // ذخیره و بازیابی تب فعال
+  useEffect(() => {
+    const savedTab = localStorage.getItem("activeTab")
+    if (savedTab) setActiveTab(Number(savedTab))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("activeTab", activeTab.toString())
+  }, [activeTab])
+
+  const getUniqueValues = (key) => {
+    return [...new Set(news.map((item) => item[key]).filter(Boolean))]
+  }
+
+  const getStateIcon = (state) => {
+    switch (state) {
+      case 1:
+        return <Clock className="w-4 h-4 text-yellow-500" />
+      case 2:
+        return <Eye className="w-4 h-4 text-blue-500" />
+      case 3:
+        return <XCircle className="w-4 h-4 text-red-500" />
+      case 4:
+        return <CheckCircle className="w-4 h-4 text-green-500" />
+      default:
+        return <Clock className="w-4 h-4 text-gray-500" />
+    }
+  }
+
+  const clearAllFilters = () => {
+    setFilters({
+      Educational_status: "",
+      favorits: "",
+      military_status: "",
+      sex: "",
+      marital_status: "",
+    })
+    setSearchText("")
+  }
+
+  const hasActiveFilters = Object.values(filters).some((val) => val !== "") || searchText !== ""
+
+  const filteredNews = news.filter((item) => {
+    // فیلتر بر اساس تب فعال
+    const matchesTab = activeTab === 1 ? true : item.state === activeTab
+
+    // فیلتر بر اساس جستجو
+    const matchesSearch =
+      searchText === "" ||
+      (item.name + " " + item.family + " " + item.phonenumber + " " + item.field)
+        .toLowerCase()
+        .includes(searchText.toLowerCase())
+
+    // فیلتر بر اساس فیلترهای انتخاب شده
+    const matchesFilters = Object.keys(filters).every((key) => {
+      if (filters[key] === "") return true
+      return item[key] === filters[key]
+    })
+
+    return matchesTab && matchesSearch && matchesFilters
+  })
+
+const handleStateChange = async (item, newStateId) => {
+  // اگر تب 1 هست، مستقیم تغییر وضعیت اعمال شود
+  const needsDownload = activeTab !== 1 && (!item.seen || item.state !== 2);
+
+  if (needsDownload) {
+    try {
+      // اگر رزومه دیده نشده یا تب غیر 1 است، ابتدا mark as seen
+      setNews(prevNews =>
+        prevNews.map(n => (n._id === item._id ? { ...n, seen: true, state: 2 } : n))
+      );
+      await ApiConfig.post("/update_cv_state", {
+        id: item._id,
+        state: 2
       });
-  }, []);
+    } catch (err) {
+      console.error("خطا در تغییر وضعیت رزومه:", err)
+      Swal.fire("خطا", "ابتدا باید رزومه دانلود یا دیده شود.", "error");
+      return;
+    }
+  }
 
-  useEffect(() => {
-    const savedTab = localStorage.getItem("activeTab");
-    if (savedTab) setActiveTab(Number(savedTab));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("activeTab", activeTab);
-  }, [activeTab]);
-
-  const filteredNews = news.filter(item => {
-    if(activeTab === 1) return true;
-    return item.state === activeTab;
+  // پیغام تایید برای کاربر
+  const result = await Swal.fire({
+    title: "آیا مطمئن هستید؟",
+    text: newStateId === 4 ? "می‌خواهید رزومه را تایید کنید؟" : "می‌خواهید رزومه را رد کنید؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "بله",
+    cancelButtonText: "لغو",
   });
 
+  if (!result.isConfirmed) return;
+
+  const originalState = item.state;
+
+  setNews(prevNews =>
+    prevNews.map(n => (n._id === item._id ? { ...n, state: newStateId } : n))
+  );
+
+  try {
+    await ApiConfig.post("https://takbon.biz:3402/get_cv", {
+      ...item,
+      state: newStateId,
+    });
+    Swal.fire("موفقیت‌آمیز", "وضعیت رزومه تغییر کرد.", "success");
+  } catch (err) {
+    console.error("خطا در تغییر وضعیت رزومه:", err);
+    Swal.fire("خطا", "خطا در تغییر وضعیت رزومه.", "error");
+    setNews(prevNews =>
+      prevNews.map(n => (n._id === item._id ? { ...n, state: originalState } : n))
+    );
+  }
+};
 
 
-  if (loading) {
-    return <div className="text-center mt-20 text-blue-600 text-lg font-semibold animate-pulse">در حال بارگذاری...</div>;
+  const handleDownload = async (item) => {
+    if (!item.seen || item.state !== 2) {
+      try {
+        setNews(prevNews =>
+          prevNews.map(n => (n._id === item._id ? { ...n, seen: true, state: 2 } : n))
+        )
+
+        await ApiConfig.post("/update_cv_state", {
+          id: item._id,
+          state: 2
+        })
+      } catch (err) {
+        console.error("خطا در تغییر وضعیت رزومه:", err)
+      }
+    }
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <>
       <ResumeHeader tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+      <Card className="min-w-full text-right">
+        <CardContent className="min-w-full text-right">
+          <Table className="min-w-full text-right">
+            <TableHead>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {filteredNews.map(item => {
-          const shamsiDate = moment(item.created_at).locale('fa').format('YYYY/MM/DD HH:mm');
+              <TableRow className="bg-muted/50">
+                <TableCell className="text-right font-semibold">تاریخ</TableCell>
+                <TableCell className="text-right font-semibold">نام و نام خانوادگی</TableCell>
+                <TableCell className="text-right font-semibold">تلفن</TableCell>
+                <TableCell className="text-right font-semibold">رشته</TableCell>
+                <TableCell className="text-right font-semibold">وضعیت نظام وظیفه</TableCell>
+                <TableCell className="text-right font-semibold">مقطع تحصیلی</TableCell>
+                <TableCell className="text-right font-semibold">دانشگاه</TableCell>
+                <TableCell className="text-right font-semibold">علاقه‌مندی</TableCell>
+                <TableCell className="text-right font-semibold">جنسیت</TableCell>
+                <TableCell className="text-right font-semibold">وضعیت تاهل</TableCell>
+                <TableCell className="text-right font-semibold">تاریخ تولد</TableCell>
+                <TableCell className="text-right font-semibold">آدرس</TableCell>
+                <TableCell className="text-right font-semibold">وضعیت بررسی</TableCell>
+                <TableCell className="text-right font-semibold"></TableCell>
+              </TableRow>
+            </TableHead>
 
-          return (
-            <div
-              key={item._id}
-              className={`border rounded-xl p-5 shadow-md transition transform hover:scale-105 hover:shadow-xl flex flex-col bg-gradient-to-r ${
-                item.seen ? "from-green-50 to-green-100" : "from-white to-gray-50"
-              }`}
-            >
-           {/* {item.seen && (
-  <div className="flex items-center gap-2 bg-green-100 text-green-800 font-semibold text-sm px-3 py-1 rounded-full shadow-sm w-max">
-    <span className="inline-flex items-center justify-center w-5 h-5 bg-green-200 text-green-700 rounded-full">✅</span>
-    دیده شده
-  </div>
-)} */}
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={14} className="text-center py-8">
+                    در حال بارگذاری...
+                  </TableCell>
+                </TableRow>
+              ) : filteredNews.length > 0 ? (
+                filteredNews.map((item) => {
+                  const shamsiDate = item.created_at
+                    ? moment(item.created_at).locale("fa").format("YYYY/MM/DD HH:mm")
+                    : "نامشخص";
+
+                  const rowClass = item.seen
+                    ? "bg-green-50 hover:bg-green-150 transition-colors text-right"
+                    : "hover:bg-pink-50 transition-colors text-right";
+
+                  return (
+                    <TableRow key={item._id} className={rowClass}>
+                      <TableCell className="text-right text-sm px-2">{shamsiDate}</TableCell>
+
+                      <TableCell className="text-right font-medium flex items-center gap-1 px-2">
+                        {getStateIcon(item.state || 1)}
+                        {item.name} {item.family}
+                      </TableCell>
+
+                      <TableCell className="text-right text-sm px-2">{item.phonenumber}</TableCell>
+
+                      <TableCell className="text-right text-sm px-2">
+                        <Badge variant="outline">{item.field}</Badge>
+                      </TableCell>
+
+                      <TableCell className="text-right text-sm px-2">{item.military_status}</TableCell>
+                      <TableCell className="text-right text-sm px-2">{item.Educational_status}</TableCell>
+                      <TableCell className="text-right text-sm px-2">{item.university}</TableCell>
+
+                      <TableCell className="text-right text-sm min-w-[150px] px-2">
+                        {item.favorits
+                          ? item.favorits.split(",").map((fav, index) => (
+                            <div key={index}>{index + 1}. {fav.trim()}</div>
+                          ))
+                          : "-"}
+                      </TableCell>
+
+                      <TableCell className="text-right text-sm w-[80px] px-2">{item.sex}</TableCell>
+                      <TableCell className="text-right text-sm px-2">{item.marital_status}</TableCell>
+                      <TableCell className="text-right text-sm px-2">{item.birtday}</TableCell>
+<TableCell className="text-right text-sm max-w-[150px] px-2">
+  <Tooltip title={item.address || "-"} arrow placement="top">
+    <span className="truncate block">{item.address || "-"}</span>
+  </Tooltip>
+</TableCell>
+                      <TableCell className="text-right text-sm w-[100px] px-2">
+                        <Select
+                          value={(item.state || 1).toString()}
+                          onChange={(e) => handleStateChange(item, Number(e.target.value))}
+                          disabled={item.state !== 2}
+                          size="small"
+                          className="w-full"
+                        >
+                          <MenuItem value="1" disabled>دریافت شده</MenuItem>
+                          <MenuItem value="4">تایید شده ✅</MenuItem>
+                          <MenuItem value="3">رد شده ❌</MenuItem>
+                        </Select>
+                      </TableCell>
+
+                      <TableCell className="text-right px-2">
+                        {item.upload_file && (
+                          <Button variant="outline" size="sm" onClick={() => handleDownload(item)}>
+                            <a
+                              href={`https://takbon.biz/cvdownloads/${item.upload_file}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1"
+                            >
+                              <Download className="w-4 h-4" />
+                              دانلود
+                            </a>
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={14} className="text-center py-8">
+                    هیچ رزومه‌ای یافت نشد
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
 
 
-             <h2 className="flex items-center gap-2 text-gray-800 font-bold text-lg mb-2">
-  <span className="inline-flex items-center justify-center w-7 h-7 bg-blue-100 text-blue-600 rounded-full">
-    🕒
-  </span>
-  <span className="tracking-wide">{shamsiDate}</span>
-</h2>
+          </Table>
+        </CardContent>
+      </Card>
+    </>
 
-              <h2 className="font-semibold text-xl mb-2 text-gray-900">{item.name} {item.family}</h2>
 
-             <div className="flex flex-col gap-2 text-gray-700 text-sm">
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full">📞</span>
-    {item.phonenumber}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full">🎓</span>
-    رشته تحصیلی: {item.field}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-yellow-100 text-yellow-600 rounded-full">🔖</span>
-    وضعیت: {item.military_status}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-green-100 text-green-600 rounded-full">📚</span>
-    مقطع: {item.Educational_status}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-pink-100 text-pink-600 rounded-full">🏫</span>
-    دانشگاه: {item.university}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-indigo-100 text-indigo-600 rounded-full">💼</span>
-    علاقه: {item.favorits}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full">🚻</span>
-    جنسیت: {item.sex}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-red-100 text-red-600 rounded-full">💍</span>
-    تاهل: {item.marital_status}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-orange-100 text-orange-600 rounded-full">🎂</span>
-    تولد: {item.birtday}
-  </p>
-  <p className="flex items-center gap-2">
-    <span className="w-5 h-5 flex items-center justify-center bg-teal-100 text-teal-600 rounded-full">📍</span>
-    آدرس: {item.address}
-  </p>
-</div>
-<div className="flex items-center gap-3 mt-4">
-  <span className="text-gray-700 text-sm font-semibold">وضعیت بررسی</span>
-  
-  <select
-    value={item.state}
-    disabled={item.state !== 2}  // ⬅️ اینجا اضافه شد: فقط وقتی دانلود شده (state=2) فعال میشه
-    onChange={async (e) => {
-      const newStateId = parseInt(e.target.value);
-      setNews(prevNews =>
-        prevNews.map(n => n._id === item._id ? { ...n, state: newStateId } : n)
-      );
-      try {
-        await ApiConfig.post("https://takbon.biz:3402/get_cv", {
-          ...item,
-          state: newStateId,
-        });
-        Swal.fire("موفقیت‌آمیز", "وضعیت رزومه تغییر کرد.", "success");
-      } catch (err) {
-        Swal.fire("خطا", "خطا در تغییر وضعیت رزومه.", "error");
-        setNews(prevNews =>
-          prevNews.map(n => n._id === item._id ? { ...n, state: item.state } : n)
-        );
-      }
-    }}
-    className={`border border-gray-300 rounded-lg px-3 py-1 text-sm font-medium bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 
-      ${item.state !== 2 ? "opacity-50 cursor-not-allowed" : ""}`} // ظاهر غیر فعال
-  >
-    <option value={1} disabled className="text-gray-400">
-      دریافت شده
-    </option>
-    <option value={4} className="text-green-600 font-medium">تایید شده ✅</option>
-    <option value={3} className="text-red-600 font-medium">رد شده ❌</option>
-  </select>
-</div>
-
-{item.upload_file && (
-  <a
-    href={`https://takbon.biz/cvdownloads/${item.upload_file}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-600 underline text-sm mt-1"
-    onClick={async (e) => {
-      e.stopPropagation();
-
-      // اگر هنوز دیده نشده
-      if (!item.seen || item.state !== 2) {
-        try {
-          // آپدیت استیت محلی
-          setNews(prevNews =>
-            prevNews.map(n =>
-              n._id === item._id ? { ...n, seen: true, state: 2 } : n
-            )
-          );
-
-          // ارسال درخواست به بک‌اند برای تغییر state به 2
-          await ApiConfig.post("https://takbon.biz:3402/get_cv", {
-            ...item,
-            state: 2,
-          });
-
-          console.log("رزومه به عنوان دیده‌شده ثبت شد");
-        } catch (err) {
-          console.error("خطا در تغییر وضعیت رزومه:", err);
-        }
-      }
-    }}
-  >
-    دانلود فایل رزومه
-  </a>
-)}
-
-             
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+  )
 }
